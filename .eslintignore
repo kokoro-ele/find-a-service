@@ -1,0 +1,6 @@
+/dist
+/src-capacitor
+/src-cordova
+/node_modules
+.eslintrc.js
+.vscode
