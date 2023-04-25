@@ -15,7 +15,9 @@ import { doc, getFirestore } from 'firebase/firestore'
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+
+// NOTE: Zetian
+const firebaseConfig0 = {
   apiKey: 'AIzaSyArC2oFHyAeSCPIK6AAMbghWW5fL2jExqY',
   authDomain: 'localservice-381523.firebaseapp.com',
   projectId: 'localservice-381523',
@@ -25,7 +27,18 @@ const firebaseConfig = {
   measurementId: 'G-R1D2V9VWR8',
 }
 
+// NOTE: Honghui
+const firebaseConfig1 = {
+  apiKey: 'AIzaSyBeQJ5rTDJABQUsJAD1YdUE1OBjFrc3zJc',
+  authDomain: 'find-a-service-test.firebaseapp.com',
+  projectId: 'find-a-service-test',
+  storageBucket: 'find-a-service-test.appspot.com',
+  messagingSenderId: '8536938445',
+  appId: '1:8536938445:web:2eefc0de5f355ca8cc5684',
+  measurementId: 'G-CYEQVL5SY8',
+}
+
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig)
+export const app = initializeApp(firebaseConfig1)
 export const db = getFirestore(app)
 export const storage = getStorage(app)

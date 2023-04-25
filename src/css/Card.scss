@@ -1,0 +1,70 @@
+.wrap {
+  // width: 100%;
+  // height: 100vh;
+  // background: url(../assets/react.svg) no-repeat center;
+  // background-color: salmon;
+  // background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 300px;
+  color: white;
+  background-color: wheat;
+  border-radius: 20px;
+  transform-style: preserve-3d;
+}
+
+.banner {
+  width: 100%;
+  height: 230px;
+  background-color: skyblue;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  transform: translateZ(50px);
+}
+
+.con {
+  width: 90%;
+  margin: auto;
+  text-align: center;
+  transform: translateZ(30px);
+
+  h3 {
+    padding-top: 20px;
+    color: rgb(46, 46, 40);
+    font-weight: 200;
+  }
+
+  h1 {
+    padding: 10px;
+    color: #3c3c3c;
+  }
+
+  p {
+    padding-bottom: 20px;
+    color: #9e9e9e;
+  }
+}
+
+.data {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 90px;
+  background-color: #f6901a;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  text-align: center;
+
+  h1 {
+    font-size: 20px;
+  }
+}
+
+.image {
+  width: 400px;
+}

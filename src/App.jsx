@@ -6,6 +6,8 @@
  * @Description: 请填写简介
  */
 
+// TODO: discard this file
+
 import React from 'react'
 import MainRouter from './routers/MainRouter'
 import './css/App.css'
