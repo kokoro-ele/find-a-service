@@ -78,5 +78,69 @@
     "provider_name": "Clean, Inc",
     "charge": "80",
     "imgPath": "../assets/react.svg"
+  },
+  {
+    "id": "0004",
+    "name": "Cleaning",
+    "provider_id": "p0001",
+    "provider_name": "Clean, Inc",
+    "charge": "80",
+    "imgPath": "../assets/react.svg"
+  },
+  {
+    "id": "0004",
+    "name": "Cleaning",
+    "provider_id": "p0001",
+    "provider_name": "Clean, Inc",
+    "charge": "80",
+    "imgPath": "../assets/react.svg"
+  },
+  {
+    "id": "0004",
+    "name": "Cleaning",
+    "provider_id": "p0001",
+    "provider_name": "Clean, Inc",
+    "charge": "80",
+    "imgPath": "../assets/react.svg"
+  },
+  {
+    "id": "0004",
+    "name": "Cleaning",
+    "provider_id": "p0001",
+    "provider_name": "Clean, Inc",
+    "charge": "80",
+    "imgPath": "../assets/react.svg"
+  },
+  {
+    "id": "0004",
+    "name": "Cleaning",
+    "provider_id": "p0001",
+    "provider_name": "Clean, Inc",
+    "charge": "80",
+    "imgPath": "../assets/react.svg"
+  },
+  {
+    "id": "0004",
+    "name": "Cleaning",
+    "provider_id": "p0001",
+    "provider_name": "Clean, Inc",
+    "charge": "80",
+    "imgPath": "../assets/react.svg"
+  },
+  {
+    "id": "0004",
+    "name": "Cleaning",
+    "provider_id": "p0001",
+    "provider_name": "Clean, Inc",
+    "charge": "80",
+    "imgPath": "../assets/react.svg"
+  },
+  {
+    "id": "0004",
+    "name": "Cleaning",
+    "provider_id": "p0001",
+    "provider_name": "Clean, Inc",
+    "charge": "80",
+    "imgPath": "../assets/react.svg"
   }
 ]

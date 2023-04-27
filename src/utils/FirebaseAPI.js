@@ -157,6 +157,7 @@ export async function addFakeData(n) {
       srv_id: `#srv-test-${i}`,
       category: 'Cleaning',
       srv_name: 'Kitchen Cleaning', // str, service name
+      description: 'This is the description of Kitchen Cleaning',
       prv_id: `#prv-test-${i}`, // str, provider id
       prv_name: `Provider Company-${i}`, // str, provider name
       viedos: ['https://www.youtube.com/watch?v=kr0RisHSDwI'], // array, to dispaly service, optional
@@ -181,6 +182,7 @@ export async function addFakeData(n) {
     fakeProviderList.push({
       prv_id: `#prv-test-${i}`, // str, provider id
       prv_name: `Provider Company-${i}`, // str, provider name
+      description: `This is the description of Provider Company-${i}`,
       email: 'prefix@suffix.domain', // str
       phone: '07579966529', // str
       pwd: 'testpwd', // password hash, 不明文存储密码，存储加盐的哈希值（我之后写进util，可以先存明文）

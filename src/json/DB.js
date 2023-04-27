@@ -7,6 +7,7 @@ const Service = [
     srv_id: 'unique', // str, service id
     category: 'service category', // str, 这个在作业说明中有，种类最好用下拉菜单固定几个类别，然后选
     srv_name: 'Kitchen Cleaning', // str, service name
+    description: '', // str, service description
     prv_id: 'unique', // str, provider id
     prv_name: 'Provider Company', // str, provider name
     viedos: ['url'], // array, to dispaly service, optional
@@ -37,6 +38,7 @@ const ServiceProvider = [
   {
     prv_id: 'unique', // str, provider id
     prv_name: 'Provider Company', // str, provider name
+    description: 'This is the description of Provider Company',
     email: 'prefix@suffix.domain', // str
     phone: '', // str
     pwd: '', // password hash, 不明文存储密码，存储加盐的哈希值（我之后写进util，可以先存明文）

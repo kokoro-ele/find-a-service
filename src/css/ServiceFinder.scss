@@ -3,25 +3,30 @@
   // height: 700px;
   .carousel {
     background-color: pink;
-    height: 600px;
+    // height: 600px;
     font-size: 35px;
     font-weight: bold;
     line-height: 300px;
     text-align: center;
+
+    .img-pair {
+      img {
+        width: 50%;
+        display: inline-block;
+      }
+    }
   }
 
   .head {
+    margin: 20px 0;
     background-color: skyblue;
     height: 80px;
     text-align: center;
-    font-size: 20px;
+    font-size: 50px;
     font-weight: bold;
     line-height: 80px;
   }
 
-  .recommend-row {
-    .head {
-      background-color: blueviolet;
-    }
+  .cards-area {
   }
 }
