@@ -16,18 +16,16 @@ export default function Card({ data }) {
     <div className='card'>
       <Col className='wrap'>
         <div className='card' ref={cardDOM}>
-          <div className='image'>
-            {/* TODO: img 404*/}
-            <img src='../assets/react.svg' alt='' />
-          </div>
-          <div className='banner'></div>
+          {/* <div className='image'>TODO: img 404</div> */}
+          <div className='hide'>Click it to See more!</div>
+          <div className='card-img'></div>
           <div className='con'>
-            <h1>Service Name</h1>
-            <h3>Provider name</h3>
-            <p>Brief indo dafsfasfdfsdf adfasfadsffasdfafsadfadsffasdf asdfafsdafdasfsdfasf</p>
+            <h1>{data ? data.srv_name : 'Service Name'}</h1>
+            <h3>{data ? data.prv_name : 'Provider name'}</h3>
+            <p>{data ? data.description : 'Brief description of the service'}</p>
           </div>
-          <div className='data'>
-            <Rate disabled allowHalf value={4.5} />
+          <div className='rate'>
+            <Rate disabled allowHalf value={data ? data.rate : 4.5} />
           </div>
         </div>
       </Col>

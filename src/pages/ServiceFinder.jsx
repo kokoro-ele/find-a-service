@@ -1,4 +1,4 @@
-import { Carousel, Col, Image, List, Row } from 'antd'
+import { Carousel, Col, Image, List, Row, Select } from 'antd'
 import '../css/ServiceFinder.scss'
 import Search from 'antd/es/input/Search'
 import { useEffect, useRef, useState } from 'react'
@@ -185,18 +185,56 @@ export default function ServiceFinder() {
     }
   }
 
+  // Select control
+  const selectOptions = [
+    {
+      value: 'cleaning',
+      label: 'Cleaning',
+    },
+    {
+      value: 'babysitting',
+      label: 'Babysitting',
+    },
+    {
+      value: 'Pest Control',
+      label: 'Pest Control',
+    },
+  ]
+  const handleSelectChange = value => {
+    console.log(`selected ${value}`)
+  }
+
+  const handleSelectSearch = value => {
+    console.log('Select search:', value)
+  }
+
   return (
     <div className='service-finder'>
+      {/* Carousel */}
       <Row justify='center'>
         <RecommendCarousel />
       </Row>
+      {/* Head: Find Your Favorite Service! */}
       <Row justify='center'>
         <Col>
-          <div className='head'>Find Your Favorite Services!</div>
+          <div className='head'>Find Your Favorite Service!</div>
         </Col>
       </Row>
-
+      {/* Search  */}
       <Row className='search-row' justify='center'>
+        {/* Category Select */}
+        <Col>
+          <Select
+            showSearch
+            placeholder='Service Category'
+            optionFilterProp='children'
+            onChange={handleSelectChange}
+            onSearch={handleSelectSearch}
+            filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
+            options={selectOptions}
+          />
+        </Col>
+        {/* Search */}
         <Col span={8}>
           <Search
             ref={iptSearch}
@@ -207,7 +245,7 @@ export default function ServiceFinder() {
           />
         </Col>
       </Row>
-
+      {/* Card list  */}
       <CardsArea isSearched={isSearched} data={testData} />
     </div>
   )

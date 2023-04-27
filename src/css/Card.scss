@@ -20,13 +20,19 @@
     transform-style: preserve-3d;
   }
 
-  .banner {
-    width: 100%;
+  .hide {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .card-img {
+    width: 90%;
     height: 230px;
     background-color: skyblue;
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    transform: translateZ(50px);
+    // border-top-right-radius: 20px;
+    // border-top-left-radius: 20px;
+    border-radius: 20px;
+    transform: translateZ(70px);
   }
 
   .con {
@@ -53,7 +59,7 @@
     }
   }
 
-  .data {
+  .rate {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -65,10 +71,6 @@
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     text-align: center;
-
-    h1 {
-      font-size: 20px;
-    }
   }
 
   .image {
