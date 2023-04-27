@@ -10,7 +10,7 @@
 
 import React from 'react'
 import MainRouter from './routers/MainRouter'
-import './css/App.css'
+// import './css/App.css'
 const App = () => {
   return <MainRouter />
 }

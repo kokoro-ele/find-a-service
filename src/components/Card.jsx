@@ -13,7 +13,7 @@ export default function Card({ data }) {
     })
   }, [])
   return (
-    <Col className='wrap-'>
+    <Col className='wrap'>
       <div className='card' ref={cardDOM}>
         <div className='image'>
           {/* TODO: img 404*/}
@@ -21,8 +21,8 @@ export default function Card({ data }) {
         </div>
         <div className='banner'></div>
         <div className='con'>
-          <h3>LEVEL 1</h3>
           <h1>Service Name</h1>
+          <h3>Provider name</h3>
           <p>Brief indo dafsfasfdfsdf adfasfadsffasdfafsadfadsffasdf asdfafsdafdasfsdfasf</p>
         </div>
         <div className='data'>

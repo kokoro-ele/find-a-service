@@ -1,15 +1,8 @@
-/*
- * @Author: kokoro
- * @Date: 2023-04-06 23:47:24
- * @LastEditors: kokoro
- * @LastEditTime: 2023-04-21 01:37:42
- * @Description: 请填写简介
- */
-
 // Import the functions you need from the SDKs you need
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { initializeApp } from 'firebase/app'
 import { doc, getFirestore } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -38,7 +31,20 @@ const firebaseConfig1 = {
   measurementId: 'G-CYEQVL5SY8',
 }
 
+// Test
+const firebaseConfig2 = {
+  apiKey: 'AIzaSyDW_my4UYQabntxpIuPIJaMfmdf64XVuIU',
+  authDomain: 'test-36dcf.firebaseapp.com',
+  projectId: 'test-36dcf',
+  storageBucket: 'test-36dcf.appspot.com',
+  messagingSenderId: '442848617497',
+  appId: '1:442848617497:web:19c2b70ea34f104eb3f688',
+}
+
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig1)
+export const app = initializeApp(firebaseConfig2)
 export const db = getFirestore(app)
 export const storage = getStorage(app)
+
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth(app)

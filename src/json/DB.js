@@ -17,6 +17,7 @@ const Service = [
       gps: [null, null], // [经度，纬度]，要求根据位置找到服务【到时候我们应该要用GoogleMap的API】
     },
     available_time: ['Mon', 'Tue'], // array, 最好 TimePiker 让商家选
+    duration: 30, // int, 30min，指定服务预计时长，这个参数将是 request 的时间选择间隔
     total: 5, // int, 同一服务在同一时间段可以被请求的次数（e.g. 清洁工人数）
   },
 ]

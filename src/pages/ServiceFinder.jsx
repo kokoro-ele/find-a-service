@@ -1,11 +1,14 @@
-import { Col, Layout, Menu, Row } from 'antd'
+import { Carousel, Col, Image, Row } from 'antd'
 import '../css/ServiceFinder.scss'
 import Search from 'antd/es/input/Search'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 // import { useImmer } from 'use-immer'
 // TODO: remove test data
 import testData from '../json/ServiceDataTest.json'
 import Card from '../components/Card'
+import { getCarouselImgs } from '../utils/FirebaseAPI'
+import { useImmer } from 'use-immer'
+import CarouselDateTest from '../json/CarouselDataTest.json'
 
 function CardsArea({ isSearched, data }) {
   const cardList = data.map((item, index) => {
@@ -25,6 +28,53 @@ function CardsArea({ isSearched, data }) {
       </Row>
       <div className='pagination-container'>{cardList.length > 9 ? <div className='pagination'></div> : ''}</div>
     </div>
+  )
+}
+
+function RecommendCarousel() {
+  // BUG: 会一直导致 Firebase 读取
+  // 我猜测，可能和 Carousel 导致 DOM 变化有关
+  // START
+  // const [imgs, setImgs] = useImmer(null)
+
+  // getCarouselImgs(1).then(res => {
+  //   setImgs(
+  //     res.map((item, index) => {
+  //       return (
+  //         <Row justify='center' className={`img-pair-${index}`} key={`img-pair-${index}`}>
+  //           <Col span={8}>
+  //             <Image
+  //               className={`img-1-${index}`}
+  //               key={`img-1-${index}`}
+  //               preview={false}
+  //               src={item.imgUrl}
+  //               alt={item.srv_id}
+  //             />
+  //           </Col>
+  //           <Col span={8}>
+  //             <Image
+  //               className={`img-2-${index}`}
+  //               key={`img-2-${index}`}
+  //               preview={false}
+  //               src={item.imgUrl}
+  //               alt={item.srv_id}
+  //             />
+  //           </Col>
+  //         </Row>
+  //       )
+  //     })
+  //   )
+  // })
+  //END
+
+  const imgs = CarouselDateTest.map((item, index) => {
+    return <img src={item.imgUrl} alt={item.srv_id} width='300px' />
+  })
+
+  return (
+    <Col className='carousel' span={24}>
+      <Carousel>{imgs}</Carousel>
+    </Col>
   )
 }
 
@@ -50,11 +100,9 @@ export default function ServiceFinder() {
   }
 
   return (
-    <Col className='service-finder'>
+    <div className='service-finder'>
       <Row justify='center'>
-        <Col className='carousel' span={24}>
-          轮播图
-        </Col>
+        <RecommendCarousel />
       </Row>
       <Row>
         <Col span={8} offset={8}>
@@ -74,7 +122,7 @@ export default function ServiceFinder() {
         </Col>
       </Row>
 
-      <CardsArea isSearched={isSearched} data={testData} />
-    </Col>
+      {/* <CardsArea isSearched={isSearched} data={testData} /> */}
+    </div>
   )
 }

@@ -7,6 +7,9 @@ import App from '../App' // mode 2 router
 import MainLayout from '../layouts/MainLayout'
 import ServiceFinder from '../pages/ServiceFinder'
 import ServiceDetail from '../pages/ServiceDetail'
+import ServiceRequest from '../pages/ServiceRequest'
+import LoginPage from '../pages/LoginPage'
+import SignupPage from '../pages/SignupPage'
 
 const router = createBrowserRouter([
   {
@@ -20,13 +23,24 @@ const router = createBrowserRouter([
   {
     path: '/service', // TODO: add id
     element: <ServiceDetail />,
-    children: [{}],
+  },
+  {
+    path: '/req',
+    element: <ServiceRequest />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/sign-up',
+    element: <SignupPage />,
   },
 ])
 
 export default function Router() {
   // TODO: remove mode 2
-  const mode = 2 // change to 2 to use Zetain's Router
+  const mode = 1 // change to 2 to use Zetain's Router
   switch (mode) {
     case 1:
       return <RouterProvider router={router} />

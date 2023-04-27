@@ -1,33 +1,27 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
 .service-finder {
   // background: salmon;
   // height: 700px;
-}
+  .carousel {
+    background-color: pink;
+    height: 600px;
+    font-size: 35px;
+    font-weight: bold;
+    line-height: 300px;
+    text-align: center;
+  }
 
-.carousel {
-  background-color: pink;
-  height: 300px;
-  font-size: 35px;
-  font-weight: bold;
-  line-height: 300px;
-  text-align: center;
-}
-
-.head {
-  background-color: skyblue;
-  height: 80px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  line-height: 80px;
-}
-
-.recommend-row {
   .head {
-    background-color: blueviolet;
+    background-color: skyblue;
+    height: 80px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 80px;
+  }
+
+  .recommend-row {
+    .head {
+      background-color: blueviolet;
+    }
   }
 }
