@@ -205,9 +205,10 @@ export async function addFakeData(n) {
 }
 // FAKE data end
 
-export async function getCarouselImgs(amount = 5) {
+export async function getRecommendServices(amount = 5) {
   const q = query(
     collection(db, 'Service'),
+    // TODO: order by reputation(rate)
     orderBy('srv_id'), // orderBy('', 'desc')
     limit(amount)
   )
@@ -218,7 +219,8 @@ export async function getCarouselImgs(amount = 5) {
   let ret = []
   querySnapshot.forEach(doc => {
     // console.log(doc.id, '=>', doc.data())
-    ret.push({ srv_id: doc.data().srv_id, imgUrl: doc.data().imgs[0] })
+    // ret.push({ srv_id: doc.data().srv_id, imgUrl: doc.data().imgs[0] })
+    ret.push(doc.data())
   })
   // console.log(ret)
 

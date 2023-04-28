@@ -6,44 +6,27 @@ import { useEffect, useRef, useState } from 'react'
 // TODO: remove test data
 import testData from '../json/ServiceDataTest.json'
 import Card from '../components/Card'
-import { getCarouselImgs, getSearchedServices } from '../utils/FirebaseAPI'
+import { getRecommendServices, getSearchedServices } from '../utils/FirebaseAPI'
 import { useImmer } from 'use-immer'
 import CarouselDateTest from '../json/CarouselDataTest.json'
 import Map from '../components/Map'
 
-function CardsArea({ isSearched, setIsSearched, searchTxt = null }) {
-  // let data = testData
-  const [data, setData] = useImmer(testData)
-  // if (!isSearched) {
-  //   // data = testData
-  //   setData(draft => {
-  //     return testData
-  //   })
-  // } else {
-  //   searchTxt = 'Cleaning'
-  //   // TODO: 增强算法，剔除特殊符号
-  //   let possibleCats = searchTxt.split(' ')
-  //   console.log('possibleCats: ', possibleCats)
-  //   getSearchedServices(possibleCats).then(res => {
-  //     data = res
-  //     console.log(data)
-  //   })
-  // }
+function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = null }) {
+  const [data, setData] = useImmer(defaultData)
 
   useEffect(() => {
-    if (isSearched) {
+    if (isSearched && searchTxt != '') {
       // searchTxt = 'Cleaning'
       // TODO: 增强算法，剔除特殊符号
       setIsSearched(false)
       let possibleCats = searchTxt.split(' ')
-      console.log('possibleCats: ', possibleCats)
+      // console.log('possibleCats: ', possibleCats)
       getSearchedServices(possibleCats).then(res => {
         setData(res)
-        console.log(data)
+        // console.log(data)
       })
-    }
-    return () => {
-      setIsSearched(false)
+    } else {
+      setData(defaultData)
     }
   }, [isSearched])
 
@@ -93,46 +76,65 @@ function CardsArea({ isSearched, setIsSearched, searchTxt = null }) {
     <div className='cards-area'>
       <Row className='title' justify='center'>
         <Col className='head' span={8}>
-          {isSearched ? 'Search results' : 'Recommended Services'}
+          {searchTxt !== '' ? 'Search results' : 'Recommended Services'}
         </Col>
       </Row>
-      <List
-        pagination={{
-          onChange: page => {
-            console.log(page)
-          },
-          pageSize: pagesize,
-          position: 'bottom',
-          align: 'center',
-        }}
-        grid={{
-          gutter: 20,
-          column: pageCol,
-        }}
-        dataSource={data}
-        renderItem={(item, index) => (
-          <List.Item>
-            <Card key={`card-${index}`} data={item} />
-          </List.Item>
+      <div className='card-list-container'>
+        {data ? (
+          <List
+            pagination={{
+              onChange: page => {
+                console.log(page)
+              },
+              pageSize: pagesize,
+              position: 'bottom',
+              align: 'center',
+            }}
+            grid={{
+              gutter: 20,
+              column: pageCol,
+            }}
+            dataSource={data}
+            renderItem={(item, index) => (
+              <List.Item>
+                <Card key={`card-${index}`} data={item} />
+              </List.Item>
+            )}
+          />
+        ) : (
+          ''
         )}
-      />
+      </div>
     </div>
   )
 }
 
-function RecommendCarousel() {
+function RecommendCarousel({ data }) {
+  // FAKE DATA
+  //START
+  // TEST use, to reduce the firebase reading
+  // const imgs = CarouselDateTest.map((item, index) => {
+  //   return (
+  //     <div className={`img-pair ${'pair-' + index}`} key={`img-${index}`}>
+  //       <img src={item.imgUrl} alt={item.srv_id} />
+  //       <img src={item.imgUrl} alt={item.srv_id} />
+  //     </div>
+  //   )
+  // })
+  // END
+
   // fetch carousel img data and create dom
   // let ignore = false
   // const [imgs, setImgs] = useState(null)
   // useEffect(() => {
   //   if (!ignore) {
-  //     getCarouselImgs(3).then(res => {
+  //     getRecommendServices(5).then(res => {
   //       setImgs(
   //         res.map((item, index) => {
   //           return (
   //             <div className={`img-pair ${'pair-' + index}`} key={`img-${index}`} onClick={handleCarouselClick}>
-  //               <img src={item.imgUrl} alt={item.srv_id} />
-  //               <img src={item.imgUrl} alt={item.srv_id} />
+  //               <img src={item.imgs[0]} alt={item.srv_id} />
+  //               <img src={item.imgs[1]} alt={item.srv_id} />
   //             </div>
   //           )
   //         })
@@ -144,29 +146,18 @@ function RecommendCarousel() {
   //   }
   // }, [])
 
+  // click on a img , then navigate to its service page
   const handleCarouselClick = e => {
+    // 这个由于是变量定义的函数不会自动提升，所以必须放在下面的调用之前
     console.log(e.target)
     // TODO: 添加跳转详细页
   }
 
-  // click on a img , then navigate to its service page
-  // HINT: React 直接可以再 div 上用 onClick 事件，不需要向下面这样添加事件
-  // useEffect(() => {
-  //   if (imgs) {
-  //     const test = document.querySelector('.service-finder .pair-1')
-  //     console.log(test)
-  //     test.addEventListener('click', () => {
-  //       console.log('clicked')
-  //     })
-  //   }
-  // }, [])
-
-  // TEST use, to reduce the firebase reading
-  const imgs = CarouselDateTest.map((item, index) => {
+  const imgs = data.map((item, index) => {
     return (
-      <div className={`img-pair ${'pair-' + index}`} key={`img-${index}`}>
-        <img src={item.imgUrl} alt={item.srv_id} />
-        <img src={item.imgUrl} alt={item.srv_id} />
+      <div className={`img-pair ${'pair-' + index}`} key={`img-${index}`} onClick={handleCarouselClick}>
+        <img src={item.imgs[0]} alt={item.srv_id} />
+        <img src={item.imgs[1]} alt={item.srv_id} />
       </div>
     )
   })
@@ -184,6 +175,22 @@ export default function ServiceFinder() {
   let [isSearched, setIsSearched] = useState(false)
   let [serviceData, setServiceData] = useState(null)
   const [searchTxt, setSearchTxt] = useState('')
+
+  const [recommendData, setRecommendData] = useState(null)
+
+  let ignore = false
+  useEffect(() => {
+    if (!ignore) {
+      console.log('fetching recommend data...')
+      // TODO: change the recommend amount
+      getRecommendServices(3).then(res => {
+        setRecommendData(res)
+      })
+    }
+    return () => {
+      ignore = true
+    }
+  }, [])
 
   function handleSearch() {
     const ipt = iptSearch.current
@@ -204,32 +211,43 @@ export default function ServiceFinder() {
 
   return (
     <div className='service-finder'>
-      {/* Carousel */}
-      <Row justify='center'>
-        <RecommendCarousel />
-      </Row>
-      {/* Head: Find Your Favorite Service! */}
-      <Row justify='center'>
-        <Col>
-          <div className='head'>Find Your Favorite Service!</div>
-        </Col>
-      </Row>
-      {/* Map box */}
-      <Map />
-      {/* Search  */}
-      <Row className='search-row' justify='center'>
-        <Col span={8}>
-          <Search
-            ref={iptSearch}
-            placeholder='Enter your service...'
-            enterButton='Find'
-            size='large'
-            onSearch={handleSearch}
+      {recommendData ? (
+        <div className='page-loader'>
+          {/* Carousel */}
+          <Row justify='center'>
+            <RecommendCarousel data={recommendData} />
+          </Row>
+          {/* Head: Find Your Favorite Service! */}
+          <Row justify='center'>
+            <Col>
+              <div className='head'>Find Your Favorite Service!</div>
+            </Col>
+          </Row>
+          {/* Map box */}
+          <Map />
+          {/* Search  */}
+          <Row className='search-row' justify='center'>
+            <Col span={8}>
+              <Search
+                ref={iptSearch}
+                placeholder='Enter your service...'
+                enterButton='Find'
+                size='large'
+                onSearch={handleSearch}
+              />
+            </Col>
+          </Row>
+          {/* Card list  */}
+          <CardsArea
+            isSearched={isSearched}
+            setIsSearched={setIsSearched}
+            searchTxt={searchTxt}
+            defaultData={recommendData}
           />
-        </Col>
-      </Row>
-      {/* Card list  */}
-      <CardsArea isSearched={isSearched} setIsSearched={setIsSearched} searchTxt={searchTxt} />
+        </div>
+      ) : (
+        'Fetching recommend data...'
+      )}
     </div>
   )
 }

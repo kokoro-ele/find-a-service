@@ -4,12 +4,12 @@ import VanillaTilt from 'vanilla-tilt'
 import { Col, Rate } from 'antd'
 
 export default function Card({ data }) {
-  console.log('In Card data: ', data)
+  // console.log('In Card data: ', data)
   //TODO: change to null
-  console.log(data.srv_name)
+  // console.log(data.srv_name)
   if (data.srv_name == undefined) {
     data = null
-    console.log('In if Card data: ', data)
+    // console.log('In if Card data: ', data)
   }
 
   const cardDOM = useRef(null)
