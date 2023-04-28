@@ -27,6 +27,7 @@ function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = 
       })
     } else {
       setData(defaultData)
+      setIsSearched(false)
     }
   }, [isSearched])
 
