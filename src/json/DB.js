@@ -20,6 +20,7 @@ const Service = [
     available_time: ['Mon', 'Tue'], // array, 最好 TimePiker 让商家选
     duration: 30, // int, 30min，指定服务预计时长，这个参数将是 request 的时间选择间隔
     total: 5, // int, 同一服务在同一时间段可以被请求的次数（e.g. 清洁工人数）
+    reputation: 4.5, // float, 服务评分
   },
 ]
 

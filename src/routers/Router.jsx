@@ -10,6 +10,7 @@ import ServiceDetail from '../pages/ServiceDetail'
 import ServiceRequest from '../pages/ServiceRequest'
 import LoginPage from '../pages/LoginPage'
 import SignupPage from '../pages/SignupPage'
+import MapTest from '../pages/MapTest'
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: '/sign-up',
     element: <SignupPage />,
+  },
+  {
+    path: '/map',
+    element: <MapTest />,
   },
 ])
 

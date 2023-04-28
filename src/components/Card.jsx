@@ -5,6 +5,12 @@ import { Col, Rate } from 'antd'
 
 export default function Card({ data }) {
   console.log('In Card data: ', data)
+  //TODO: change to null
+  console.log(data.srv_name)
+  if (data.srv_name == undefined) {
+    data = null
+    console.log('In if Card data: ', data)
+  }
 
   const cardDOM = useRef(null)
   useEffect(() => {
@@ -14,20 +20,27 @@ export default function Card({ data }) {
       speed: 3000,
     })
   }, [])
+
+  const handleCardClick = () => {
+    console.log('Card Clicked, srv_id: ', data.srv_id)
+  }
+
   return (
-    <div className='card'>
+    <div className='card' onClick={handleCardClick}>
       <Col className='wrap'>
         <div className='card' ref={cardDOM}>
           {/* <div className='image'>TODO: img 404</div> */}
           <div className='hide'>Click it to See more!</div>
-          <div className='card-img'></div>
-          <div className='con'>
+          <div className='card-img'>
+            <img src={data ? data.imgs[0] : ''} alt={data ? data.srv_name : 'img-alt'} />
+          </div>
+          <div className='details'>
             <h1>{data ? data.srv_name : 'Service Name'}</h1>
             <h3>{data ? data.prv_name : 'Provider name'}</h3>
             <p>{data ? data.description : 'Brief description of the service'}</p>
           </div>
           <div className='rate'>
-            <Rate disabled allowHalf value={data ? data.rate : 4.5} />
+            <Rate disabled allowHalf value={data ? data.reputation : 4.5} />
           </div>
         </div>
       </Col>

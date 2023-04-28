@@ -153,6 +153,10 @@ export async function addFakeData(n) {
   let fakeServiceList = []
   let fakeProviderList = []
   for (let i = 0; i < n; i++) {
+    let gps = [-1.4001991, 50.9434623]
+    gps[0] += 0.0001 * (5 + i)
+    gps[1] += 0.0001 * (5 + i)
+
     fakeServiceList.push({
       srv_id: `#srv-test-${i}`,
       category: 'Cleaning',
@@ -173,11 +177,12 @@ export async function addFakeData(n) {
       price: 100, // int, service price
       location: {
         txt: 'Highfeild', // str, e.g., service only available within Highfeild
-        gps: [null, null], // [经度，纬度]，要求根据位置找到服务【到时候我们应该要用GoogleMap的API】
+        gps: gps, // [经度，纬度]，要求根据位置找到服务【到时候我们应该要用GoogleMap的API】
       },
       available_time: ['Mon', 'Tue'], // array, 最好 TimePiker 让商家选
       duration: 30, // int, 30min，指定服务预计时长，这个参数将是 request 的时间选择间隔
       total: 5, // int, 同一服务在同一时间段可以被请求的次数（e.g. 清洁工人数）
+      reputation: 3.5, // float, 服务评分
     })
     fakeProviderList.push({
       prv_id: `#prv-test-${i}`, // str, provider id
@@ -188,7 +193,7 @@ export async function addFakeData(n) {
       pwd: 'testpwd', // password hash, 不明文存储密码，存储加盐的哈希值（我之后写进util，可以先存明文）
       location: {
         txt: 'SO16 3UJ Glen Eyre Hall', // str, provider's address text
-        gps: [null, null], // array, [经度，纬度] 按照 GoogleMap 来
+        gps: gps, // array, [经度，纬度] 按照 GoogleMap 来
       },
       avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`, // img url, 商家头像
       imgs: ['url'], // array, 用于呈现商家主页的推销图片（顾客可以点击商家头像，查看商家主页）

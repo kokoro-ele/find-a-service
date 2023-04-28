@@ -9,29 +9,9 @@ import Card from '../components/Card'
 import { getCarouselImgs, getSearchedServices } from '../utils/FirebaseAPI'
 import { useImmer } from 'use-immer'
 import CarouselDateTest from '../json/CarouselDataTest.json'
+import Map from '../components/Map'
 
-// function CardsArea({ isSearched, data }) {
-//   const cardList = data.map((item, index) => {
-//     // TODO:add card structure here
-//     // return <div key={`card-${index}`}>TODO: add card structure here</div>
-//     return <Card key={`card-${index}`} />
-//   })
-//   return (
-//     <div className='cards-area'>
-//       <Row className='title' justify='center'>
-//         <Col className='head' span={8}>
-//           {isSearched ? 'Search results' : 'Recommended Services'}
-//         </Col>
-//       </Row>
-//       <Row className='cards' justify='space-between' gutter={[10, 30]}>
-//         {cardList}
-//       </Row>
-//       <div className='pagination-container'>{cardList.length > 9 ? <div className='pagination'></div> : ''}</div>
-//     </div>
-//   )
-// }
-
-function CardsArea({ isSearched, searchTxt = null }) {
+function CardsArea({ isSearched, setIsSearched, searchTxt = null }) {
   // let data = testData
   const [data, setData] = useImmer(testData)
   // if (!isSearched) {
@@ -52,8 +32,9 @@ function CardsArea({ isSearched, searchTxt = null }) {
 
   useEffect(() => {
     if (isSearched) {
-      searchTxt = 'Cleaning'
+      // searchTxt = 'Cleaning'
       // TODO: 增强算法，剔除特殊符号
+      setIsSearched(false)
       let possibleCats = searchTxt.split(' ')
       console.log('possibleCats: ', possibleCats)
       getSearchedServices(possibleCats).then(res => {
@@ -62,7 +43,7 @@ function CardsArea({ isSearched, searchTxt = null }) {
       })
     }
     return () => {
-      isSearched = false
+      setIsSearched(false)
     }
   }, [isSearched])
 
@@ -202,12 +183,15 @@ export default function ServiceFinder() {
 
   let [isSearched, setIsSearched] = useState(false)
   let [serviceData, setServiceData] = useState(null)
+  const [searchTxt, setSearchTxt] = useState('')
 
   function handleSearch() {
-    setIsSearched(true)
     const ipt = iptSearch.current
     console.log(ipt.input.value)
     ipt.input.blur()
+
+    setIsSearched(true)
+    setSearchTxt(ipt.input.value)
 
     // TODO: fetch data
     try {
@@ -230,9 +214,10 @@ export default function ServiceFinder() {
           <div className='head'>Find Your Favorite Service!</div>
         </Col>
       </Row>
+      {/* Map box */}
+      <Map />
       {/* Search  */}
       <Row className='search-row' justify='center'>
-        {/* Search */}
         <Col span={8}>
           <Search
             ref={iptSearch}
@@ -244,7 +229,7 @@ export default function ServiceFinder() {
         </Col>
       </Row>
       {/* Card list  */}
-      <CardsArea isSearched={isSearched} />
+      <CardsArea isSearched={isSearched} setIsSearched={setIsSearched} searchTxt={searchTxt} />
     </div>
   )
 }
