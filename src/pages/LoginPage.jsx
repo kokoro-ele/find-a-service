@@ -4,6 +4,7 @@ import { Button, Form, Input, Radio } from 'antd'
 import { useState } from 'react'
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import { encrypt } from '../utils/RGEncrypt'
 
 function LoginForm() {
   const navigate = useNavigate()
@@ -26,18 +27,20 @@ function LoginForm() {
         const user = userCredential.user
         //..
         console.log('Login successed: ', user)
-        // TODO: 设置缓存 + 验证邮箱
+        // TODO: 验证邮箱
         onAuthStateChanged(auth, user => {
           if (user) {
             console.log(user)
+            console.log(encrypt(user))
             // TODO: 加密后再存储
-            localStorage.setItem(user.uid, JSON.stringify(user))
+            localStorage.setItem(user.uid, encrypt(user))
           } else {
             console.warn(user)
             localStorage.removeItem(user.uid)
           }
         })
 
+        // TODO: 登陆后跳转
         // navigate('/')
       })
       .catch(error => {
