@@ -6,10 +6,9 @@ import { useEffect, useRef, useState } from 'react'
 // TODO: remove test data
 import testData from '../json/ServiceDataTest.json'
 import Card from '../components/Card'
-import { getCarouselImgs } from '../utils/FirebaseAPI'
+import { getCarouselImgs, getSearchedServices } from '../utils/FirebaseAPI'
 import { useImmer } from 'use-immer'
 import CarouselDateTest from '../json/CarouselDataTest.json'
-import { flushSync } from 'react-dom'
 
 // function CardsArea({ isSearched, data }) {
 //   const cardList = data.map((item, index) => {
@@ -32,7 +31,41 @@ import { flushSync } from 'react-dom'
 //   )
 // }
 
-function CardsArea({ isSearched, data }) {
+function CardsArea({ isSearched, searchTxt = null }) {
+  // let data = testData
+  const [data, setData] = useImmer(testData)
+  // if (!isSearched) {
+  //   // data = testData
+  //   setData(draft => {
+  //     return testData
+  //   })
+  // } else {
+  //   searchTxt = 'Cleaning'
+  //   // TODO: 增强算法，剔除特殊符号
+  //   let possibleCats = searchTxt.split(' ')
+  //   console.log('possibleCats: ', possibleCats)
+  //   getSearchedServices(possibleCats).then(res => {
+  //     data = res
+  //     console.log(data)
+  //   })
+  // }
+
+  useEffect(() => {
+    if (isSearched) {
+      searchTxt = 'Cleaning'
+      // TODO: 增强算法，剔除特殊符号
+      let possibleCats = searchTxt.split(' ')
+      console.log('possibleCats: ', possibleCats)
+      getSearchedServices(possibleCats).then(res => {
+        setData(res)
+        console.log(data)
+      })
+    }
+    return () => {
+      isSearched = false
+    }
+  }, [isSearched])
+
   // pagesize change with viewport
   const [pagesize, setPagesize] = useState(10)
   const [pageCol, setPageCol] = useState(5)
@@ -98,7 +131,7 @@ function CardsArea({ isSearched, data }) {
         dataSource={data}
         renderItem={(item, index) => (
           <List.Item>
-            <Card key={`card-${index}`} />
+            <Card key={`card-${index}`} data={item} />
           </List.Item>
         )}
       />
@@ -185,29 +218,6 @@ export default function ServiceFinder() {
     }
   }
 
-  // Select control
-  const selectOptions = [
-    {
-      value: 'cleaning',
-      label: 'Cleaning',
-    },
-    {
-      value: 'babysitting',
-      label: 'Babysitting',
-    },
-    {
-      value: 'Pest Control',
-      label: 'Pest Control',
-    },
-  ]
-  const handleSelectChange = value => {
-    console.log(`selected ${value}`)
-  }
-
-  const handleSelectSearch = value => {
-    console.log('Select search:', value)
-  }
-
   return (
     <div className='service-finder'>
       {/* Carousel */}
@@ -222,18 +232,6 @@ export default function ServiceFinder() {
       </Row>
       {/* Search  */}
       <Row className='search-row' justify='center'>
-        {/* Category Select */}
-        <Col>
-          <Select
-            showSearch
-            placeholder='Service Category'
-            optionFilterProp='children'
-            onChange={handleSelectChange}
-            onSearch={handleSelectSearch}
-            filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
-            options={selectOptions}
-          />
-        </Col>
         {/* Search */}
         <Col span={8}>
           <Search
@@ -246,7 +244,7 @@ export default function ServiceFinder() {
         </Col>
       </Row>
       {/* Card list  */}
-      <CardsArea isSearched={isSearched} data={testData} />
+      <CardsArea isSearched={isSearched} />
     </div>
   )
 }

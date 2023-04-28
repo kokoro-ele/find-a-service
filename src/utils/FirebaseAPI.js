@@ -219,3 +219,18 @@ export async function getCarouselImgs(amount = 5) {
 
   return ret
 }
+
+export async function getSearchedServices(possibleCats) {
+  const q = query(collection(db, 'Service'), where('category', 'in', possibleCats))
+  const querySnapshot = await getDocs(q)
+
+  // console.log(querySnapshot)
+  let ret = []
+  querySnapshot.forEach(doc => {
+    // console.log(doc.id, '=>', doc.data())
+    ret.push(doc.data())
+  })
+
+  console.log('Search results', ret)
+  return ret
+}

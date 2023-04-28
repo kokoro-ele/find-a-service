@@ -4,6 +4,8 @@ import VanillaTilt from 'vanilla-tilt'
 import { Col, Rate } from 'antd'
 
 export default function Card({ data }) {
+  console.log('In Card data: ', data)
+
   const cardDOM = useRef(null)
   useEffect(() => {
     // const cardElem = document.querySelector('.card')
