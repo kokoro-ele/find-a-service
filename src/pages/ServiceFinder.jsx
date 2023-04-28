@@ -224,7 +224,7 @@ export default function ServiceFinder() {
             </Col>
           </Row>
           {/* Map box */}
-          <Map />
+          <Map data={recommendData} />
           {/* Search  */}
           <Row className='search-row' justify='center'>
             <Col span={8}>

@@ -17,13 +17,17 @@ export default function Map({ data = null }) {
 
     // FAKE
     //START
-    data = [-1.4001991, 50.9434623]
-    for (let i = 5; i < 15; i++) {
-      data[0] += 0.0001 * i
-      data[1] += 0.0001 * i
-      new mapboxgl.Marker().setLngLat(data).addTo(_map)
-    }
+    // data = [-1.4001991, 50.9434623]
+    // for (let i = 5; i < 15; i++) {
+    //   data[0] += 0.0001 * i
+    //   data[1] += 0.0001 * i
+    //   new mapboxgl.Marker().setLngLat(data).addTo(_map)
+    // }
     //END
+
+    data.forEach(item => {
+      new mapboxgl.Marker().setLngLat(item.location.gps).addTo(_map)
+    })
 
     // Add geolocate control to the map.
     const geolocate = new mapboxgl.GeolocateControl({
