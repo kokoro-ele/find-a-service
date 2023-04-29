@@ -241,3 +241,8 @@ export async function getSearchedServices(possibleCats) {
   console.log('Search results', ret)
   return ret
 }
+
+export async function addCustomer(data) {
+  const docRef = await addDoc(collection(db, 'Customer'), data)
+  console.log('User successfully added')
+}
