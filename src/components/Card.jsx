@@ -1,9 +1,17 @@
 import { useEffect, useRef } from 'react'
 import '../css/Card.scss'
 import VanillaTilt from 'vanilla-tilt'
-import { Col } from 'antd'
+import { Col, Rate } from 'antd'
 
 export default function Card({ data }) {
+  // console.log('In Card data: ', data)
+  //TODO: change to null
+  // console.log(data.srv_name)
+  if (data.srv_name == undefined) {
+    data = null
+    // console.log('In if Card data: ', data)
+  }
+
   const cardDOM = useRef(null)
   useEffect(() => {
     // const cardElem = document.querySelector('.card')
@@ -12,34 +20,30 @@ export default function Card({ data }) {
       speed: 3000,
     })
   }, [])
+
+  const handleCardClick = () => {
+    console.log('Card Clicked, srv_id: ', data.srv_id)
+  }
+
   return (
-    <Col className='wrap-'>
-      <div className='card' ref={cardDOM}>
-        <div className='image'>
-          {/* TODO: img 404*/}
-          <img src='../assets/react.svg' alt='' />
-        </div>
-        <div className='banner'></div>
-        <div className='con'>
-          <h3>LEVEL 1</h3>
-          <h1>Service Name</h1>
-          <p>Brief indo dafsfasfdfsdf adfasfadsffasdfafsadfadsffasdf asdfafsdafdasfsdfasf</p>
-        </div>
-        <div className='data'>
-          <div className='item'>
-            <h1>20</h1>
-            <p>TEST</p>
+    <div className='card' onClick={handleCardClick}>
+      <Col className='wrap'>
+        <div className='card' ref={cardDOM}>
+          {/* <div className='image'>TODO: img 404</div> */}
+          <div className='hide'>Click it to See more!</div>
+          <div className='card-img'>
+            <img src={data ? data.imgs[0] : ''} alt={data ? data.srv_name : 'img-alt'} />
           </div>
-          <div className='item'>
-            <h1>20</h1>
-            <p>TEST</p>
+          <div className='details'>
+            <h1>{data ? data.srv_name : 'Service Name'}</h1>
+            <h3>{data ? data.prv_name : 'Provider name'}</h3>
+            <p>{data ? data.description : 'Brief description of the service'}</p>
           </div>
-          <div className='item'>
-            <h1>20</h1>
-            <p>TEST</p>
+          <div className='rate'>
+            <Rate disabled allowHalf value={data ? data.reputation : 4.5} />
           </div>
         </div>
-      </div>
-    </Col>
+      </Col>
+    </div>
   )
 }

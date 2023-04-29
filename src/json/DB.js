@@ -7,6 +7,7 @@ const Service = [
     srv_id: 'unique', // str, service id
     category: 'service category', // str, 这个在作业说明中有，种类最好用下拉菜单固定几个类别，然后选
     srv_name: 'Kitchen Cleaning', // str, service name
+    description: '', // str, service description
     prv_id: 'unique', // str, provider id
     prv_name: 'Provider Company', // str, provider name
     viedos: ['url'], // array, to dispaly service, optional
@@ -17,7 +18,9 @@ const Service = [
       gps: [null, null], // [经度，纬度]，要求根据位置找到服务【到时候我们应该要用GoogleMap的API】
     },
     available_time: ['Mon', 'Tue'], // array, 最好 TimePiker 让商家选
+    duration: 30, // int, 30min，指定服务预计时长，这个参数将是 request 的时间选择间隔
     total: 5, // int, 同一服务在同一时间段可以被请求的次数（e.g. 清洁工人数）
+    reputation: 4.5, // float, 服务评分
   },
 ]
 
@@ -36,6 +39,7 @@ const ServiceProvider = [
   {
     prv_id: 'unique', // str, provider id
     prv_name: 'Provider Company', // str, provider name
+    description: 'This is the description of Provider Company',
     email: 'prefix@suffix.domain', // str
     phone: '', // str
     pwd: '', // password hash, 不明文存储密码，存储加盐的哈希值（我之后写进util，可以先存明文）
