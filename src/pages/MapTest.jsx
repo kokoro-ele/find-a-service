@@ -1,61 +1,110 @@
-import { Row } from 'antd'
+import React, { useEffect, useRef, useState } from 'react'
 import mapboxgl from '../utils/MapboxConfig.js'
-import { useEffect, useState } from 'react'
+import * as turf from '@turf/turf'
+import { getRecommendServices } from '../utils/FirebaseAPI.js'
 
-export default function MapTest() {
-  // TEST
-  // START
-  // console.log('1 Geo obj:', navigator.geolocation)
+const drawCircle = (map, longitude, latitude, radius = 1) => {
+  // const radius = 1 // 单位为千米
+  const options = {
+    steps: 64, // 圆形边缘的分段数
+    units: 'kilometers',
+  }
+  const circle = turf.circle([longitude, latitude], radius, options)
 
-  // navigator.geolocation.getCurrentPosition(success => {
-  //   console.log('2 Success: ', success)
-  // })
+  map.addSource('circle', {
+    type: 'geojson',
+    data: circle,
+  })
 
-  // console.log(GeolocationCoordinates)
-  // console.log(GeolocationPosition)
-  //END
+  map.addLayer({
+    id: 'circle',
+    type: 'line',
+    source: 'circle',
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round',
+    },
+    paint: {
+      'line-color': '#3388FF',
+      'line-opacity': 0.8,
+      'line-width': 2,
+      'line-dasharray': [2, 2], // 值为一个长度为2的数组，其中第一个值表示实线的长度，第二个值表示空白的长度
+    },
+  })
+}
 
-  const [map, setMap] = useState(null)
+function Map() {
+  const mapContainerRef = useRef(null)
+  const map = useRef(null)
+  let radius = 1
 
   useEffect(() => {
-    const _map = new mapboxgl.Map({
-      container: 'map', // container ID
-      // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-      style: 'mapbox://styles/mapbox/streets-v12', // style URL
-      center: [-1.4001991, 50.9434623], // starting center in [lng, lat]
-      zoom: 20, // starting zoom
-    })
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const lng = position.coords.longitude
+          const lat = position.coords.latitude
+          map.current = new mapboxgl.Map({
+            container: mapContainerRef.current,
+            style: 'mapbox://styles/mapbox/streets-v12',
+            // center: [-1.4001991, 50.9434623], // Glen Eyre
+            center: [lng, lat], // Glen Eyre
+            zoom: 12,
+          })
 
-    // Add geolocate control to the map.
-    const geolocate = new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      // When active the map will receive updates to the device's location as it changes.
-      trackUserLocation: true,
-      // Draw an arrow next to the location dot to indicate which direction the device is heading.
-      showUserHeading: true,
-    })
+          // Add geolocate control to the map.
+          const geolocateCtrl = new mapboxgl.GeolocateControl({
+            positionOptions: {
+              enableHighAccuracy: true,
+            },
+            // When active the map will receive updates to the device's location as it changes.
+            trackUserLocation: true,
+            // Draw an arrow next to the location dot to indicate which direction the device is heading.
+            showUserHeading: true,
+          })
 
-    _map.addControl(geolocate)
-    _map.on('load', () => {
-      geolocate.trigger()
-    })
+          map.current.addControl(geolocateCtrl)
 
-    setMap(_map)
+          map.current.on('load', () => {
+            // trgger loate
+            geolocateCtrl.trigger()
+
+            geolocateCtrl.on('geolocate', position => {
+              const { longitude, latitude } = position.coords
+
+              drawCircle(map.current, longitude, latitude, radius)
+              map.current.setZoom(13)
+            })
+          })
+        },
+        err => {
+          console.error('Please enable location service! Err: ', err)
+        },
+        {
+          enableHighAccuracy: true,
+        }
+      )
+    }
+
+    return () => {
+      if (map.current) {
+        map.current.remove()
+      }
+    }
   }, [])
 
-  return (
-    <Row className='map-container'>
-      <button
-        width='200'
-        height='200'
-        onClick={() => {
-          console.log(map.getCenter())
-        }}>
-        show current center
-      </button>
-      <div id='map' style={{ position: 'absolute', top: 20, bottom: 0, width: '100%' }}></div>
-    </Row>
-  )
+  useEffect(() => {
+    if (map.current) {
+      getRecommendServices(6).then(data => {
+        console.log(data)
+        data.forEach(item => {
+          new mapboxgl.Marker().setLngLat(item.location.gps).addTo(map.current)
+        })
+      })
+    }
+  }, [])
+
+  return <div ref={mapContainerRef} style={{ width: '100%', height: '600px' }} />
 }
+
+export default Map

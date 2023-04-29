@@ -3,6 +3,59 @@ import '../css/Map.scss'
 import mapboxgl from '../utils/MapboxConfig.js'
 import { useEffect, useState } from 'react'
 
+function generateCircle(center, radiusInKm) {
+  const points = 64
+
+  const coords = {
+    latitude: center[1],
+    longitude: center[0],
+  }
+
+  const km = radiusInKm
+
+  const ret = []
+  const distanceX = km / (111.32 * Math.cos((coords.latitude * Math.PI) / 180))
+  const distanceY = km / 110.574
+
+  let theta, x, y
+  for (let i = 0; i < points; i++) {
+    theta = (i / points) * (2 * Math.PI)
+    x = distanceX * Math.cos(theta)
+    y = distanceY * Math.sin(theta)
+    ret.push([coords.longitude + x, coords.latitude + y])
+  }
+  ret.push(ret[0])
+
+  return [ret]
+}
+
+const genCircleSrc = (longitude, latitude) => {
+  return {
+    type: 'geojson',
+    data: {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'Point',
+            coordinates: [longitude, latitude],
+          },
+        },
+        {
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'Polygon',
+            coordinates: [generateCircle([longitude, latitude], 1)],
+          },
+        },
+      ],
+    },
+  }
+}
+
 export default function Map({ data = null }) {
   const [map, setMap] = useState(null)
 
@@ -41,6 +94,8 @@ export default function Map({ data = null }) {
     })
 
     _map.addControl(geolocate)
+    // Add zoom and rotation controls to the map.
+    _map.addControl(new mapboxgl.NavigationControl())
     _map.on('load', () => {
       geolocate.trigger()
     })
