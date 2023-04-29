@@ -90,11 +90,22 @@ export async function uploadImage(image) {
   // 生成唯一的文件名
   const imageName = `${Date.now()}-${image.name}`
   const imageRef = ref(storage, 'images/' + imageName)
-  console.log('aaaaaaaaa')
   const snapshot = await uploadBytes(imageRef, image).then(snapshot => {
-    console.log('Uploaded a blob or file!')
+    console.log('Uploaded an Image!')
   })
   const url = getDownloadURL(imageRef)
+  return url
+}
+
+//上传视频
+export async function uploadVideo(video) {
+  // 生成唯一的文件名
+  const videoName = `${Date.now()}-${video.name}`
+  const videoRef = ref(storage, 'videos/' + videoName)
+  const snapshot = await uploadBytes(videoRef, video).then(snapshot => {
+    console.log('Uploaded a video!')
+  })
+  const url = getDownloadURL(videoRef)
   return url
 }
 

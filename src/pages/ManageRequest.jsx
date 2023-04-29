@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { List } from 'antd'
-import RequestCard from '../RequestCard'
-import { getRequestsByServiceProvider } from '../../utils/FirebaseAPI'
+import RequestCard from '../components/RequestCard'
+import { getRequestsByServiceProvider } from '../utils/FirebaseAPI'
 
 const ManageRequest = () => {
   const [requests, setRequests] = useState([])

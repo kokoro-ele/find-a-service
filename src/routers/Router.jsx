@@ -8,6 +8,14 @@ import MainLayout from '../layouts/MainLayout'
 import ServiceFinder from '../pages/ServiceFinder'
 import ServiceDetail from '../pages/ServiceDetail'
 
+//serviceprovider
+import ManageAccount from '../pages/ManageAccount'
+import ManageRequest from '../pages/ManageRequest'
+import ManageService from '../pages/ManageService'
+import RequestInfo from '../pages/RequestInfo'
+import EditService from '../pages/EditService'
+import AddService from '../pages/AddService'
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -22,17 +30,33 @@ const router = createBrowserRouter([
     element: <ServiceDetail />,
     children: [{}],
   },
+  {
+    path: '/add-service',
+    element: <AddService />,
+    children: [{}],
+  },
+  {
+    path: '/edit-service', // TODO: add id
+    element: <EditService />,
+    children: [{}],
+  },
+  {
+    path: '/view-requests', // TODO: add id
+    element: <ManageRequest />,
+    children: [{}],
+  },
+  {
+    path: '/handle-requests', // TODO: add id
+    element: <RequestInfo />,
+    children: [{}],
+  },
+  {
+    path: '/manage-service', // TODO: add id
+    element: <ManageService />,
+    children: [{}],
+  },
 ])
 
 export default function Router() {
-  // TODO: remove mode 2
-  const mode = 2 // change to 2 to use Zetain's Router
-  switch (mode) {
-    case 1:
-      return <RouterProvider router={router} />
-    case 2:
-      return <App />
-    default:
-      return <RouterProvider router={router} />
-  }
+  return <RouterProvider router={router} />
 }

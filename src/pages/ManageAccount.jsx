@@ -7,8 +7,8 @@
  */
 import React from 'react'
 import { Button, Checkbox, Form, Input } from 'antd'
-import openNotification from '../Notification'
-import { addServiceProvider } from '../../utils/FirebaseAPI'
+import openNotification from '../components/Notification'
+import { addServiceProvider } from '../utils/FirebaseAPI'
 const onFinish = values => {
   const docRef = addServiceProvider(values)
   if (docRef) {

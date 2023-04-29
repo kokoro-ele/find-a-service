@@ -8,8 +8,8 @@
 import { Avatar, Button, List, Skeleton, Image } from 'antd'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { deleteService, getServicesByServiceProvider } from '../../utils/FirebaseAPI'
-import openNotification from '../Notification'
+import { deleteService, getServicesByServiceProvider } from '../utils/FirebaseAPI'
+import openNotification from '../components/Notification'
 const ManageService = () => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])

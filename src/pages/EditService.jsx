@@ -2,16 +2,15 @@
  * @Author: kokoro
  * @Date: 2023-04-09 21:42:50
  * @LastEditors: kokoro
- * @LastEditTime: 2023-04-21 00:17:41
+ * @LastEditTime: 2023-04-21 17:14:46
  * @Description: 请填写简介
  */
 import React, { useState, useEffect, useRef } from 'react'
-import { uploadImage, addService, getServicesById } from '../../utils/FirebaseAPI'
-import { UploadOutlined } from '@ant-design/icons'
+import { updateServiceById, getServicesById } from '../utils/FirebaseAPI'
 import { Button, Form, Input, Select, Upload, Modal, Image } from 'antd'
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
-function AddService(props) {
+function EditService(props) {
   const [service, setService] = useState({
     title: 'default title',
     area: 'default',
@@ -19,9 +18,7 @@ function AddService(props) {
     discription: 'default dis',
     price: '45',
   })
-  const [imagesList, setImagesList] = useState([])
-  const isEdit = useRef(false)
-  const location = useLocation()
+  const params = useParams()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const showModal = () => {
     setIsModalOpen(true)
@@ -33,25 +30,21 @@ function AddService(props) {
     setIsModalOpen(false)
     window.location.href = '/service'
   }
-  function onFinish(values) {
-    addService({ ...values, serviceprovider: 'test', image: imagesList })
-    showModal()
-  }
+  useEffect(() => {
+    getServicesById(params.id).then(res => {
+      const data = res.data()
+      setService(data)
+    })
+  }, [])
 
-  async function addToImageList(option) {
-    try {
-      const url = await uploadImage(option.file)
-      console.log(url)
-      setImagesList(preState => [...preState, url])
-      option.onSuccess(url)
-    } catch {
-      //message("Failed uploading " + image.name);
-    }
+  function onFinish() {
+    updateServiceById(params.id, service)
+    showModal()
   }
 
   return (
     <div>
-      <h1>Add</h1>
+      <h1>Edit</h1>
       <Form
         onFinish={onFinish}
         labelCol={{
@@ -65,7 +58,6 @@ function AddService(props) {
         }}>
         <Form.Item label='Title'>
           <Form.Item
-            name={'title'}
             noStyle
             rules={[
               {
@@ -74,8 +66,12 @@ function AddService(props) {
               },
             ]}>
             <Input
+              value={service.title}
               style={{
                 width: 160,
+              }}
+              onChange={e => {
+                setService({ ...service, title: e.target.value })
               }}
             />
           </Form.Item>
@@ -83,7 +79,6 @@ function AddService(props) {
 
         <Form.Item label='Discription'>
           <Form.Item
-            name={'discription'}
             noStyle
             rules={[
               {
@@ -92,8 +87,12 @@ function AddService(props) {
               },
             ]}>
             <Input
+              value={service.discription}
               style={{
                 width: 160,
+              }}
+              onChange={e => {
+                setService({ ...service, discription: e.target.value })
               }}
             />
           </Form.Item>
@@ -101,7 +100,6 @@ function AddService(props) {
 
         <Form.Item label='Price (£ per hour)'>
           <Form.Item
-            name={'price'}
             noStyle
             rules={[
               {
@@ -110,17 +108,20 @@ function AddService(props) {
               },
             ]}>
             <Input
+              value={service.price}
               style={{
                 width: '20%',
               }}
               placeholder='50'
+              onChange={e => {
+                setService({ ...service, price: e.target.value })
+              }}
             />
           </Form.Item>
         </Form.Item>
 
         <Form.Item label='Area'>
           <Form.Item
-            name={'area'}
             noStyle
             rules={[
               {
@@ -129,8 +130,12 @@ function AddService(props) {
               },
             ]}>
             <Input
+              value={service.area}
               style={{
                 width: '50%',
+              }}
+              onChange={e => {
+                setService({ ...service, area: e.target.value })
               }}
               placeholder='114514'
             />
@@ -140,7 +145,6 @@ function AddService(props) {
         <Form.Item label='Availability'>
           <Form.Item
             noStyle
-            name={'availability'}
             rules={[
               {
                 required: false,
@@ -160,25 +164,9 @@ function AddService(props) {
           </Form.Item>
         </Form.Item>
 
-        <Form.Item label='Image'>
-          <Form.Item valuePropName='fileList' getValueFromEvent={e => (Array.isArray(e) ? e : e && e.fileList)} noStyle>
-            <Upload
-              name='image'
-              listType='picture'
-              customRequest={addToImageList}
-              beforeUpload={(file, fileList) => {
-                return new Promise((resolve, reject) => {
-                  console.log(fileList.length)
-                  if (fileList.length > 3) {
-                    console.log(1231231)
-                    reject('You can upload atmost 3 images')
-                  } else {
-                    resolve('Success')
-                  }
-                })
-              }}>
-              <Button icon={<UploadOutlined />}>Click to upload</Button>
-            </Upload>
+        <Form.Item label='Uploaded imagas'>
+          <Form.Item noStyle>
+            {service.image && service.image.map((url, index) => <Image width={100} src={url} key={'image-' + index} />)}
           </Form.Item>
         </Form.Item>
 
@@ -197,10 +185,10 @@ function AddService(props) {
         onOk={handleOk}
         onCancel={handleCancel}
         cancelType>
-        <p>Added Successfully! </p>
+        <p>Saved Successfully! </p>
       </Modal>
     </div>
   )
 }
 
-export default AddService
+export default EditService

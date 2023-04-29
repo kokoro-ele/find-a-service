@@ -1,12 +1,6 @@
 import { Layout, Menu, theme } from 'antd'
 import React, { useState } from 'react'
 import Nav from '../components/Nav'
-import ManageAccount from '../components/ServiceProvider/ManageAccount'
-import ManageRequest from '../components/ServiceProvider/ManageRequest'
-import ManageService from '../components/ServiceProvider/ManageService'
-import RequestInfo from '../components/RequestInfo'
-import EditService from '../components/ServiceProvider/EditService'
-import AddService from '../components/ServiceProvider/AddService'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
