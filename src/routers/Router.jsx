@@ -9,8 +9,8 @@ import ServiceFinder from '../pages/ServiceFinder'
 import ServiceDetail from '../pages/ServiceDetail'
 import ServiceRequest from '../pages/ServiceRequest'
 import LoginPage from '../pages/LoginPage'
-import SignupPage from '../pages/SignupPage'
 import MapTest from '../pages/MapTest'
+import CustomerSignUp from '../pages/CustomerSignUp'
 
 const router = createBrowserRouter([
   {
@@ -34,8 +34,8 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: '/sign-up',
-    element: <SignupPage />,
+    path: '/customer-signup',
+    element: <CustomerSignUp />,
   },
   {
     path: '/map',

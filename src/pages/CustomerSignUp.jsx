@@ -1,7 +1,7 @@
 import { Col, Modal, Row, message } from 'antd'
 import { Button, Form, Input, Radio } from 'antd'
 import { useState } from 'react'
-import '../css/Signup.scss'
+import '../css/CustomerSignup.scss'
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { redirect, useNavigate } from 'react-router-dom'
 import { addCustomer } from '../utils/FirebaseAPI'
@@ -224,7 +224,7 @@ function SignupForm() {
   )
 }
 
-export default function SignupPage() {
+export default function CustomerSignUp() {
   return (
     <div className='sign-up'>
       <Row justify='center'>
