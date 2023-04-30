@@ -1,17 +1,23 @@
 import { Col, Modal, Row, message } from 'antd'
 import { Button, Form, Input, Radio } from 'antd'
 import { useState } from 'react'
-import '../css/Signup.scss'
+import '../css/CustomerSignup.scss'
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { redirect, useNavigate } from 'react-router-dom'
+import { addCustomer } from '../utils/FirebaseAPI'
+import { checkEmailFormat, checkPasswordFormat, checkUKPhoneFormat } from '../utils/FormatChecker'
 
 function SignupForm() {
   const navigate = useNavigate()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [popupMsg, setPopupMsg] = useState('Successfully create your account! Now login!')
 
+  const [form] = Form.useForm()
+
   const auth = getAuth()
 
+  // popup Modal controls
+  // START
   const showModal = () => {
     setIsModalOpen(true)
   }
@@ -24,20 +30,57 @@ function SignupForm() {
   const handleCancel = () => {
     setIsModalOpen(false)
   }
+  // END
 
+  // Pwd Format check
+  const pwdFormatRules = [
+    {
+      required: true,
+      message: 'Please input your password!',
+    },
+    {
+      min: 6,
+      message: 'Must be at least 6 characters',
+    },
+    {
+      // pattern: /^(?=.*\d)(?=.*[^a-zA-Z0-9]).{6,}$/,
+      pattern: checkPasswordFormat(true),
+      message: 'Must contain at least 1 letter, 1 number and 1 special character',
+    },
+  ]
+
+  // Form submit controls
+  // START
   const onFinish = values => {
     console.log('Success:', values)
-    const email = values.email
-    const password = values.password
 
-    createUserWithEmailAndPassword(auth, email, password)
+    const userData = {
+      user_id: '', // use firebase-auth.uid later
+      user_name: values.username,
+      email: values.email,
+      phone: values.phone,
+      location: {
+        // handle later
+        txt: 'Unselected yet',
+        gps: [null, null],
+      },
+      avatar: null, // handle later
+    }
+
+    createUserWithEmailAndPassword(auth, values.email, values.password)
       .then(userCredential => {
         // Signed in
         const user = userCredential.user
-        // ...
+        userData.user_id = user.uid
+
         console.log('Successfully created user: ', user)
-        sendEmailVerification(user)
+
         console.log('Sending verifying email...')
+        sendEmailVerification(user)
+
+        // add user into Customer collection
+        addCustomer(userData).then(res => console.log('Add done'))
+
         // open modal
         showModal()
       })
@@ -53,10 +96,12 @@ function SignupForm() {
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo)
   }
+  // END
 
   return (
     <>
       <Form
+        form={form}
         name='basic'
         labelCol={{
           span: 8,
@@ -73,6 +118,7 @@ function SignupForm() {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete='off'>
+        {/* Username */}
         <Form.Item
           label='Username'
           name='username'
@@ -84,6 +130,8 @@ function SignupForm() {
           ]}>
           <Input className='signup-input' placeholder='Ross' />
         </Form.Item>
+
+        {/* Phone */}
         <Form.Item
           label='Phone'
           name='phone'
@@ -91,9 +139,15 @@ function SignupForm() {
             {
               required: false,
             },
+            {
+              pattern: checkUKPhoneFormat(true),
+              message: 'Invalid UK phone number!',
+            },
           ]}>
           <Input className='signup-input' placeholder='07579969581' />
         </Form.Item>
+
+        {/* Email */}
         <Form.Item
           label='Email'
           name='email'
@@ -102,31 +156,43 @@ function SignupForm() {
               required: true,
               message: 'Please input your email!',
             },
+            {
+              pattern: checkEmailFormat(true),
+              message: 'Please enter the correct email format',
+            },
           ]}>
           <Input className='signup-input' placeholder='email@mail.com' />
         </Form.Item>
-        <Form.Item
-          label='Password'
-          name='password'
-          rules={[
-            {
-              required: true,
-              message: 'Please input your password!',
-            },
-          ]}>
+
+        {/* Password */}
+        <Form.Item label='Password' name='password' rules={pwdFormatRules} hasFeedback>
           <Input.Password className='signup-input' placeholder='Password' />
         </Form.Item>
+
+        {/* Confirm password */}
         <Form.Item
           label='Confirm Password'
-          name='confirm-pwd'
+          name='confirmPwd'
+          dependencies={['password']}
           rules={[
             {
               required: true,
-              message: 'Please input your password!',
+              message: 'Please confirm your password again!',
             },
-          ]}>
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve()
+                }
+                return Promise.reject(new Error('The two entered passwords do not match'))
+              },
+            }),
+          ]}
+          hasFeedback>
           <Input.Password className='signup-input' placeholder='Password' />
         </Form.Item>
+
+        {/* Already have one */}
         <Form.Item
           wrapperCol={{
             offset: 8,
@@ -138,6 +204,7 @@ function SignupForm() {
             Just login!
           </a>
         </Form.Item>
+        {/* Create btn */}
         <Form.Item
           wrapperCol={{
             offset: 8,
@@ -146,8 +213,10 @@ function SignupForm() {
           <Button className='create-btn' type='primary' htmlType='submit'>
             Create!
           </Button>
-        </Form.Item>{' '}
+        </Form.Item>
       </Form>
+
+      {/* Popup Modal */}
       <Modal title='Note' open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         {popupMsg}
       </Modal>
@@ -155,7 +224,7 @@ function SignupForm() {
   )
 }
 
-export default function SignupPage() {
+export default function CustomerSignUp() {
   return (
     <div className='sign-up'>
       <Row justify='center'>

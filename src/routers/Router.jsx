@@ -5,6 +5,8 @@ import ServiceDetail from '../pages/ServiceDetail'
 import Addservice from '../pages/Addservice'
 import LoginPage from '../pages/LoginPage'
 import ServiceProviderIndex from '../pages/ServiceProviderIndex'
+import MapTest from '../pages/MapTest'
+import CustomerSignUp from '../pages/CustomerSignUp'
 const router = createBrowserRouter([
   {
     path: '/service-find',
@@ -20,11 +22,6 @@ const router = createBrowserRouter([
     element: <LoginPage />,
     children: [{}],
   },
-  // {
-  //   path: '/add-service',
-  //   element: <Addservice />,
-  //   children: [{}],
-  // },
   {
     path: '/service-provider',
     element: <ServiceProviderIndex />,
@@ -35,6 +32,12 @@ const router = createBrowserRouter([
         children: [{}],
       },
     ],
+    path: '/customer-signup',
+    element: <CustomerSignUp />,
+  },
+  {
+    path: '/map',
+    element: <MapTest />,
   },
 ])
 
