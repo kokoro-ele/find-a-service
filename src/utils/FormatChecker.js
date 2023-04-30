@@ -13,3 +13,9 @@ export function checkPasswordFormat(returnPatternOnly = true, password = null) {
   if (returnPatternOnly) return regx
   return regx.test(password)
 }
+
+export function checkUKPhoneFormat(returnPatternOnly = true, phone = null) {
+  const regx = /^(0|\+44)\s?\d{2,5}\s?\d{6,8}$/
+  if (returnPatternOnly) return regx
+  return regx.test(phone)
+}

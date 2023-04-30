@@ -5,7 +5,7 @@ import '../css/Signup.scss'
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { redirect, useNavigate } from 'react-router-dom'
 import { addCustomer } from '../utils/FirebaseAPI'
-import { checkPasswordFormat } from '../utils/FormatChecker'
+import { checkEmailFormat, checkPasswordFormat, checkUKPhoneFormat } from '../utils/FormatChecker'
 
 function SignupForm() {
   const navigate = useNavigate()
@@ -16,6 +16,8 @@ function SignupForm() {
 
   const auth = getAuth()
 
+  // popup Modal controls
+  // START
   const showModal = () => {
     setIsModalOpen(true)
   }
@@ -28,8 +30,9 @@ function SignupForm() {
   const handleCancel = () => {
     setIsModalOpen(false)
   }
+  // END
 
-  // Format checks
+  // Pwd Format check
   const pwdFormatRules = [
     {
       required: true,
@@ -46,6 +49,8 @@ function SignupForm() {
     },
   ]
 
+  // Form submit controls
+  // START
   const onFinish = values => {
     console.log('Success:', values)
 
@@ -91,6 +96,7 @@ function SignupForm() {
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo)
   }
+  // END
 
   return (
     <>
@@ -133,6 +139,10 @@ function SignupForm() {
             {
               required: false,
             },
+            {
+              pattern: checkUKPhoneFormat(true),
+              message: 'Invalid UK phone number!',
+            },
           ]}>
           <Input className='signup-input' placeholder='07579969581' />
         </Form.Item>
@@ -146,21 +156,16 @@ function SignupForm() {
               required: true,
               message: 'Please input your email!',
             },
+            {
+              pattern: checkEmailFormat(true),
+              message: 'Please enter the correct email format',
+            },
           ]}>
           <Input className='signup-input' placeholder='email@mail.com' />
         </Form.Item>
 
         {/* Password */}
-        <Form.Item
-          label='Password'
-          name='password'
-          rules={pwdFormatRules}
-          // rules={[{ validator: handlePwdCheck }]}
-          // validateTrigger={['onBlur', 'onChange']}
-          // hasFeedback
-          // validateStatus={pwdStatus}
-          // help={pwdStatus === 'err' ? 'PWD ERRRRR!' : ''} // TODO: change hint
-        >
+        <Form.Item label='Password' name='password' rules={pwdFormatRules} hasFeedback>
           <Input.Password className='signup-input' placeholder='Password' />
         </Form.Item>
 
