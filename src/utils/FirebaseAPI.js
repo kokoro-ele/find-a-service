@@ -214,6 +214,22 @@ export async function addFakeData(n) {
   }
   console.log('Generating fake data of: Service, ServiceProvider')
 }
+
+export async function addFakeRequestData(n) {
+  let fakeRequestList = []
+  for (let i = 0; i < n; i++) {
+    fakeRequestList.push({
+      req_id: `#req-test-${i}`, // str, request id
+      user_id: `#usr-test-${i}`, // str, user id
+      srv_id: `#srv-test-${i}`, // str, service id
+      desc: 'This is the description of request', // str, request description
+      req_time: new Date(), // datetime, request time
+      req_status: 'pending', // str, request status, pending, accepted, rejected, completed
+    })
+    await addDoc(collection(db, 'Request'), fakeRequestList[i])
+  }
+  console.log('Generating fake data of: Request')
+}
 // FAKE data end
 
 export async function getRecommendServices(amount = 5) {

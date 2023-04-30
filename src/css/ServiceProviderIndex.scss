@@ -1,0 +1,42 @@
+.navigation {
+  height: 100vh;
+
+  .ant-layout-sider {
+    background-color: #1d1d1d;
+    height: 100%;
+
+    .ant-menu {
+      background-color: #1d1d1d;
+      color: #fff;
+      height: 100%;
+
+      .ant-menu-item {
+        height: 50px;
+        line-height: 50px;
+
+        &:hover,
+        &:focus {
+          background-color: #2a2a2a;
+        }
+
+        &.ant-menu-item-selected {
+          background-color: #1890ff;
+        }
+      }
+    }
+  }
+
+  .header {
+    background-color: #1d1d1d;
+  }
+
+  .content {
+    background-color: #f0f2f5;
+    padding: 20px;
+  }
+
+  .myinfo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+}

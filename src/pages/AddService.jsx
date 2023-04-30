@@ -21,7 +21,7 @@ import {
   Input,
 } from 'antd'
 
-import { uploadImage, addService, uploadVideo } from '../utils/FirebaseAPI'
+import { uploadImage, addService, uploadVideo, addFakeRequestData } from '../utils/FirebaseAPI'
 const { Option } = Select
 const formItemLayout = {
   labelCol: {
@@ -57,6 +57,7 @@ const onPanelChange = newValue => {
 }
 const AddService = () => {
   const onFinish = values => {
+    addFakeRequestData(3)
     console.log('Received values of form: ', values)
     addService({
       ...values,
