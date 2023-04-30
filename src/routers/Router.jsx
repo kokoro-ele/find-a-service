@@ -8,6 +8,7 @@ import MainLayout from '../layouts/MainLayout'
 import ServiceFinder from '../pages/ServiceFinder'
 import ServiceDetail from '../pages/ServiceDetail'
 
+import LoginPage from '../pages/LoginPage'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -20,6 +21,11 @@ const router = createBrowserRouter([
   {
     path: '/service', // TODO: add id
     element: <ServiceDetail />,
+    children: [{}],
+  },
+  {
+    path: '/login', // TODO: add id
+    element: <LoginPage />,
     children: [{}],
   },
 ])
