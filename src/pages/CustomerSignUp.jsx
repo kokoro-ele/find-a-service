@@ -217,7 +217,7 @@ function SignupForm() {
       </Form>
 
       {/* Popup Modal */}
-      <Modal title='Note' open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title='Note' style={{ top: 200 }} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         {popupMsg}
       </Modal>
     </>

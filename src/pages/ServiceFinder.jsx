@@ -10,6 +10,7 @@ import { getRecommendServices, getSearchedServices } from '../utils/FirebaseAPI'
 import { useImmer } from 'use-immer'
 import CarouselDateTest from '../json/CarouselDataTest.json'
 import Map from '../components/Map'
+import { useNavigate } from 'react-router-dom'
 
 function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = null }) {
   const [data, setData] = useImmer(defaultData)
@@ -111,47 +112,17 @@ function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = 
 }
 
 function RecommendCarousel({ data }) {
-  // FAKE DATA
-  //START
-  // TEST use, to reduce the firebase reading
-  // const imgs = CarouselDateTest.map((item, index) => {
-  //   return (
-  //     <div className={`img-pair ${'pair-' + index}`} key={`img-${index}`}>
-  //       <img src={item.imgUrl} alt={item.srv_id} />
-  //       <img src={item.imgUrl} alt={item.srv_id} />
-  //     </div>
-  //   )
-  // })
-  // END
-
-  // fetch carousel img data and create dom
-  // let ignore = false
-  // const [imgs, setImgs] = useState(null)
-  // useEffect(() => {
-  //   if (!ignore) {
-  //     getRecommendServices(5).then(res => {
-  //       setImgs(
-  //         res.map((item, index) => {
-  //           return (
-  //             <div className={`img-pair ${'pair-' + index}`} key={`img-${index}`} onClick={handleCarouselClick}>
-  //               <img src={item.imgs[0]} alt={item.srv_id} />
-  //               <img src={item.imgs[1]} alt={item.srv_id} />
-  //             </div>
-  //           )
-  //         })
-  //       )
-  //     })
-  //   }
-  //   return () => {
-  //     ignore = true
-  //   }
-  // }, [])
+  const navigate = useNavigate()
 
   // click on a img , then navigate to its service page
   const handleCarouselClick = e => {
     // 这个由于是变量定义的函数不会自动提升，所以必须放在下面的调用之前
     console.log(e.target)
-    // TODO: 添加跳转详细页
+    console.log(e.target.alt)
+    const srv_id = e.target.alt
+    // TODO: 添加跳转详细页【done】
+    // navigate(`/service/${srv_id}`) // 测试的 id 是 #srv-123， # 会被解析为 URL 片段
+    navigate(`/service/${encodeURIComponent(srv_id)}`) // 通过编码可以解决
   }
 
   const imgs = data.map((item, index) => {

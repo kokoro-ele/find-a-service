@@ -22,7 +22,8 @@ const router = createBrowserRouter([
     element: <ServiceFinder />,
   },
   {
-    path: '/service', // TODO: add id
+    // HINT: userParams() to get srv_id
+    path: '/service/:srv_id',
     element: <ServiceDetail />,
   },
   {

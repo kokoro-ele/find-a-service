@@ -2,8 +2,11 @@ import { useState } from 'react'
 import '../css/ServiceDetail.scss'
 import { Col, Image, Row } from 'antd'
 import ServiceReviews from '../components/ServiceReviews'
+import { useParams } from 'react-router-dom'
 
 export default function ServiceDetail() {
+  const { srv_id } = useParams()
+  console.log(srv_id)
   const [visible, setVisible] = useState(false)
   return (
     <div className='service-detail'>
