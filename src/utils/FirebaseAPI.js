@@ -52,6 +52,20 @@ export async function addServiceProvider(data) {
 
 //service相关
 export async function getServicesById(id) {
+  // TEST: 下面这段仅仅处理 测试数据，因为我测试数据的 srv_id 是
+  // START
+  if (id.split('-')[0] == '#srv') {
+    // check if it is test data
+    console.log('in getSerivceById, id: ', id)
+    const q = query(collection(db, 'Service'), where('srv_id', '==', id))
+    const snapshot = await getDocs(q) // query 语句一定要用 getDocs() 注意 s
+    const ret = []
+    snapshot.forEach(doc => {
+      ret.push(doc.data())
+    })
+    return ret[0]
+  }
+  // END
   const serviceRef = doc(db, 'Service', id)
   const service = await getDoc(serviceRef)
   return service
@@ -128,22 +142,32 @@ export async function updateRequestById(id, data) {
 // 检查服务是否还可被request
 /*
  * request time 只填写开始时间
+ * 有 remain 字段，不需要再写 检查时间是否重复了
+ * 有 remain 就一定有工人可以提供服务，任何时间都可以
  */
-export async function checkSrvAvailability(srv_id, time) {
-  const duration = getServicesById(srv_id).duration
-  const Request = collection(db, 'Request')
-  const q = query(Request, where('srv_id', '==', srv_id), where('req_time', '==', time))
-}
+// export async function checkSrvAvailability(srv_id, time) {
+//   const duration = getServicesById(srv_id).duration
+//   const Request = collection(db, 'Request')
+//   const q = query(Request, where('srv_id', '==', srv_id), where('req_time', '==', time))
+// }
 
 // add request
-export async function addRequest({ user_id, srv_id, desc, req_time = null }) {
-  const req_id = '#req001' // TODO: 设计成自增
-  // let flag = checkSrvAvailability(srv_id, req_time)
-
-  req_time = new Date().getTime()
-  let data = { req_id, user_id, srv_id, desc, req_time, status: 'pending' }
-  console.log(data)
+export async function addRequest(data) {
   const docRef = await addDoc(collection(db, 'Request'), data)
+  console.log(docRef)
+  await updateDoc(docRef, {
+    req_id: docRef.id,
+  })
+
+  // serivce.remain - 1
+  const q = query(collection(db, 'Service'), where('srv_id', '==', data.srv_id))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach(docSnapshot => {
+    console.log('Finding remain', docSnapshot.id, docSnapshot.data())
+    updateDoc(doc(db, 'Service', docSnapshot.id), {
+      remain: docSnapshot.data().remain - 1,
+    })
+  })
   return docRef
 }
 
@@ -152,6 +176,7 @@ export async function addRequest({ user_id, srv_id, desc, req_time = null }) {
 export async function addFakeData(n) {
   let fakeServiceList = []
   let fakeProviderList = []
+  let fakeReviewList = []
   for (let i = 0; i < n; i++) {
     let gps = [-1.4001991, 50.9434623]
     gps[0] += 0.0001 * (5 + i)
@@ -198,8 +223,23 @@ export async function addFakeData(n) {
       avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`, // img url, 商家头像
       imgs: ['url'], // array, 用于呈现商家主页的推销图片（顾客可以点击商家头像，查看商家主页）
     })
+    fakeReviewList.push({
+      rvw_id: `#rvw-test-${i}`,
+      srv_id: `#srv-test-${i}`, // 对应的 service
+      author: {
+        user_id: `#user-test-${i}`, // str
+        user_name: 'Tester', // str
+        user_avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`,
+      },
+      title: `Service Review Title - ${i}`,
+      content: 'We supply a series of cleaning resources, to help people clean their home beautifully and efficiently.',
+      rate: 5, // int, 0-5, 🌟级评分
+      likes: 777, // int, 点赞数👍
+      date: Date.now(),
+    })
     await addDoc(collection(db, 'Service'), fakeServiceList[i])
     await addDoc(collection(db, 'ServiceProvider'), fakeProviderList[i])
+    await addDoc(collection(db, 'Review'), fakeReviewList[i])
   }
   console.log('Generating fake data of: Service, ServiceProvider')
 }
@@ -232,7 +272,7 @@ export async function getSearchedServices(possibleCats) {
   const querySnapshot = await getDocs(q)
 
   // console.log(querySnapshot)
-  let ret = []
+  const ret = []
   querySnapshot.forEach(doc => {
     // console.log(doc.id, '=>', doc.data())
     ret.push(doc.data())
@@ -245,4 +285,16 @@ export async function getSearchedServices(possibleCats) {
 export async function addCustomer(data) {
   const docRef = await addDoc(collection(db, 'Customer'), data)
   console.log('User successfully added')
+}
+
+export async function getReviews(srv_id) {
+  const q = query(collection(db, 'Review'), where('srv_id', '==', srv_id))
+  const querySnapshot = await getDocs(q)
+  const ret = []
+  querySnapshot.forEach(doc => {
+    ret.push(doc.data())
+  })
+
+  // console.log('Review data: ', ret)
+  return ret
 }

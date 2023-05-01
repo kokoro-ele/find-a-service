@@ -10,7 +10,8 @@ import { getRecommendServices, getSearchedServices } from '../utils/FirebaseAPI'
 import { useImmer } from 'use-immer'
 import CarouselDateTest from '../json/CarouselDataTest.json'
 import Map from '../components/Map'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import StatusBar from '../components/StatusBar'
 
 function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = null }) {
   const [data, setData] = useImmer(defaultData)
@@ -185,6 +186,8 @@ export default function ServiceFinder() {
     <div className='service-finder'>
       {recommendData ? (
         <div className='page-loader'>
+          {/* Status bar */}
+          <StatusBar />
           {/* Carousel */}
           <Row justify='center'>
             <RecommendCarousel data={recommendData} />

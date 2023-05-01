@@ -21,8 +21,6 @@ function LoginForm() {
 
   const handleOk = () => {
     setIsModalOpen(false)
-    // redirect('/login')
-    // navigate('/login')
   }
   const handleCancel = () => {
     setIsModalOpen(false)
@@ -59,8 +57,18 @@ function LoginForm() {
           }
         })
 
-        // TODO: 登陆后跳转 [Customer -> customer-signup, Provider -> provider-signup]
-        navigate('/service-find')
+        localStorage.setItem('loginID', user.uid)
+
+        // NOTE: redirect after login
+        const redirect = localStorage.getItem('redirect')
+        console.log(redirect)
+        if (redirect) {
+          localStorage.removeItem('redirect')
+          navigate(redirect) // back to request after login
+        } else {
+          // TODO: 登陆后跳转 [Customer -> customer-signup, Provider -> provider-signup]
+          navigate('/service-find')
+        }
       })
       .catch(error => {
         const errorCode = error.code

@@ -32,4 +32,18 @@
 
   .cards-area {
   }
+
+  .ant-pagination-item-link {
+    color: aliceblue !important;
+  }
+
+  .ant-empty-description {
+    color: aliceblue;
+  }
+
+  .ant-pagination-item-1.ant-pagination-item-disabled {
+    a {
+      color: aliceblue;
+    }
+  }
 }
