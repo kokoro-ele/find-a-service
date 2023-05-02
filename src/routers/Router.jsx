@@ -10,7 +10,7 @@ import ServiceRequest from '../pages/ServiceRequest'
 import LoginPage from '../pages/LoginPage'
 import MapTest from '../pages/MapTest'
 import CustomerSignUp from '../pages/CustomerSignUp'
-import CustomerPage from '../pages/CustomerProfile'
+import CustomerPage from '../pages/CustomerPage'
 
 const router = createBrowserRouter([
   {
