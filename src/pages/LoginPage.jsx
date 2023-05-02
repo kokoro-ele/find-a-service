@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { encrypt } from '../utils/RGEncrypt'
 import { checkEmailFormat } from '../utils/FormatChecker'
 import { StyledFirebaseAuth } from 'react-firebaseui'
+import { addCustomer } from '../utils/FirebaseAPI'
 
 const redirectAfterLogin = navigate => {
   // NOTE: redirect after login
@@ -104,6 +105,21 @@ function LoginForm() {
 
         localStorage.setItem(user.uid, encrypt(user))
         localStorage.setItem('loginID', user.uid)
+
+        const userData = {
+          user_id: user.uid,
+          user_name: null,
+          email: user.email,
+          phone: null,
+          location: {
+            txt: null,
+            gps: [null, null],
+          },
+          avatar: null,
+        }
+
+        // add user into Customer collection
+        addCustomer(userData).then(res => console.log('Add done'))
 
         redirectAfterLogin(navigate)
 

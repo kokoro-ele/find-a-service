@@ -37,6 +37,7 @@ function Profile({ user_id }) {
   useEffect(() => {
     if (!ignore) {
       getCustomer(user_id).then(res => {
+        console.log('UserInfo: ', res)
         setUserInfo(res)
       })
     }
