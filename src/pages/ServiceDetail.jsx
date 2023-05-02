@@ -191,6 +191,9 @@ export default function ServiceDetail() {
         {serviceData ? (
           <RequestSubmitter
             srv_id={srv_id}
+            srv_name={serviceData.srv_name}
+            prv_name={serviceData.prv_name}
+            price={serviceData.price}
             duration={serviceData.duration}
             remain={serviceData.remain}
             total={serviceData.total}

@@ -4,18 +4,18 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 // START
 import App from '../App' // mode 2 router
 //END
-import MainLayout from '../layouts/MainLayout'
 import ServiceFinder from '../pages/ServiceFinder'
 import ServiceDetail from '../pages/ServiceDetail'
 import ServiceRequest from '../pages/ServiceRequest'
 import LoginPage from '../pages/LoginPage'
 import MapTest from '../pages/MapTest'
 import CustomerSignUp from '../pages/CustomerSignUp'
+import CustomerPage from '../pages/CustomerProfile'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout />,
+    element: <ServiceFinder />,
   },
   {
     path: '/service-find',
@@ -41,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: '/map',
     element: <MapTest />,
+  },
+  {
+    path: '/mypage/:user_id/:activeTab',
+    element: <CustomerPage />,
   },
 ])
 

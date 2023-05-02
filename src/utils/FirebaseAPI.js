@@ -298,3 +298,48 @@ export async function getReviews(srv_id) {
   // console.log('Review data: ', ret)
   return ret
 }
+
+export async function getCustomer(user_id) {
+  const q = query(collection(db, 'Customer'), where('user_id', '==', user_id))
+  const querySnapshot = await getDocs(q)
+  const ret = []
+  querySnapshot.forEach(doc => {
+    ret.push(doc.data())
+  })
+
+  console.log('Get customer: ', ret[0])
+
+  return ret[0]
+}
+
+export async function changeCustomerEmail(user_id, newEmail) {
+  const q = query(collection(db, 'Customer'), where('user_id', '==', user_id))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach(docSnapshot => {
+    updateDoc(doc(db, 'Customer', docSnapshot.id), {
+      email: newEmail,
+    })
+  })
+}
+
+export async function changeCustomerNamePhone(user_id, newName, newPhone) {
+  const q = query(collection(db, 'Customer'), where('user_id', '==', user_id))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach(docSnapshot => {
+    updateDoc(doc(db, 'Customer', docSnapshot.id), {
+      user_name: newName,
+      phone: newPhone,
+    })
+  })
+}
+
+export async function getRequestHistory(user_id) {
+  const q = query(collection(db, 'Request'), where('user_id', '==', user_id))
+  const querySnapshot = await getDocs(q)
+  const ret = []
+  querySnapshot.forEach(docSnapshot => {
+    ret.push(docSnapshot.data())
+  })
+
+  return ret
+}
