@@ -43,6 +43,41 @@ export async function addAccount(data) {
 }
 
 //serviceprovider相关
+export async function setServiceProvider(id, data) {
+  console.log('执行了setServiceProvider', id, data)
+  const providerRef = doc(db, 'ServiceProvider', id)
+  console.log(providerRef)
+  const docRef = await setDoc(providerRef, data)
+  console.log(docRef)
+  return docRef
+}
+
+export async function getServiceProviderById(id) {
+  // console.log('执行了getServiceProviderNameById')
+  console.log(id)
+  const providerRef = collection(db, 'ServiceProvider')
+  const q = query(providerRef, where('prv_id', '==', id))
+  const snapshot = await getDocs(q)
+  // console.log('-----', snapshot.docs[0].data()['prv_name'])
+  return snapshot.docs.map(doc => doc.data())[0]
+}
+
+export async function getServiceProviderByApproved(appr) {
+  const providerRef = collection(db, 'ServiceProvider')
+  const q = query(providerRef, where('approved', '==', appr))
+  const snapshot = await getDocs(q)
+  return snapshot.docs.map(doc => doc.data())
+}
+
+export async function getServiceProviderNameById(id) {
+  // console.log('执行了getServiceProviderNameById')
+  console.log(id)
+  const providerRef = collection(db, 'ServiceProvider')
+  const q = query(providerRef, where('prv_id', '==', id))
+  const snapshot = await getDocs(q)
+  // console.log('-----', snapshot.docs[0].data()['prv_name'])
+  return snapshot.docs.map(doc => doc.data())[0].prv_name
+}
 
 export async function addServiceProvider(data) {
   const docRef = await addDoc(collection(db, 'ServiceProvider'), data)
@@ -51,6 +86,14 @@ export async function addServiceProvider(data) {
 }
 
 //service相关
+export async function getAllServices() {
+  const querySnapshot = await getDocs(collection(db, 'Service'))
+  // console.log(querySnapshot)
+  return querySnapshot.docs.map(doc => ({
+    ...doc.data(),
+  }))
+}
+
 export async function getServicesById(id) {
   const serviceRef = doc(db, 'Service', id)
   const service = await getDoc(serviceRef)
@@ -59,12 +102,20 @@ export async function getServicesById(id) {
 
 export async function updateServiceById(id, data) {
   const serviceRef = doc(db, 'Service', id)
-  const service = await setDoc(serviceRef, data)
+  const service = await updateDoc(serviceRef, data)
   return service
+}
+
+export async function updateServiceProviderById(id, data) {
+  const providerRef = doc(db, 'ServiceProvider', id)
+  const provider = await updateDoc(providerRef, data)
+  return provider
 }
 
 export async function addService(data) {
   const docRef = await addDoc(collection(db, 'Service'), data)
+  const srv_id = docRef.id
+  await updateDoc(docRef, { srv_id })
   // console.log(docRef)
   return docRef
 }
@@ -72,6 +123,22 @@ export async function addService(data) {
 export async function deleteService(id) {
   const docRef = await deleteDoc(doc(db, 'Service', id))
   return docRef
+}
+
+export async function deleteServiceProviderById(id) {
+  const docRef = await deleteDoc(doc(db, 'ServiceProvider', id))
+  return docRef
+}
+
+export async function getServicesByServiceProviderId(id) {
+  const servicesRef = collection(db, 'Service')
+  const q = query(servicesRef, where('prv_id', '==', id))
+  const snapshot = await getDocs(q)
+
+  const services = snapshot.docs.map(doc => ({
+    ...doc.data(),
+  }))
+  return services
 }
 
 export async function getServicesByServiceProvider(name) {
@@ -96,6 +163,18 @@ export async function uploadImage(image) {
     console.log('Uploaded an Image!')
   })
   const url = getDownloadURL(imageRef)
+  return url
+}
+
+//上传图像
+export async function uploadAvatar(avatar) {
+  // 生成唯一的文件名
+  const avatarName = `${Date.now()}-${avatar.name}`
+  const avatarRef = ref(storage, 'avatars/' + avatarName)
+  const snapshot = await uploadBytes(avatarRef, avatar).then(snapshot => {
+    console.log('Uploaded an avatar!')
+  })
+  const url = getDownloadURL(avatarRef)
   return url
 }
 
@@ -124,15 +203,36 @@ export async function getRequestsByServiceProvider(id) {
   return requests
 }
 
+export async function getRequestsByServiceProviderId(id) {
+  const requestsRef = collection(db, 'Request')
+  const q = query(requestsRef, where('prv_id', '==', id))
+  const snapshot = await getDocs(q)
+
+  const requests = snapshot.docs.map(doc => ({
+    ...doc.data(),
+  }))
+  return requests
+}
+
 export async function getRequestById(id) {
   const requestRef = doc(db, 'Request', id)
+  console.log('执行了getRequestById')
   const request = await getDoc(requestRef)
   return request
 }
 
+//获取所有request
+export async function getAllRequests() {
+  const querySnapshot = await getDocs(collection(db, 'Request'))
+  // console.log(querySnapshot)
+  return querySnapshot.docs.map(doc => ({
+    ...doc.data(),
+  }))
+}
+
 export async function updateRequestById(id, data) {
   const requestRef = doc(db, 'Request', id)
-  const request = await setDoc(requestRef, data)
+  const request = await updateDoc(requestRef, data)
   return request
 }
 
@@ -153,9 +253,29 @@ export async function addRequest({ user_id, srv_id, desc, req_time = null }) {
 
   req_time = new Date().getTime()
   let data = { req_id, user_id, srv_id, desc, req_time, status: 'pending' }
-  console.log(data)
+  // console.log(data)
   const docRef = await addDoc(collection(db, 'Request'), data)
   return docRef
+}
+
+export async function addFakeRequest(n) {
+  // const req_id = '#req001' // TODO: 设计成自增
+  // req_time = new Date().getTime()
+  for (let i = 0; i < n; i++) {
+    let data = {
+      req_id: 'test' + i,
+      user_id: 'testuser' + i,
+      srv_id: 'testsrv' + i,
+      prv_id: '6n1NRNlTHZY2zQoHA1NePq0E8Fy2',
+      desc: 'des' + i,
+      req_time: new Date().getTime(),
+      status: 'pending',
+    }
+    const docRef = await addDoc(collection(db, 'Request'), data)
+    const req_id = docRef.id
+    await updateDoc(docRef, { req_id })
+  }
+  console.log('add fake request done')
 }
 
 // FAKE data start
@@ -169,13 +289,13 @@ export async function addFakeData(n) {
     gps[1] += 0.0001 * (5 + i)
 
     fakeServiceList.push({
-      srv_id: `#srv-test-${i}`,
+      srv_id: `srv-test-${i}`,
       category: 'Cleaning',
       srv_name: 'Kitchen Cleaning', // str, service name
       description: 'This is the description of Kitchen Cleaning',
       prv_id: `#prv-test-${i}`, // str, provider id
       prv_name: `Provider Company-${i}`, // str, provider name
-      viedos: ['https://www.youtube.com/watch?v=kr0RisHSDwI'], // array, to dispaly service, optional
+      videos: ['https://www.youtube.com/watch?v=kr0RisHSDwI'], // array, to dispaly service, optional
       imgs: [
         'https://firebasestorage.googleapis.com/v0/b/test-36dcf.appspot.com/o/images%2FClean1.png?alt=media&token=96c9e206-9cbf-4716-9eaa-d5e97768a409',
         'https://firebasestorage.googleapis.com/v0/b/test-36dcf.appspot.com/o/images%2FClean2.png?alt=media&token=a88307aa-c6c8-4301-acaf-b292619d9938',
@@ -196,18 +316,28 @@ export async function addFakeData(n) {
       reputation: 3.5, // float, 服务评分
     })
     fakeProviderList.push({
-      prv_id: `#prv-test-${i}`, // str, provider id
+      approved: false,
+      needupdate: false,
+      prv_id: `prv-test-${i}`, // str, provider id
       prv_name: `Provider Company-${i}`, // str, provider name
       description: `This is the description of Provider Company-${i}`,
       email: 'prefix@suffix.domain', // str
       phone: '07579966529', // str
-      pwd: 'testpwd', // password hash, 不明文存储密码，存储加盐的哈希值（我之后写进util，可以先存明文）
+      password: 'testpwd', // password hash, 不明文存储密码，存储加盐的哈希值（我之后写进util，可以先存明文）
       location: {
         txt: 'SO16 3UJ Glen Eyre Hall', // str, provider's address text
         gps: gps, // array, [经度，纬度] 按照 GoogleMap 来
       },
       avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`, // img url, 商家头像
-      imgs: ['url'], // array, 用于呈现商家主页的推销图片（顾客可以点击商家头像，查看商家主页）
+      imgs: [
+        'https://firebasestorage.googleapis.com/v0/b/test-36dcf.appspot.com/o/images%2FClean1.png?alt=media&token=96c9e206-9cbf-4716-9eaa-d5e97768a409',
+        'https://firebasestorage.googleapis.com/v0/b/test-36dcf.appspot.com/o/images%2FClean2.png?alt=media&token=a88307aa-c6c8-4301-acaf-b292619d9938',
+        'https://firebasestorage.googleapis.com/v0/b/test-36dcf.appspot.com/o/images%2FClean3.png?alt=media&token=35523b64-6fb8-4e02-8cc8-880d3aa53724',
+        'https://firebasestorage.googleapis.com/v0/b/test-36dcf.appspot.com/o/images%2FClean4.png?alt=media&token=15035f3e-f818-4ce7-9d0c-68e78f6da207',
+        'https://firebasestorage.googleapis.com/v0/b/test-36dcf.appspot.com/o/images%2FClean5.png?alt=media&token=7f2ccd77-8728-4b50-b5c8-0d02a6b719b5',
+        'https://firebasestorage.googleapis.com/v0/b/test-36dcf.appspot.com/o/images%2FClean6.png?alt=media&token=8d6de684-c4aa-4d1e-a490-c12e43411323',
+        'https://firebasestorage.googleapis.com/v0/b/test-36dcf.appspot.com/o/images%2FClean7.png?alt=media&token=2cd41515-7003-4c6a-8eff-2f5ca461a549',
+      ], // array, 用于呈现商家主页的推销图片（顾客可以点击商家头像，查看商家主页）
     })
     await addDoc(collection(db, 'Service'), fakeServiceList[i])
     await addDoc(collection(db, 'ServiceProvider'), fakeProviderList[i])
@@ -227,6 +357,8 @@ export async function addFakeRequestData(n) {
       req_status: 'pending', // str, request status, pending, accepted, rejected, completed
     })
     await addDoc(collection(db, 'Request'), fakeRequestList[i])
+    const req_id = docRef.id
+    await updateDoc(docRef, { req_id })
   }
   console.log('Generating fake data of: Request')
 }

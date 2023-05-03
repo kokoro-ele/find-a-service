@@ -1,37 +1,32 @@
 import React, { useState, useEffect } from 'react'
-import { List } from 'antd'
+import { Row, Col } from 'antd'
 import RequestCard from '../components/RequestCard'
-import { getRequestsByServiceProvider } from '../utils/FirebaseAPI'
-
+import { getRequestsByServiceProviderId } from '../utils/FirebaseAPI'
+import { addFakeRequest, getAllRequests } from '../utils/FirebaseAPI'
+import { getLoginUserId } from '../utils/LoginInfo'
+import '../css/ManageRequest.scss'
 const ManageRequest = () => {
   const [requests, setRequests] = useState([])
-
+  const [loginUserId, setLoginUserId] = useState(getLoginUserId())
   useEffect(() => {
-    getRequestsByServiceProvider('testprovider').then(data => {
+    // addFakeRequest(5)
+    //test
+    getRequestsByServiceProviderId(loginUserId).then(data => {
+      console.log('getallrequesets', data)
       setRequests(data)
     })
   }, [])
 
   return (
-    <List
-      // grid={{
-      //   gutter: 16,
-      //   xs: 1,
-      //   sm: 2,
-      //   md: 4,
-      //   lg: 4,
-      //   xl: 6,
-      //   xxl: 3,
-      // }}
-      dataSource={requests}
-      renderItem={item => (
-        <div>
-          <List.Item>
-            <RequestCard props={item} />
-          </List.Item>
-        </div>
-      )}
-    />
+    <div className='request-card-area'>
+      <Row gutter={[16, 16]}>
+        {requests.map((request, index) => (
+          <Col key={index} xs={24} sm={12} md={8} lg={6}>
+            <RequestCard data={request} />
+          </Col>
+        ))}
+      </Row>
+    </div>
   )
 }
 export default ManageRequest

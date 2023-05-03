@@ -4,14 +4,14 @@ import { useParams } from 'react-router-dom'
 import constructStepData from '../utils/ConstructStepData'
 import { getRequestById, updateRequestById } from '../utils/FirebaseAPI'
 
-const RequestInfo = () => {
+const ServiceProviderRequestDetail = () => {
   const [index, setIndex] = useState(0)
   const [stepList, setStepList] = useState([])
-  const [requestInfo, setRequestInfo] = useState({})
+  const [ServiceProviderRequestDetail, setServiceProviderRequestDetail] = useState({})
   const params = useParams()
   const changeStatus = v => {
-    console.log(params.id, { ...requestInfo, status: v })
-    updateRequestById(params.id, { ...requestInfo, status: v }).then(data => {
+    console.log(params.id, { ...ServiceProviderRequestDetail, status: v })
+    updateRequestById(params.id, { ...ServiceProviderRequestDetail, status: v }).then(data => {
       window.location.reload()
     })
   }
@@ -19,7 +19,7 @@ const RequestInfo = () => {
   useEffect(() => {
     getRequestById(params.id).then(request => {
       const data = request.data()
-      setRequestInfo(data)
+      setServiceProviderRequestDetail(data)
       const [stepList, index] = constructStepData(data.status)
       setStepList(stepList)
       setIndex(index)
@@ -40,15 +40,15 @@ const RequestInfo = () => {
           maxWidth: 600,
         }}>
         <Form.Item label='Customer'>
-          <Input readOnly value={requestInfo.customer} />
+          <Input readOnly value={ServiceProviderRequestDetail.customer} />
         </Form.Item>
 
         <Form.Item label='Service Provider'>
-          <Input readOnly value={requestInfo.serviceprovider} />
+          <Input readOnly value={ServiceProviderRequestDetail.serviceprovider} />
         </Form.Item>
 
         <Form.Item label='Detail'>
-          <Input readOnly value={requestInfo.detail} />
+          <Input readOnly value={ServiceProviderRequestDetail.detail} />
         </Form.Item>
 
         <Form.Item
@@ -57,7 +57,7 @@ const RequestInfo = () => {
             span: 16,
           }}>
           {/* show following componets only when status is 0 */}
-          {/* {requestInfo.status === '0' && ( */}
+          {/* {ServiceProviderRequestDetail.status === '0' && ( */}
           {
             <div>
               <Button type='primary' onClick={() => changeStatus(1)}>
@@ -76,4 +76,4 @@ const RequestInfo = () => {
     </div>
   )
 }
-export default RequestInfo
+export default ServiceProviderRequestDetail

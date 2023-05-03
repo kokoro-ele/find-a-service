@@ -24,6 +24,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
+    "react-vertical-timeline-component": "^3.6.0",
     "sass": "^1.62.0",
     "sort-by": "^1.2.0",
     "use-immer": "^0.9.0",

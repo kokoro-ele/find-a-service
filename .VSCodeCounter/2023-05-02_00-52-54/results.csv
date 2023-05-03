@@ -1,0 +1,56 @@
+"filename", "language", "JavaScript React", "JavaScript", "JSON", "SCSS", "XML", "comment", "blank", "total"
+"d:\find-a-service\src\App.jsx", "JavaScript React", 6, 0, 0, 0, 0, 9, 3, 18
+"d:\find-a-service\src\assets\react.svg", "XML", 0, 0, 0, 0, 1, 0, 0, 1
+"d:\find-a-service\src\components\Card.jsx", "JavaScript React", 39, 0, 0, 0, 0, 6, 5, 50
+"d:\find-a-service\src\components\Map.jsx", "JavaScript React", 82, 0, 0, 0, 0, 14, 16, 112
+"d:\find-a-service\src\components\Nav.jsx", "JavaScript React", 60, 0, 0, 0, 0, 7, 1, 68
+"d:\find-a-service\src\components\Notification.jsx", "JavaScript React", 9, 0, 0, 0, 0, 0, 1, 10
+"d:\find-a-service\src\components\RequestCard.jsx", "JavaScript React", 73, 0, 0, 0, 0, 3, 7, 83
+"d:\find-a-service\src\components\RequestInfo.jsx", "JavaScript React", 21, 0, 0, 0, 0, 1, 2, 24
+"d:\find-a-service\src\components\ServiceReviews.jsx", "JavaScript React", 73, 0, 0, 0, 0, 2, 5, 80
+"d:\find-a-service\src\context\index.js", "JavaScript", 0, 1, 0, 0, 0, 1, 2, 4
+"d:\find-a-service\src\css\Card.scss", "SCSS", 0, 0, 0, 71, 0, 15, 12, 98
+"d:\find-a-service\src\css\CustomerSignup.scss", "SCSS", 0, 0, 0, 28, 0, 0, 6, 34
+"d:\find-a-service\src\css\Login.scss", "SCSS", 0, 0, 0, 48, 0, 1, 6, 55
+"d:\find-a-service\src\css\Map.scss", "SCSS", 0, 0, 0, 9, 0, 0, 2, 11
+"d:\find-a-service\src\css\RequestCard.scss", "SCSS", 0, 0, 0, 71, 0, 15, 12, 98
+"d:\find-a-service\src\css\RequestInfo.scss", "SCSS", 0, 0, 0, 68, 0, 0, 14, 82
+"d:\find-a-service\src\css\ServiceDetail.scss", "SCSS", 0, 0, 0, 33, 0, 1, 5, 39
+"d:\find-a-service\src\css\ServiceFinder.scss", "SCSS", 0, 0, 0, 27, 0, 4, 5, 36
+"d:\find-a-service\src\css\ServiceProviderIndex.scss", "SCSS", 0, 0, 0, 34, 0, 0, 9, 43
+"d:\find-a-service\src\css\ServiceProviderSignup.scss", "SCSS", 0, 0, 0, 28, 0, 0, 6, 34
+"d:\find-a-service\src\css\ServiceReview.scss", "SCSS", 0, 0, 0, 0, 0, 0, 1, 1
+"d:\find-a-service\src\css\index.scss", "SCSS", 0, 0, 0, 4, 0, 3, 1, 8
+"d:\find-a-service\src\json\CarouselDataTest.json", "JSON", 0, 0, 26, 0, 0, 0, 1, 27
+"d:\find-a-service\src\json\DB.js", "JavaScript", 0, 75, 0, 0, 0, 6, 6, 87
+"d:\find-a-service\src\json\ServiceDataTest.json", "JSON", 0, 0, 146, 0, 0, 0, 1, 147
+"d:\find-a-service\src\json\TestReviewData.json", "JSON", 0, 0, 26, 0, 0, 0, 1, 27
+"d:\find-a-service\src\layouts\MainLayout.jsx", "JavaScript React", 3, 0, 0, 0, 0, 1, 2, 6
+"d:\find-a-service\src\main.jsx", "JavaScript React", 5, 0, 0, 0, 0, 0, 2, 7
+"d:\find-a-service\src\pages\AddService.jsx", "JavaScript React", 253, 0, 0, 0, 0, 8, 14, 275
+"d:\find-a-service\src\pages\CustomerSignUp.jsx", "JavaScript React", 198, 0, 0, 0, 0, 24, 23, 245
+"d:\find-a-service\src\pages\EditService.jsx", "JavaScript React", 169, 0, 0, 0, 0, 7, 11, 187
+"d:\find-a-service\src\pages\ErrNotFound.jsx", "JavaScript React", 0, 0, 0, 0, 0, 0, 1, 1
+"d:\find-a-service\src\pages\LoginPage.jsx", "JavaScript React", 140, 0, 0, 0, 0, 12, 12, 164
+"d:\find-a-service\src\pages\ManageAccount.jsx", "JavaScript React", 107, 0, 0, 0, 0, 8, 5, 120
+"d:\find-a-service\src\pages\ManageRequest.jsx", "JavaScript React", 26, 0, 0, 0, 0, 2, 3, 31
+"d:\find-a-service\src\pages\ManageService.jsx", "JavaScript React", 41, 0, 0, 0, 0, 10, 5, 56
+"d:\find-a-service\src\pages\MapTest.jsx", "JavaScript React", 90, 0, 0, 0, 0, 6, 15, 111
+"d:\find-a-service\src\pages\RequestDetail.jsx", "JavaScript React", 80, 0, 0, 0, 0, 4, 4, 88
+"d:\find-a-service\src\pages\ServiceDetail.jsx", "JavaScript React", 53, 0, 0, 0, 0, 1, 4, 58
+"d:\find-a-service\src\pages\ServiceFinder.jsx", "JavaScript React", 183, 0, 0, 0, 0, 51, 22, 256
+"d:\find-a-service\src\pages\ServiceProvideSignUp.jsx", "JavaScript React", 315, 0, 0, 0, 0, 31, 25, 371
+"d:\find-a-service\src\pages\ServiceProviderBusinessData.jsx", "JavaScript React", 7, 0, 0, 0, 0, 0, 2, 9
+"d:\find-a-service\src\pages\ServiceProviderIndex.jsx", "JavaScript React", 50, 0, 0, 0, 0, 1, 3, 54
+"d:\find-a-service\src\pages\ServiceProviderRequestDetail.jsx", "JavaScript React", 72, 0, 0, 0, 0, 2, 6, 80
+"d:\find-a-service\src\pages\ServiceRequest.jsx", "JavaScript React", 15, 0, 0, 0, 0, 15, 6, 36
+"d:\find-a-service\src\routers\Router.jsx", "JavaScript React", 83, 0, 0, 0, 0, 2, 3, 88
+"d:\find-a-service\src\utils\ConstructStepData.js", "JavaScript", 0, 43, 0, 0, 0, 0, 2, 45
+"d:\find-a-service\src\utils\FirebaseAPI.js", "JavaScript", 0, 281, 0, 0, 0, 36, 41, 358
+"d:\find-a-service\src\utils\FirebaseSetup.js", "JavaScript", 0, 34, 0, 0, 0, 10, 7, 51
+"d:\find-a-service\src\utils\FormatChecker.js", "JavaScript", 0, 15, 0, 0, 0, 3, 4, 22
+"d:\find-a-service\src\utils\LoginInfo.js", "JavaScript", 0, 15, 0, 0, 0, 0, 2, 17
+"d:\find-a-service\src\utils\MapboxConfig.js", "JavaScript", 0, 3, 0, 0, 0, 0, 3, 6
+"d:\find-a-service\src\utils\RGEncrypt.js", "JavaScript", 0, 39, 0, 0, 0, 0, 6, 45
+"d:\find-a-service\src\utils\motion.js", "JavaScript", 0, 84, 0, 0, 0, 7, 5, 96
+"Total", "-", 2253, 590, 198, 421, 1, 329, 368, 4160

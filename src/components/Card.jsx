@@ -31,7 +31,7 @@ export default function Card({ data }) {
         <div className='card' ref={cardDOM}>
           {/* <div className='image'>TODO: img 404</div> */}
           <div className='hide'>Click it to See more!</div>
-          <div className='card-img'>
+          <div className='card-img' style={{ width: '80%' }}>
             <img src={data ? data.imgs[0] : ''} alt={data ? data.srv_name : 'img-alt'} />
           </div>
           <div className='details'>
@@ -40,7 +40,7 @@ export default function Card({ data }) {
             <p>{data ? data.description : 'Brief description of the service'}</p>
           </div>
           <div className='rate'>
-            <Rate disabled allowHalf value={data ? data.reputation : 4.5} />
+            <Rate allowHalf value={data ? data.rate : 4.5} />
           </div>
         </div>
       </Col>

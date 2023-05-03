@@ -1,0 +1,10 @@
+"filename", "language", "JavaScript", "comment", "blank", "total"
+"d:\find-a-service\src\utils\ConstructStepData.js", "JavaScript", 43, 0, 2, 45
+"d:\find-a-service\src\utils\FirebaseAPI.js", "JavaScript", 281, 36, 41, 358
+"d:\find-a-service\src\utils\FirebaseSetup.js", "JavaScript", 34, 10, 7, 51
+"d:\find-a-service\src\utils\FormatChecker.js", "JavaScript", 15, 3, 4, 22
+"d:\find-a-service\src\utils\LoginInfo.js", "JavaScript", 15, 0, 2, 17
+"d:\find-a-service\src\utils\MapboxConfig.js", "JavaScript", 3, 0, 3, 6
+"d:\find-a-service\src\utils\RGEncrypt.js", "JavaScript", 39, 0, 6, 45
+"d:\find-a-service\src\utils\motion.js", "JavaScript", 84, 7, 5, 96
+"Total", "-", 514, 56, 70, 640

@@ -157,8 +157,8 @@ function RecommendCarousel({ data }) {
   const imgs = data.map((item, index) => {
     return (
       <div className={`img-pair ${'pair-' + index}`} key={`img-${index}`} onClick={handleCarouselClick}>
-        <img src={item.imgs[0]} alt={item.srv_id} />
-        <img src={item.imgs[1]} alt={item.srv_id} />
+        <img src={item.image[0]} alt={item.srv_id} />
+        <img src={item.image[1]} alt={item.srv_id} />
       </div>
     )
   })
@@ -185,6 +185,7 @@ export default function ServiceFinder() {
       console.log('fetching recommend data...')
       // TODO: change the recommend amount
       getRecommendServices(3).then(res => {
+        console.log(res)
         setRecommendData(res)
       })
     }

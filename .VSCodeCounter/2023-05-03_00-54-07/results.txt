@@ -1,0 +1,99 @@
+Date : 2023-05-03 00:54:07
+Directory : d:\find-a-service\src
+Total : 61 files,  4104 codes, 441 comments, 401 blanks, all 4946 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| JavaScript React |         29 |      2,738 |        323 |        223 |      3,284 |
+| JavaScript       |         10 |        632 |         66 |         84 |        782 |
+| SCSS             |         18 |        535 |         52 |         91 |        678 |
+| JSON             |          3 |        198 |          0 |          3 |        201 |
+| XML              |          1 |          1 |          0 |          0 |          1 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                         | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                            |         61 |      4,104 |        441 |        401 |      4,946 |
+| . (Files)                                                    |          2 |         11 |          9 |          5 |         25 |
+| assets                                                       |          1 |          1 |          0 |          0 |          1 |
+| components                                                   |          7 |        355 |         36 |         37 |        428 |
+| context                                                      |          1 |          1 |          1 |          2 |          4 |
+| css                                                          |         18 |        535 |         52 |         91 |        678 |
+| json                                                         |          4 |        273 |          6 |          9 |        288 |
+| layouts                                                      |          1 |          3 |          1 |          2 |          6 |
+| pages                                                        |         18 |      2,284 |        275 |        176 |      2,735 |
+| routers                                                      |          1 |         85 |          2 |          3 |         90 |
+| utils                                                        |          8 |        556 |         59 |         76 |        691 |
++--------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                     | language         | code       | comment    | blank      | total      |
++--------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| d:\find-a-service\src\App.jsx                                | JavaScript React |          6 |          9 |          3 |         18 |
+| d:\find-a-service\src\assets\react.svg                       | XML              |          1 |          0 |          0 |          1 |
+| d:\find-a-service\src\components\Card.jsx                    | JavaScript React |         39 |          6 |          5 |         50 |
+| d:\find-a-service\src\components\Map.jsx                     | JavaScript React |         82 |         14 |         16 |        112 |
+| d:\find-a-service\src\components\Nav.jsx                     | JavaScript React |         60 |          7 |          1 |         68 |
+| d:\find-a-service\src\components\Notification.jsx            | JavaScript React |          9 |          0 |          1 |         10 |
+| d:\find-a-service\src\components\RequestCard.jsx             | JavaScript React |         72 |          5 |          7 |         84 |
+| d:\find-a-service\src\components\RequestInfo.jsx             | JavaScript React |         20 |          2 |          2 |         24 |
+| d:\find-a-service\src\components\ServiceReviews.jsx          | JavaScript React |         73 |          2 |          5 |         80 |
+| d:\find-a-service\src\context\index.js                       | JavaScript       |          1 |          1 |          2 |          4 |
+| d:\find-a-service\src\css\AddService.scss                    | SCSS             |         53 |          0 |          5 |         58 |
+| d:\find-a-service\src\css\Admin.scss                         | SCSS             |         21 |          0 |          3 |         24 |
+| d:\find-a-service\src\css\Card.scss                          | SCSS             |         71 |         15 |         12 |         98 |
+| d:\find-a-service\src\css\CustomerSignup.scss                | SCSS             |         28 |          0 |          6 |         34 |
+| d:\find-a-service\src\css\Login.scss                         | SCSS             |         48 |          1 |          6 |         55 |
+| d:\find-a-service\src\css\ManageAccount.scss                 | SCSS             |         19 |          0 |          2 |         21 |
+| d:\find-a-service\src\css\ManageRequest.scss                 | SCSS             |          7 |          0 |          1 |          8 |
+| d:\find-a-service\src\css\ManageService.scss                 | SCSS             |          7 |          0 |          1 |          8 |
+| d:\find-a-service\src\css\Map.scss                           | SCSS             |          9 |          0 |          2 |         11 |
+| d:\find-a-service\src\css\RequestCard.scss                   | SCSS             |         71 |         15 |         12 |         98 |
+| d:\find-a-service\src\css\RequestDetail.scss                 | SCSS             |         14 |          0 |          3 |         17 |
+| d:\find-a-service\src\css\RequestInfo.scss                   | SCSS             |         48 |         13 |          9 |         70 |
+| d:\find-a-service\src\css\ServiceDetail.scss                 | SCSS             |         33 |          1 |          5 |         39 |
+| d:\find-a-service\src\css\ServiceFinder.scss                 | SCSS             |         27 |          4 |          5 |         36 |
+| d:\find-a-service\src\css\ServiceProviderIndex.scss          | SCSS             |         35 |          0 |          9 |         44 |
+| d:\find-a-service\src\css\ServiceProviderSignup.scss         | SCSS             |         40 |          0 |          8 |         48 |
+| d:\find-a-service\src\css\ServiceReview.scss                 | SCSS             |          0 |          0 |          1 |          1 |
+| d:\find-a-service\src\css\index.scss                         | SCSS             |          4 |          3 |          1 |          8 |
+| d:\find-a-service\src\json\CarouselDataTest.json             | JSON             |         26 |          0 |          1 |         27 |
+| d:\find-a-service\src\json\DB.js                             | JavaScript       |         75 |          6 |          6 |         87 |
+| d:\find-a-service\src\json\ServiceDataTest.json              | JSON             |        146 |          0 |          1 |        147 |
+| d:\find-a-service\src\json\TestReviewData.json               | JSON             |         26 |          0 |          1 |         27 |
+| d:\find-a-service\src\layouts\MainLayout.jsx                 | JavaScript React |          3 |          1 |          2 |          6 |
+| d:\find-a-service\src\main.jsx                               | JavaScript React |          5 |          0 |          2 |          7 |
+| d:\find-a-service\src\pages\AddService.jsx                   | JavaScript React |        354 |         21 |         16 |        391 |
+| d:\find-a-service\src\pages\Admin.jsx                        | JavaScript React |        135 |         10 |          5 |        150 |
+| d:\find-a-service\src\pages\CustomerSignUp.jsx               | JavaScript React |        198 |         24 |         23 |        245 |
+| d:\find-a-service\src\pages\EditService.jsx                  | JavaScript React |        304 |         71 |         17 |        392 |
+| d:\find-a-service\src\pages\ErrNotFound.jsx                  | JavaScript React |          0 |          0 |          1 |          1 |
+| d:\find-a-service\src\pages\LoginPage.jsx                    | JavaScript React |        141 |         12 |         12 |        165 |
+| d:\find-a-service\src\pages\ManageAccount.jsx                | JavaScript React |        123 |          7 |          9 |        139 |
+| d:\find-a-service\src\pages\ManageRequest.jsx                | JavaScript React |         29 |          2 |          2 |         33 |
+| d:\find-a-service\src\pages\ManageService.jsx                | JavaScript React |         42 |         10 |          4 |         56 |
+| d:\find-a-service\src\pages\MapTest.jsx                      | JavaScript React |         90 |          6 |         15 |        111 |
+| d:\find-a-service\src\pages\RequestDetail.jsx                | JavaScript React |         84 |          4 |          4 |         92 |
+| d:\find-a-service\src\pages\ServiceDetail.jsx                | JavaScript React |         53 |          1 |          4 |         58 |
+| d:\find-a-service\src\pages\ServiceFinder.jsx                | JavaScript React |        183 |         51 |         22 |        256 |
+| d:\find-a-service\src\pages\ServiceProvideSignUp.jsx         | JavaScript React |        382 |         38 |         26 |        446 |
+| d:\find-a-service\src\pages\ServiceProviderBusinessData.jsx  | JavaScript React |          7 |          0 |          2 |          9 |
+| d:\find-a-service\src\pages\ServiceProviderIndex.jsx         | JavaScript React |         72 |          1 |          2 |         75 |
+| d:\find-a-service\src\pages\ServiceProviderRequestDetail.jsx | JavaScript React |         72 |          2 |          6 |         80 |
+| d:\find-a-service\src\pages\ServiceRequest.jsx               | JavaScript React |         15 |         15 |          6 |         36 |
+| d:\find-a-service\src\routers\Router.jsx                     | JavaScript React |         85 |          2 |          3 |         90 |
+| d:\find-a-service\src\utils\ConstructStepData.js             | JavaScript       |         43 |          0 |          2 |         45 |
+| d:\find-a-service\src\utils\FirebaseAPI.js                   | JavaScript       |        323 |         38 |         47 |        408 |
+| d:\find-a-service\src\utils\FirebaseSetup.js                 | JavaScript       |         34 |         10 |          7 |         51 |
+| d:\find-a-service\src\utils\FormatChecker.js                 | JavaScript       |         15 |          3 |          4 |         22 |
+| d:\find-a-service\src\utils\LoginInfo.js                     | JavaScript       |         15 |          0 |          2 |         17 |
+| d:\find-a-service\src\utils\MapboxConfig.js                  | JavaScript       |          3 |          1 |          3 |          7 |
+| d:\find-a-service\src\utils\RGEncrypt.js                     | JavaScript       |         39 |          0 |          6 |         45 |
+| d:\find-a-service\src\utils\motion.js                        | JavaScript       |         84 |          7 |          5 |         96 |
+| Total                                                        |                  |      4,104 |        441 |        401 |      4,946 |
++--------------------------------------------------------------+------------------+------------+------------+------------+------------+

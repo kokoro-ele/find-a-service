@@ -1,0 +1,57 @@
+.add-service-area {
+  position: relative;
+  background-color: cyan;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100%;
+  color: azure;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.add-service-head {
+  font-size: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.add-service-basic {
+  border: 5px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: black;
+  width: 90%;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.add-service-location {
+  border: 5px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: black;
+  width: 90%;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.add-service-multimedia {
+  border: 5px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: black;
+  width: 90%;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.google-map-container {
+  height: 20em;
+  width: 100%;
+  margin: auto;
+  margin-bottom: 20px;
+}

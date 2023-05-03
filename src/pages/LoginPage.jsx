@@ -4,7 +4,7 @@ import { Button, Form, Input, Radio } from 'antd'
 import { useState } from 'react'
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
-import { encrypt } from '../utils/RGEncrypt'
+import { encrypt, decrypt } from '../utils/RGEncrypt'
 
 function LoginForm() {
   const navigate = useNavigate()
@@ -33,7 +33,7 @@ function LoginForm() {
             console.log(user)
             console.log(encrypt(user))
             // TODO: 加密后再存储
-            localStorage.setItem(user.uid, encrypt(user))
+            localStorage.setItem('f-a-s:' + user.uid, encrypt(user))
           } else {
             console.warn(user)
             localStorage.removeItem(user.uid)
@@ -41,7 +41,8 @@ function LoginForm() {
         })
 
         // TODO: 登陆后跳转
-        // navigate('/')
+        if (radioValue === 2) navigate('/service-provider')
+        if (radioValue === 3) navigate('/admin')
       })
       .catch(error => {
         const errorCode = error.code
