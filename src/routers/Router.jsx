@@ -6,11 +6,11 @@ import App from '../App' // mode 2 router
 //END
 import ServiceFinder from '../pages/ServiceFinder'
 import ServiceDetail from '../pages/ServiceDetail'
-import ServiceRequest from '../pages/ServiceRequest'
 import LoginPage from '../pages/LoginPage'
 import MapTest from '../TEST/MapTest'
 import CustomerSignUp from '../pages/CustomerSignUp'
 import CustomerPage from '../pages/CustomerPage'
+import GenTestData from '../pages/GenTestData'
 
 const router = createBrowserRouter([
   {
@@ -44,8 +44,8 @@ const router = createBrowserRouter([
     element: <MapTest />,
   },
   {
-    path: '/req',
-    element: <ServiceRequest />,
+    path: '/gentest',
+    element: <GenTestData />,
   },
 ])
 

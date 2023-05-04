@@ -8,6 +8,7 @@ import { checkEmailFormat, checkPasswordFormat, checkUKPhoneFormat } from '../ut
 import { changeCustomerEmail, changeCustomerNamePhone, getCustomer, getRequestHistory } from '../utils/FirebaseAPI'
 import { getAuth, updateEmail, updatePassword } from 'firebase/auth'
 import { SmileOutlined } from '@ant-design/icons'
+import CustomerNotification from '../components/CustomerNotification'
 
 function Profile({ user_id }) {
   const navigate = useNavigate()
@@ -449,7 +450,7 @@ export default function CustomerPage() {
     {
       key: 'notifications',
       label: 'Notafications',
-      children: <div>Notafications</div>,
+      children: <CustomerNotification />,
     },
   ]
 

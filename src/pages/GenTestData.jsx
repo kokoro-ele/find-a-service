@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { addRequest, addFakeData } from '../utils/FirebaseAPI.js'
+import { useEffect } from 'react'
+import { addFakeData } from '../utils/FirebaseAPI.js'
 
 const req_dataTest = {
   // req_id: 'unique', // str, customer request id
@@ -10,7 +10,7 @@ const req_dataTest = {
   status: 'pending', // ['pending', 'accepted', 'rejected', 'needDetail', 'completed']
 }
 
-export default function ServiceRequest({ srvId, useId }) {
+export default function GenTestData() {
   // FAKE data start
   // HINT: 只跑一次就好，跑完马上注释掉
   // let isFakeAdded = false

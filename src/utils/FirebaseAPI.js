@@ -177,6 +177,7 @@ export async function addFakeData(n) {
   let fakeServiceList = []
   let fakeProviderList = []
   let fakeReviewList = []
+  let fakeNotificationList = []
   for (let i = 0; i < n; i++) {
     let gps = [-1.4001991, 50.9434623]
     gps[0] += 0.0001 * (5 + i)
@@ -189,7 +190,7 @@ export async function addFakeData(n) {
       description: 'This is the description of Kitchen Cleaning',
       prv_id: `#prv-test-${i}`, // str, provider id
       prv_name: `Provider Company-${i}`, // str, provider name
-      viedos: ['https://www.youtube.com/watch?v=kr0RisHSDwI'], // array, to dispaly service, optional
+      videos: ['https://www.youtube.com/watch?v=kr0RisHSDwI'], // array, to dispaly service, optional
       imgs: [
         'https://firebasestorage.googleapis.com/v0/b/test-36dcf.appspot.com/o/images%2FClean1.png?alt=media&token=96c9e206-9cbf-4716-9eaa-d5e97768a409',
         'https://firebasestorage.googleapis.com/v0/b/test-36dcf.appspot.com/o/images%2FClean2.png?alt=media&token=a88307aa-c6c8-4301-acaf-b292619d9938',
@@ -207,6 +208,7 @@ export async function addFakeData(n) {
       available_time: ['Mon', 'Tue'], // array, 最好 TimePiker 让商家选
       duration: 30, // int, 30min，指定服务预计时长，这个参数将是 request 的时间选择间隔
       total: 5, // int, 同一服务在同一时间段可以被请求的次数（e.g. 清洁工人数）
+      remain: 5,
       reputation: 3.5, // float, 服务评分
     })
     fakeProviderList.push({
@@ -237,11 +239,27 @@ export async function addFakeData(n) {
       likes: 777, // int, 点赞数👍
       date: Date.now(),
     })
+    fakeNotificationList.push({
+      msg_id: `#msg-test-${i}`,
+      msg_type: i % 2 == 0 ? 'review' : 'update', // str, 取值应为 ['review', 'update' ]
+      user_id: 'xRv9DqSlQRcK7Mpd2Z98wCLYmPs1',
+      user_name: 'Monica',
+      srv_id: `#srv-test-${i}`,
+      srv_name: 'Test Data',
+      prv_name: 'Test Data',
+      msg_title: '[Test] Please review/see new feature', // str
+      msg_body:
+        '[Test] Please review/see new feature[Test] Please review/see new featurev[Test] Please review/see new feature', // str
+      time: Date.now(), // timestamp
+      isRead: false,
+      jumpLink: '/', // use to navigate to review or new service
+    })
     await addDoc(collection(db, 'Service'), fakeServiceList[i])
     await addDoc(collection(db, 'ServiceProvider'), fakeProviderList[i])
     await addDoc(collection(db, 'Review'), fakeReviewList[i])
+    await addDoc(collection(db, 'Notification'), fakeNotificationList[i])
   }
-  console.log('Generating fake data of: Service, ServiceProvider')
+  console.log('Generating fake data of: Service, ServiceProvider, Review, Notification')
 }
 // FAKE data end
 

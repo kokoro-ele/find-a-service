@@ -117,10 +117,12 @@ export function RequestSubmitter({ srv_id, srv_name, prv_name, price, duration, 
       }
       console.log(reqData)
       addRequest(reqData).then(res => {
-        console.log(res)
+        console.log('Add request Successfully: ', res)
+        // HINT: redirect to requests history page
+        navigate(`/mypage/${loginID}/requests`)
       })
     } else {
-      // TODO: jump to login
+      // TODO: jump to login [done]
       showModal()
       console.log(loginID)
     }

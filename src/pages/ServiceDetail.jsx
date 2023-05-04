@@ -136,8 +136,8 @@ export default function ServiceDetail() {
         <Col span={4} style={{ backgroundColor: 'black' }}></Col>
         <Col className='video-box' span={16}>
           <ReactPlayer
-            // url={serviceData ? serviceData.videos[0] : ''}
-            url='https://www.youtube.com/watch?v=kr0RisHSDwI'
+            url={serviceData ? serviceData.videos[0] : ''}
+            // url='https://www.youtube.com/watch?v=kr0RisHSDwI'
             width={'100%'}
             height={'100%'}
             muted
