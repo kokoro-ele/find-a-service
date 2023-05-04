@@ -245,22 +245,34 @@ export default function LoginPage() {
 
   const auth = getAuth()
 
-  window.onload = () => {
+  const [formMarginL, setFormMarginL] = useState('0vw')
+
+  const RWDContorller = () => {
     const viewportW = window.innerWidth
-    if (viewportW < 1200) {
+    if (viewportW < 1200 && viewportW > 1000) {
       setShowImg(false)
+      setFormMarginL('20vw')
+    } else if (viewportW < 1000 && viewportW > 800) {
+      setShowImg(false)
+      setFormMarginL('15vw')
+    } else if (viewportW < 800 && viewportW > 600) {
+      setShowImg(false)
+      setFormMarginL('5vw')
+    } else if (viewportW < 600) {
+      setShowImg(false)
+      setFormMarginL('0vw')
     } else {
       setShowImg(true)
+      setFormMarginL('0vw')
     }
   }
 
+  window.onload = () => {
+    RWDContorller()
+  }
+
   window.onresize = () => {
-    const viewportW = window.innerWidth
-    if (viewportW < 1200) {
-      setShowImg(false)
-    } else {
-      setShowImg(true)
-    }
+    RWDContorller()
   }
 
   return (
@@ -291,7 +303,7 @@ export default function LoginPage() {
           )}
         </>
         <Col span={showImg ? 8 : 24}>
-          <div className='login-box'>
+          <div className='login-box' style={{ marginLeft: formMarginL }}>
             <div className='form'>
               <LoginForm />
             </div>
