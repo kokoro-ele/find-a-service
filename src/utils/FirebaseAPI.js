@@ -154,7 +154,7 @@ export async function updateRequestById(id, data) {
 // add request
 export async function addRequest(data) {
   const docRef = await addDoc(collection(db, 'Request'), data)
-  console.log(docRef)
+  // console.log(docRef)
   await updateDoc(docRef, {
     req_id: docRef.id,
   })
@@ -317,6 +317,16 @@ export async function getReviews(srv_id) {
   return ret
 }
 
+export async function addReview(data) {
+  const docRef = await addDoc(collection(db, 'Review'), data)
+  await updateDoc(docRef, {
+    rvw_id: docRef.id,
+  })
+  console.log('Review successfully added')
+
+  return docRef
+}
+
 export async function getCustomer(user_id) {
   const q = query(collection(db, 'Customer'), where('user_id', '==', user_id))
   const querySnapshot = await getDocs(q)
@@ -359,5 +369,17 @@ export async function getRequestHistory(user_id) {
     ret.push(docSnapshot.data())
   })
 
+  return ret
+}
+
+export async function getNotifications(user_id) {
+  const q = query(collection(db, 'Notification'), where('user_id', '==', user_id), orderBy('time', 'desc'))
+  const querySnapshot = await getDocs(q)
+  const ret = []
+  querySnapshot.forEach(doc => {
+    ret.push(doc.data())
+  })
+
+  // console.log('Review data: ', ret)
   return ret
 }

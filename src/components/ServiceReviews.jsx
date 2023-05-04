@@ -2,17 +2,8 @@ import { Col, List, Row, Avatar, Space, Rate } from 'antd'
 import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons'
 import '../css/ServiceReview.scss'
 import React, { useEffect } from 'react'
-import { timestamp2DateStr } from '../utils/DataParser'
+import { timestamp2DateStr } from '../utils/TimeParser'
 import '../css/ServiceReview.scss'
-
-function IconText({ icon, text }) {
-  return (
-    <Space>
-      {React.createElement(icon)}
-      {text}
-    </Space>
-  )
-}
 
 function MyList({ data }) {
   return (
@@ -45,7 +36,6 @@ function MyList({ data }) {
             <div className='review-date' style={{ color: 'aliceblue' }}>
               {timestamp2DateStr(item.date)}
             </div>,
-            <IconText icon={LikeOutlined} text={item.likes} key='list-vertical-like-o' />,
           ]}
           extra={''}>
           <List.Item.Meta
