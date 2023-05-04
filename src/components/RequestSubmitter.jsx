@@ -192,6 +192,9 @@ export function RequestSubmitter({ srv_id, srv_name, prv_name, price, duration, 
             //     // maxWidth: 600,
             //   }
             // }
+            initialValues={{
+              time: getNow(),
+            }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete='off'>
@@ -230,7 +233,7 @@ export function RequestSubmitter({ srv_id, srv_name, prv_name, price, duration, 
               <DatePicker
                 format='YYYY-MM-DD HH:mm'
                 showTime={{ format: 'HH:mm', minuteStep: duration, secondStep: null }}
-                defaultValue={getNow()}
+                // defaultValue={getNow()} // HINT: use initialValue on Form instead
                 disabledDate={disabledDate}
                 // initialValue={getNow()}
                 showNow={false}
