@@ -1,8 +1,11 @@
 /*
  * Firebase Data Structure(Collections)
+ * This file only used to display the data structure used in this porject.
+ * All data is stored in Firebase, no local data is used.
+ *
+ * @rg4sun(hs5n22@soton.ac.uk)
+ *  04 May 2023
  */
-
-import { message } from 'antd'
 
 const Service = [
   {

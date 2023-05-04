@@ -9,6 +9,7 @@ import { changeCustomerEmail, changeCustomerNamePhone, getCustomer, getRequestHi
 import { getAuth, updateEmail, updatePassword } from 'firebase/auth'
 import { SmileOutlined } from '@ant-design/icons'
 import CustomerNotification from '../components/CustomerNotification'
+import { timestamp2DateStr } from '../utils/TimeParser'
 
 function Profile({ user_id }) {
   const navigate = useNavigate()
@@ -301,14 +302,13 @@ function Requests({ user_id }) {
 
   const openNotification = () => {
     api.open({
-      message: 'Notification Title',
-      description:
-        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-      duration: 0,
+      message: 'Request update',
+      description: 'Your request has been completed, open Notification box to make a review!',
+      duration: 3,
       className: 'custom-class',
-      icon: <SmileOutlined style={{ color: '#108ee9' }} />,
+      icon: <SmileOutlined style={{ color: '#1c0927' }} />,
       style: {
-        top: 20,
+        top: 25,
         width: 300,
       },
     })
@@ -327,7 +327,7 @@ function Requests({ user_id }) {
           return {
             key: index,
             req_id: item.req_id,
-            req_time: item.req_time,
+            req_time: timestamp2DateStr(item.req_time),
             status: item.status,
             price: item.price,
             desc: item.desc,
@@ -363,7 +363,7 @@ function Requests({ user_id }) {
           return {
             key: index,
             req_id: item.req_id,
-            req_time: item.req_time,
+            req_time: timestamp2DateStr(item.req_time),
             status: item.status,
             price: item.price,
             desc: item.desc,
