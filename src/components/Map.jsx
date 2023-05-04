@@ -60,7 +60,19 @@ export default function Map({ data, radius }) {
 
   const addMarkers = data => {
     const markers = data.map(item => {
-      return new mapboxgl.Marker().setLngLat(item.location.gps).addTo(map.current)
+      const marker = new mapboxgl.Marker().setLngLat(item.location.gps).addTo(map.current)
+
+      console.log('[in addMarkers() ] data: ', item)
+
+      const popupCard = `<div className='popup'>
+      <h3><a href='/service/${encodeURIComponent(item.srv_id)}'>${item.srv_name}</a></h3>
+      <div>$ ${item.price}</div>
+      <div>Provided By ${item.prv_name}</div>
+
+    </div>`
+      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupCard)
+      marker.setPopup(popup)
+      return marker
     })
     setDataMarkers([...dataMarkers, ...markers])
   }
