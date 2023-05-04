@@ -78,7 +78,7 @@ export default function StatusBar() {
               localStorage.removeItem('loginID')
               localStorage.removeItem(user_id.current)
               const currentURL = window.location.pathname
-              if (currentURL.split('/')[1] == 'maypage') {
+              if (currentURL.split('/')[1] == 'mypage') {
                 navigate('/')
               } else {
                 setOpen(false)

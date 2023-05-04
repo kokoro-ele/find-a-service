@@ -113,6 +113,7 @@ export function RequestSubmitter({ srv_id, srv_name, prv_name, price, duration, 
           gps: values.location.center,
         },
         status: 'pending',
+        isReviewed: false, // TODO: review flag
       }
       console.log(reqData)
       addRequest(reqData).then(res => {

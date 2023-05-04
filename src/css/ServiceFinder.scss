@@ -30,7 +30,26 @@
     line-height: 80px;
   }
 
-  .cards-area {
+  $bar_height: 40px;
+  $bar_padding: 10px;
+  .search-bar {
+    // height: $bar_height;
+    width: 400px;
+  }
+  .radius-select {
+    padding: 0 $bar_padding;
+    .ant-select-selector {
+      height: $bar_height;
+      .ant-select-selection-item {
+        line-height: $bar_height;
+        color: #1d072e;
+      }
+    }
+  }
+
+  .reset-btn {
+    width: 100px;
+    height: $bar_height;
   }
 
   .ant-pagination-item-link {

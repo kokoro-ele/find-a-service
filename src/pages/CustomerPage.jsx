@@ -1,4 +1,4 @@
-import { Col, Row, Tabs, Form, Input, Button, Modal, Table } from 'antd'
+import { Col, Row, Tabs, Form, Input, Button, Modal, Table, notification } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import '../css/CustomerPage.scss'
@@ -7,6 +7,7 @@ import { useForm } from 'antd/es/form/Form'
 import { checkEmailFormat, checkPasswordFormat, checkUKPhoneFormat } from '../utils/FormatChecker'
 import { changeCustomerEmail, changeCustomerNamePhone, getCustomer, getRequestHistory } from '../utils/FirebaseAPI'
 import { getAuth, updateEmail, updatePassword } from 'firebase/auth'
+import { SmileOutlined } from '@ant-design/icons'
 
 function Profile({ user_id }) {
   const navigate = useNavigate()
@@ -286,12 +287,42 @@ function Requests({ user_id }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const data = useRef(null)
 
+  const isNotified = useRef(false)
+  const [api, contextHolder] = notification.useNotification()
+
+  const notifyReview = item => {
+    if (item.status == 'completed' && !item.isReviewed && !isNotified.current) {
+      console.log('Your request has been completed, now make a review!')
+      openNotification()
+      isNotified.current = true
+    }
+  }
+
+  const openNotification = () => {
+    api.open({
+      message: 'Notification Title',
+      description:
+        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+      duration: 0,
+      className: 'custom-class',
+      icon: <SmileOutlined style={{ color: '#108ee9' }} />,
+      style: {
+        top: 20,
+        width: 300,
+      },
+    })
+  }
+
+  // const [_, forceUpdate] = useState()
+
   let ignore = false
   useEffect(() => {
     if (!ignore) {
       getRequestHistory(user_id).then(res => {
-        console.log('req history', res)
+        // console.log('req history', res)
         data.current = res.map((item, index) => {
+          notifyReview(item)
+
           return {
             key: index,
             req_id: item.req_id,
@@ -299,18 +330,55 @@ function Requests({ user_id }) {
             status: item.status,
             price: item.price,
             desc: item.desc,
-            srv_name: item.srv_name, // TODO: add req fields
+            srv_name: item.srv_name,
             prv_name: item.prv_name,
+            isReviewed: item.isReviewed, // TODO: review flag
           }
         })
 
-        console.log(data.current)
+        // console.log(data.current)
         setReqHistory(res)
       })
     }
 
     return () => {
       ignore = true
+    }
+  }, [])
+
+  // refresh
+  useEffect(() => {
+    const k = 10 * 1000 // 10s refresh
+    const refresher = setInterval(() => {
+      // console.log(Date.now())
+      // console.log('refreshing...')
+      // window.location.reload()
+      // forceUpdate()
+
+      getRequestHistory(user_id).then(res => {
+        data.current = res.map((item, index) => {
+          notifyReview(item)
+
+          return {
+            key: index,
+            req_id: item.req_id,
+            req_time: item.req_time,
+            status: item.status,
+            price: item.price,
+            desc: item.desc,
+            srv_name: item.srv_name,
+            prv_name: item.prv_name,
+            isReviewed: item.isReviewed, // TODO: review flag
+          }
+        })
+
+        // console.log(data.current)
+        setReqHistory(res)
+      })
+    }, k)
+
+    return () => {
+      clearInterval(refresher)
     }
   }, [])
 
@@ -356,6 +424,7 @@ function Requests({ user_id }) {
 
   return (
     <div className='req-history'>
+      {contextHolder}
       {reqHistory ? <Table rowSelection={rowSelection} columns={columns} dataSource={data.current} /> : ''}
     </div>
   )

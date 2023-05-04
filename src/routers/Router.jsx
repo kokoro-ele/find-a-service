@@ -27,10 +27,6 @@ const router = createBrowserRouter([
     element: <ServiceDetail />,
   },
   {
-    path: '/req',
-    element: <ServiceRequest />,
-  },
-  {
     path: '/login',
     element: <LoginPage />,
   },
@@ -39,12 +35,17 @@ const router = createBrowserRouter([
     element: <CustomerSignUp />,
   },
   {
+    path: '/mypage/:user_id/:activeTab',
+    element: <CustomerPage />,
+  },
+  // TEST: below are test comps
+  {
     path: '/map',
     element: <MapTest />,
   },
   {
-    path: '/mypage/:user_id/:activeTab',
-    element: <CustomerPage />,
+    path: '/req',
+    element: <ServiceRequest />,
   },
 ])
 

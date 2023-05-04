@@ -1,6 +1,8 @@
-import { Carousel, Col, Image, List, Row, Select } from 'antd'
+import { Button, Carousel, Col, Image, List, Row, Select } from 'antd'
 import '../css/ServiceFinder.scss'
-import Search from 'antd/es/input/Search'
+// import Search from 'antd/es/input/Search'
+import { Input } from 'antd'
+const { Search } = Input
 import { useEffect, useRef, useState } from 'react'
 // import { useImmer } from 'use-immer'
 // TODO: remove test data
@@ -16,11 +18,30 @@ import StatusBar from '../components/StatusBar'
 function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = null }) {
   const [data, setData] = useImmer(defaultData)
 
+  const cardRWDController = () => {
+    const viewportW = window.innerWidth
+    console.log(viewportW)
+
+    if (viewportW > 1200) {
+      setPagesize(8)
+      setPageCol(4)
+    } else if (viewportW > 1000 && viewportW < 1200) {
+      setPagesize(6)
+      setPageCol(3)
+    } else if (viewportW > 700 && viewportW < 1000) {
+      setPagesize(4)
+      setPageCol(2)
+    } else {
+      setPagesize(1)
+      setPageCol(1)
+    }
+  }
+
   useEffect(() => {
     if (isSearched && searchTxt != '') {
       // searchTxt = 'Cleaning'
       // TODO: 增强算法，剔除特殊符号
-      setIsSearched(false)
+      // setIsSearched(false)
       let possibleCats = searchTxt.split(' ')
       // console.log('possibleCats: ', possibleCats)
       getSearchedServices(possibleCats).then(res => {
@@ -29,7 +50,7 @@ function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = 
       })
     } else {
       setData(defaultData)
-      setIsSearched(false)
+      // setIsSearched(false)
     }
   }, [isSearched])
 
@@ -37,49 +58,40 @@ function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = 
   const [pagesize, setPagesize] = useState(10)
   const [pageCol, setPageCol] = useState(5)
 
-  window.onload = () => {
-    let viewportW = window.innerWidth
-    console.log(viewportW)
+  // HINT: onload 不触发， 因为 CardsArea 组件不是整个 Window load
+  // window.onload = () => {
+  //   let viewportW = window.innerWidth
+  //   console.log(viewportW)
 
-    if (viewportW > 1200) {
-      setPagesize(8)
-      setPageCol(4)
-    } else if (viewportW > 1000 && viewportW < 1200) {
-      setPagesize(6)
-      setPageCol(3)
-    } else if (viewportW > 700 && viewportW < 1000) {
-      setPagesize(4)
-      setPageCol(2)
-    } else {
-      setPagesize(1)
-      setPageCol(1)
-    }
-  }
+  //   if (viewportW > 1200) {
+  //     setPagesize(8)
+  //     setPageCol(4)
+  //   } else if (viewportW > 1000 && viewportW < 1200) {
+  //     setPagesize(6)
+  //     setPageCol(3)
+  //   } else if (viewportW > 700 && viewportW < 1000) {
+  //     setPagesize(4)
+  //     setPageCol(2)
+  //   } else {
+  //     setPagesize(1)
+  //     setPageCol(1)
+  //   }
+  // }
+
+  // HINT: use effect to adjust when Componet re-render
+  useEffect(() => {
+    cardRWDController()
+  }, [])
 
   window.onresize = () => {
-    let viewportW = window.innerWidth
-    console.log(viewportW)
-
-    if (viewportW > 1200) {
-      setPagesize(8)
-      setPageCol(4)
-    } else if (viewportW > 1000 && viewportW < 1200) {
-      setPagesize(6)
-      setPageCol(3)
-    } else if (viewportW > 700 && viewportW < 1000) {
-      setPagesize(4)
-      setPageCol(2)
-    } else {
-      setPagesize(1)
-      setPageCol(1)
-    }
+    cardRWDController()
   }
 
   return (
     <div className='cards-area'>
       <Row className='title' justify='center'>
         <Col className='head' span={8}>
-          {searchTxt !== '' ? 'Search results' : 'Recommended Services'}
+          {isSearched && searchTxt !== '' ? 'Search results' : 'Recommended Services'}
         </Col>
       </Row>
       <div className='card-list-container'>
@@ -145,12 +157,23 @@ function RecommendCarousel({ data }) {
 export default function ServiceFinder() {
   const iptSearch = useRef(null)
 
-  let [isSearched, setIsSearched] = useState(false)
-  let [serviceData, setServiceData] = useState(null)
+  const [radius, setRadius] = useState(1)
+
+  const [isSearched, setIsSearched] = useState(false)
+  const [serviceData, setServiceData] = useState(null)
   const [searchTxt, setSearchTxt] = useState('')
 
   const [recommendData, setRecommendData] = useState(null)
 
+  const selectRadius = [...Array(6).keys()].map((_, index) => {
+    const value = 0.5 * (index + 1)
+    return {
+      value: parseFloat(value.toFixed(1)),
+      label: `${value.toFixed(1)} km`,
+    }
+  })
+
+  // START: fetch recommend data
   let ignore = false
   useEffect(() => {
     if (!ignore) {
@@ -164,6 +187,7 @@ export default function ServiceFinder() {
       ignore = true
     }
   }, [])
+  // END: fetch recommend data
 
   function handleSearch() {
     const ipt = iptSearch.current
@@ -180,6 +204,24 @@ export default function ServiceFinder() {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  function handleSearchChange(event) {
+    const value = event.target.value
+    console.log(`User input: ${value}`)
+    setSearchTxt(value)
+    setIsSearched(false)
+  }
+
+  function handleReset() {
+    setRadius(1)
+    setSearchTxt('')
+    setIsSearched(false)
+  }
+
+  function handleSelectChange(value) {
+    console.log('Select value: ', value)
+    setRadius(value)
   }
 
   return (
@@ -199,17 +241,40 @@ export default function ServiceFinder() {
             </Col>
           </Row>
           {/* Map box */}
-          <Map data={recommendData} />
+          <Map data={recommendData} radius={radius} />
           {/* Search  */}
-          <Row className='search-row' justify='center'>
-            <Col span={8}>
+          <Row className='search-row' justify='center' align='middle'>
+            {/* Search bar */}
+            <Col>
               <Search
+                className='search-bar'
                 ref={iptSearch}
+                value={searchTxt}
+                onChange={handleSearchChange}
                 placeholder='Enter your service...'
                 enterButton='Find'
                 size='large'
+                // style={{
+                //   height: '100%',
+                // }}
                 onSearch={handleSearch}
               />
+            </Col>
+            {/* Radius select */}
+            <Col>
+              <Select
+                className='radius-select'
+                value={radius}
+                defaultValue={1}
+                // style={{ width: 300 }}
+                options={selectRadius}
+                onChange={handleSelectChange}
+              />
+            </Col>
+            <Col>
+              <Button className='reset-btn' onClick={handleReset}>
+                Reset
+              </Button>
             </Col>
           </Row>
           {/* Card list  */}
