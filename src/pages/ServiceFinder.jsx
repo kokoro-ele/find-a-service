@@ -6,7 +6,7 @@ const { Search } = Input
 import { useEffect, useRef, useState } from 'react'
 // import { useImmer } from 'use-immer'
 // TODO: remove test data
-import testData from '../json/ServiceDataTest.json'
+// import testData from '../json/ServiceDataTest.json'
 import Card from '../components/Card'
 import { getRecommendServices, getSearchedServices } from '../utils/FirebaseAPI'
 import { useImmer } from 'use-immer'
@@ -15,7 +15,7 @@ import Map from '../components/Map'
 import { useNavigate, useParams } from 'react-router-dom'
 import StatusBar from '../components/StatusBar'
 
-function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = null }) {
+function CardsArea({ isSearched, searchTxt = null, defaultData = null }) {
   const [data, setData] = useImmer(defaultData)
 
   const cardRWDController = () => {
@@ -90,7 +90,7 @@ function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = 
   return (
     <div className='cards-area'>
       <Row className='title' justify='center'>
-        <Col className='head' span={8}>
+        <Col className='head' span={24}>
           {isSearched && searchTxt !== '' ? 'Search results' : 'Recommended Services'}
         </Col>
       </Row>
@@ -160,10 +160,10 @@ export default function ServiceFinder() {
   const [radius, setRadius] = useState(1)
 
   const [isSearched, setIsSearched] = useState(false)
-  const [serviceData, setServiceData] = useState(null)
   const [searchTxt, setSearchTxt] = useState('')
 
   const [recommendData, setRecommendData] = useState(null)
+  const [searchedData, setSearchedData] = useState(null)
 
   const selectRadius = [...Array(6).keys()].map((_, index) => {
     const value = 0.5 * (index + 1)
@@ -191,19 +191,21 @@ export default function ServiceFinder() {
 
   function handleSearch() {
     const ipt = iptSearch.current
-    console.log(ipt.input.value)
     ipt.input.blur()
 
-    setIsSearched(true)
-    setSearchTxt(ipt.input.value)
+    const _searchTxt = ipt.input.value
 
-    // TODO: fetch data
-    try {
-      setServiceData([...testData])
-      console.log(serviceData)
-    } catch (error) {
-      console.log(error)
-    }
+    setIsSearched(true)
+    setSearchTxt(_searchTxt)
+
+    // HINT: fetch searched result
+    let possibleCats = _searchTxt.split(' ')
+    // console.log('possibleCats: ', possibleCats)
+    getSearchedServices(possibleCats).then(res => {
+      console.log('[in handleSearch() ]Searched res: ', res)
+      setSearchedData(res)
+      // console.log(data)
+    })
   }
 
   function handleSearchChange(event) {
@@ -217,6 +219,7 @@ export default function ServiceFinder() {
     setRadius(1)
     setSearchTxt('')
     setIsSearched(false)
+    setSearchedData(null)
   }
 
   function handleSelectChange(value) {
@@ -241,7 +244,7 @@ export default function ServiceFinder() {
             </Col>
           </Row>
           {/* Map box */}
-          <Map data={recommendData} radius={radius} />
+          <Map data={searchedData ? searchedData : recommendData} radius={radius} />
           {/* Search  */}
           <Row className='search-row' justify='center' align='middle'>
             {/* Search bar */}

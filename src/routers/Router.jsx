@@ -8,7 +8,7 @@ import ServiceFinder from '../pages/ServiceFinder'
 import ServiceDetail from '../pages/ServiceDetail'
 import ServiceRequest from '../pages/ServiceRequest'
 import LoginPage from '../pages/LoginPage'
-import MapTest from '../pages/MapTest'
+import MapTest from '../TEST/MapTest'
 import CustomerSignUp from '../pages/CustomerSignUp'
 import CustomerPage from '../pages/CustomerPage'
 

@@ -54,7 +54,25 @@ export default function Map({ data, radius }) {
   const mapContainerRef = useRef(null)
   const map = useRef(null)
 
+  const [dataMarkers, setDataMarkers] = useState([])
+
   const currUserCoords = useRef(null)
+
+  const addMarkers = data => {
+    const markers = data.map(item => {
+      return new mapboxgl.Marker().setLngLat(item.location.gps).addTo(map.current)
+    })
+    setDataMarkers([...dataMarkers, ...markers])
+  }
+
+  const clearMarkers = () => {
+    console.log('[in clearMarkers() ] dataMarkers: ', dataMarkers)
+    dataMarkers.forEach(marker => {
+      console.log('[in forEach ] marker: ', marker)
+      marker.remove()
+    })
+    setDataMarkers([])
+  }
 
   // START: init map [DO NOT CHANGE THIS CODE, RG(hs5n22@soton.ac.uk) 2023.05.04]
   let ignore = false
@@ -76,10 +94,13 @@ export default function Map({ data, radius }) {
             zoom: 12,
           })
 
+          addMarkers(data)
+
           // Add geolocate control to the map.
           const geolocateCtrl = new mapboxgl.GeolocateControl({
             positionOptions: {
               enableHighAccuracy: true,
+              // zoom: 12, // HINT: geolacte zoom level 【no use】
             },
             // When active the map will receive updates to the device's location as it changes.
             trackUserLocation: true,
@@ -101,10 +122,10 @@ export default function Map({ data, radius }) {
             geolocateCtrl.on('geolocate', position => {
               const { longitude, latitude } = position.coords
 
-              console.log(radius)
-              console.log(map.current.getZoom())
+              // console.log(radius)
+              // console.log(map.current.getZoom())
               drawCircle(map.current, longitude, latitude, radius)
-              map.current.setZoom(13)
+              map.current.setZoom(13) // HINT: 直接通过 geolocateCtrl 配置 zoom范围 无效
             })
           })
         },
@@ -156,7 +177,15 @@ export default function Map({ data, radius }) {
   // END: hanlde radius change
 
   // START: hanlder data markers
-  useEffect(() => {}, [data])
+  useEffect(() => {
+    if (map.current) {
+      console.log('Current markers: ', dataMarkers)
+      console.log('Marker data: ', data)
+      console.log('Re-drawing markers with new data...')
+      clearMarkers()
+      addMarkers(data)
+    }
+  }, [data])
   // END: hanlder data markers
 
   return (
