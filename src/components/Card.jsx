@@ -2,8 +2,11 @@ import { useEffect, useRef } from 'react'
 import '../css/Card.scss'
 import VanillaTilt from 'vanilla-tilt'
 import { Col, Rate } from 'antd'
+import { useNavigate } from 'react-router-dom'
 
 export default function Card({ data }) {
+  const navigate = useNavigate()
+
   // console.log('In Card data: ', data)
   //TODO: change to null
   // console.log(data.srv_name)
@@ -23,6 +26,7 @@ export default function Card({ data }) {
 
   const handleCardClick = () => {
     console.log('Card Clicked, srv_id: ', data.srv_id)
+    navigate(`/service/${encodeURIComponent(data.srv_id)}`) // 通过编码可以解决
   }
 
   return (

@@ -1,0 +1,20 @@
+.customer-page {
+  box-sizing: border-box;
+
+  background-color: #1d072e;
+  background-color: #dbd3e9;
+
+  height: 100vh;
+  // padding: 10vh 10vw 10vh;
+
+  .tabs {
+    background-color: #dbd3e9;
+  }
+
+  .profile-box {
+    .hint-head {
+      font-size: 30px;
+      font-weight: bold;
+    }
+  }
+}

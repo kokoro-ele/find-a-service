@@ -1,8 +1,13 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 // NOTE: Place all routers here
+
+// START
+import App from '../App' // mode 2 router
+//END
 import ServiceFinder from '../pages/ServiceFinder'
 import ServiceProviderSignUp from '../pages/ServiceProvideSignUp'
 import ServiceDetail from '../pages/ServiceDetail'
+
 import Addservice from '../pages/Addservice'
 import LoginPage from '../pages/LoginPage'
 import ServiceProviderIndex from '../pages/ServiceProviderIndex'
@@ -15,23 +20,32 @@ import ManageService from '../pages/ManageService'
 import EditService from '../pages/EditService'
 import Admin from '../pages/Admin'
 import ServiceProviderBusinessData from '../pages/ServiceProviderBusinessData'
+import LoginPage from '../pages/LoginPage'
+import MapTest from '../TEST/MapTest'
+import CustomerSignUp from '../pages/CustomerSignUp'
+import CustomerPage from '../pages/CustomerPage'
+import GenTestData from '../TEST/GenTestData'
+
 const router = createBrowserRouter([
   // 开发用
   {
     path: '/',
-    element: <ServiceProviderIndex />,
+
+    element: <ServiceFinder />,
   },
+
   {
     path: '/service-find',
     element: <ServiceFinder />,
   },
   {
-    path: '/service', // TODO: add id
+    // HINT: userParams() to get srv_id
+    path: '/service/:srv_id',
     element: <ServiceDetail />,
     children: [{}],
   },
   {
-    path: '/login', // TODO: add id
+    path: '/login',
     element: <LoginPage />,
     children: [{}],
   },
@@ -79,8 +93,17 @@ const router = createBrowserRouter([
   { path: '/provider-signup', element: <ServiceProviderSignUp /> },
   { path: '/admin', element: <Admin /> },
   {
+    path: '/mypage/:user_id/:activeTab',
+    element: <CustomerPage />,
+  },
+  // TEST: below are test comps
+  {
     path: '/map',
     element: <MapTest />,
+  },
+  {
+    path: '/gentest',
+    element: <GenTestData />,
   },
 ])
 

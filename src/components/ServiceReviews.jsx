@@ -1,32 +1,11 @@
 import { Col, List, Row, Avatar, Space, Rate } from 'antd'
 import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons'
 import '../css/ServiceReview.scss'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { timestamp2DateStr } from '../utils/TimeParser'
+import '../css/ServiceReview.scss'
 
-const data = Array.from({
-  length: 23,
-}).map((_, i) => ({
-  reviewUrl: 'https://ant.design',
-  title: `Service Review Title - ${i}`,
-  avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`,
-  rate: 3,
-  likes: 777,
-  date: '2023.04.23',
-  author: 'Amy',
-  content:
-    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-}))
-
-function IconText({ icon, text }) {
-  return (
-    <Space>
-      {React.createElement(icon)}
-      {text}
-    </Space>
-  )
-}
-
-function MyList() {
+function MyList({ data }) {
   return (
     <List
       itemLayout='vertical'
@@ -36,44 +15,50 @@ function MyList() {
           console.log(page)
         },
         pageSize: 5,
+        align: 'center',
+        style: {
+          color: 'white',
+        },
       }}
       dataSource={data}
       footer={
-        <div>
+        <div style={{ color: 'aliceblue' }}>
           {/* TODO: add list footer */}
-          <b>ant design</b> footer part
+          <b>Find-A-Service</b> footer part
         </div>
       }
       renderItem={item => (
         <List.Item
+          style={{ borderColor: '#f0f8ff2b' }}
+          className='review-list-item'
           key={item.title}
           actions={[
-            <div className='review-date'>{item.date}</div>,
-            <IconText icon={LikeOutlined} text={item.likes} key='list-vertical-like-o' />,
+            <div className='review-date' style={{ color: 'aliceblue' }}>
+              {timestamp2DateStr(item.date)}
+            </div>,
           ]}
           extra={''}>
           <List.Item.Meta
-            avatar={<Avatar src={item.avatar} />}
-            title={<a href={item.reviewUrl}>{item.title}</a>}
+            avatar={<Avatar src={item.author.user_avatar} />}
+            title={<span style={{ color: 'yellow' }}>{item.title}</span>}
             description={
-              <div className='rate-area'>
-                {'@' + item.author + ' rated: '}
+              <div className='rate-area' style={{ color: 'aliceblue' }}>
+                {'@' + item.author.user_name + ' Rated: '}
                 <Rate disabled value={item.rate} />
               </div>
             }
           />
-          {item.content}
+          {<span style={{ color: 'aliceblue' }}>{item.content}</span>}
         </List.Item>
       )}
     />
   )
 }
 
-export default function ServiceReviews({ srvId }) {
+export default function ServiceReviews({ data }) {
   return (
     <Row className='review-list' justify='start'>
-      {/* <Col span={24}>Review list</Col> */}
-      <MyList />
+      <Col span={24}>{data ? <MyList data={data} /> : ''}</Col>
     </Row>
   )
 }

@@ -1,12 +1,13 @@
 import { getServiceProviderNameById } from '../utils/FirebaseAPI'
 export const getLoginUserId = () => {
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i)
-    if (key.includes('f-a-s:')) {
-      return key.split(':')[1]
-    }
-  }
-  return null
+  // for (let i = 0; i < localStorage.length; i++) {
+  //   const key = localStorage.key(i)
+  //   if (key.includes('f-a-s:')) {
+  //     return key.split(':')[1]
+  //   }
+  // }
+  // return null
+  return localStorage.getItem('loginId')
 }
 
 export const getLoginUserName = async () => {

@@ -1,24 +1,47 @@
-import { Carousel, Col, Image, List, Row, Select } from 'antd'
+import { Button, Carousel, Col, Image, List, Row, Select } from 'antd'
 import '../css/ServiceFinder.scss'
-import Search from 'antd/es/input/Search'
+// import Search from 'antd/es/input/Search'
+import { Input } from 'antd'
+const { Search } = Input
 import { useEffect, useRef, useState } from 'react'
 // import { useImmer } from 'use-immer'
 // TODO: remove test data
-import testData from '../json/ServiceDataTest.json'
+// import testData from '../json/ServiceDataTest.json'
 import Card from '../components/Card'
 import { getRecommendServices, getSearchedServices } from '../utils/FirebaseAPI'
 import { useImmer } from 'use-immer'
 import CarouselDateTest from '../json/CarouselDataTest.json'
 import Map from '../components/Map'
+import { useNavigate, useParams } from 'react-router-dom'
+import StatusBar from '../components/StatusBar'
 
-function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = null }) {
+function CardsArea({ isSearched, searchTxt = null, defaultData = null }) {
   const [data, setData] = useImmer(defaultData)
+
+  const cardRWDController = () => {
+    const viewportW = window.innerWidth
+    console.log(viewportW)
+
+    if (viewportW > 1200) {
+      setPagesize(8)
+      setPageCol(4)
+    } else if (viewportW > 1000 && viewportW < 1200) {
+      setPagesize(6)
+      setPageCol(3)
+    } else if (viewportW > 700 && viewportW < 1000) {
+      setPagesize(4)
+      setPageCol(2)
+    } else {
+      setPagesize(1)
+      setPageCol(1)
+    }
+  }
 
   useEffect(() => {
     if (isSearched && searchTxt != '') {
       // searchTxt = 'Cleaning'
       // TODO: 增强算法，剔除特殊符号
-      setIsSearched(false)
+      // setIsSearched(false)
       let possibleCats = searchTxt.split(' ')
       // console.log('possibleCats: ', possibleCats)
       getSearchedServices(possibleCats).then(res => {
@@ -27,7 +50,7 @@ function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = 
       })
     } else {
       setData(defaultData)
-      setIsSearched(false)
+      // setIsSearched(false)
     }
   }, [isSearched])
 
@@ -35,49 +58,40 @@ function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = 
   const [pagesize, setPagesize] = useState(10)
   const [pageCol, setPageCol] = useState(5)
 
-  window.onload = () => {
-    let viewportW = window.innerWidth
-    console.log(viewportW)
+  // HINT: onload 不触发， 因为 CardsArea 组件不是整个 Window load
+  // window.onload = () => {
+  //   let viewportW = window.innerWidth
+  //   console.log(viewportW)
 
-    if (viewportW > 1200) {
-      setPagesize(8)
-      setPageCol(4)
-    } else if (viewportW > 1000 && viewportW < 1200) {
-      setPagesize(6)
-      setPageCol(3)
-    } else if (viewportW > 700 && viewportW < 1000) {
-      setPagesize(4)
-      setPageCol(2)
-    } else {
-      setPagesize(1)
-      setPageCol(1)
-    }
-  }
+  //   if (viewportW > 1200) {
+  //     setPagesize(8)
+  //     setPageCol(4)
+  //   } else if (viewportW > 1000 && viewportW < 1200) {
+  //     setPagesize(6)
+  //     setPageCol(3)
+  //   } else if (viewportW > 700 && viewportW < 1000) {
+  //     setPagesize(4)
+  //     setPageCol(2)
+  //   } else {
+  //     setPagesize(1)
+  //     setPageCol(1)
+  //   }
+  // }
+
+  // HINT: use effect to adjust when Componet re-render
+  useEffect(() => {
+    cardRWDController()
+  }, [])
 
   window.onresize = () => {
-    let viewportW = window.innerWidth
-    console.log(viewportW)
-
-    if (viewportW > 1200) {
-      setPagesize(8)
-      setPageCol(4)
-    } else if (viewportW > 1000 && viewportW < 1200) {
-      setPagesize(6)
-      setPageCol(3)
-    } else if (viewportW > 700 && viewportW < 1000) {
-      setPagesize(4)
-      setPageCol(2)
-    } else {
-      setPagesize(1)
-      setPageCol(1)
-    }
+    cardRWDController()
   }
 
   return (
     <div className='cards-area'>
       <Row className='title' justify='center'>
-        <Col className='head' span={8}>
-          {searchTxt !== '' ? 'Search results' : 'Recommended Services'}
+        <Col className='head' span={24}>
+          {isSearched && searchTxt !== '' ? 'Search results' : 'Recommended Services'}
         </Col>
       </Row>
       <div className='card-list-container'>
@@ -111,47 +125,17 @@ function CardsArea({ isSearched, setIsSearched, searchTxt = null, defaultData = 
 }
 
 function RecommendCarousel({ data }) {
-  // FAKE DATA
-  //START
-  // TEST use, to reduce the firebase reading
-  // const imgs = CarouselDateTest.map((item, index) => {
-  //   return (
-  //     <div className={`img-pair ${'pair-' + index}`} key={`img-${index}`}>
-  //       <img src={item.imgUrl} alt={item.srv_id} />
-  //       <img src={item.imgUrl} alt={item.srv_id} />
-  //     </div>
-  //   )
-  // })
-  // END
-
-  // fetch carousel img data and create dom
-  // let ignore = false
-  // const [imgs, setImgs] = useState(null)
-  // useEffect(() => {
-  //   if (!ignore) {
-  //     getRecommendServices(5).then(res => {
-  //       setImgs(
-  //         res.map((item, index) => {
-  //           return (
-  //             <div className={`img-pair ${'pair-' + index}`} key={`img-${index}`} onClick={handleCarouselClick}>
-  //               <img src={item.imgs[0]} alt={item.srv_id} />
-  //               <img src={item.imgs[1]} alt={item.srv_id} />
-  //             </div>
-  //           )
-  //         })
-  //       )
-  //     })
-  //   }
-  //   return () => {
-  //     ignore = true
-  //   }
-  // }, [])
+  const navigate = useNavigate()
 
   // click on a img , then navigate to its service page
   const handleCarouselClick = e => {
     // 这个由于是变量定义的函数不会自动提升，所以必须放在下面的调用之前
     console.log(e.target)
-    // TODO: 添加跳转详细页
+    console.log(e.target.alt)
+    const srv_id = e.target.alt
+    // TODO: 添加跳转详细页【done】
+    // navigate(`/service/${srv_id}`) // 测试的 id 是 #srv-123， # 会被解析为 URL 片段
+    navigate(`/service/${encodeURIComponent(srv_id)}`) // 通过编码可以解决
   }
 
   const imgs = data.map((item, index) => {
@@ -173,12 +157,23 @@ function RecommendCarousel({ data }) {
 export default function ServiceFinder() {
   const iptSearch = useRef(null)
 
-  let [isSearched, setIsSearched] = useState(false)
-  let [serviceData, setServiceData] = useState(null)
+  const [radius, setRadius] = useState(1)
+
+  const [isSearched, setIsSearched] = useState(false)
   const [searchTxt, setSearchTxt] = useState('')
 
   const [recommendData, setRecommendData] = useState(null)
+  const [searchedData, setSearchedData] = useState(null)
 
+  const selectRadius = [...Array(6).keys()].map((_, index) => {
+    const value = 0.5 * (index + 1)
+    return {
+      value: parseFloat(value.toFixed(1)),
+      label: `${value.toFixed(1)} km`,
+    }
+  })
+
+  // START: fetch recommend data
   let ignore = false
   useEffect(() => {
     if (!ignore) {
@@ -193,28 +188,52 @@ export default function ServiceFinder() {
       ignore = true
     }
   }, [])
+  // END: fetch recommend data
 
   function handleSearch() {
     const ipt = iptSearch.current
-    console.log(ipt.input.value)
     ipt.input.blur()
 
-    setIsSearched(true)
-    setSearchTxt(ipt.input.value)
+    const _searchTxt = ipt.input.value
 
-    // TODO: fetch data
-    try {
-      setServiceData([...testData])
-      console.log(serviceData)
-    } catch (error) {
-      console.log(error)
-    }
+    setIsSearched(true)
+    setSearchTxt(_searchTxt)
+
+    // HINT: fetch searched result
+    let possibleCats = _searchTxt.split(' ')
+    // console.log('possibleCats: ', possibleCats)
+    getSearchedServices(possibleCats).then(res => {
+      console.log('[in handleSearch() ]Searched res: ', res)
+      setSearchedData(res)
+      // console.log(data)
+    })
+  }
+
+  function handleSearchChange(event) {
+    const value = event.target.value
+    console.log(`User input: ${value}`)
+    setSearchTxt(value)
+    setIsSearched(false)
+  }
+
+  function handleReset() {
+    setRadius(1)
+    setSearchTxt('')
+    setIsSearched(false)
+    setSearchedData(null)
+  }
+
+  function handleSelectChange(value) {
+    console.log('Select value: ', value)
+    setRadius(value)
   }
 
   return (
     <div className='service-finder'>
       {recommendData ? (
         <div className='page-loader'>
+          {/* Status bar */}
+          <StatusBar />
           {/* Carousel */}
           <Row justify='center'>
             <RecommendCarousel data={recommendData} />
@@ -226,17 +245,40 @@ export default function ServiceFinder() {
             </Col>
           </Row>
           {/* Map box */}
-          <Map data={recommendData} />
+          <Map data={searchedData ? searchedData : recommendData} radius={radius} />
           {/* Search  */}
-          <Row className='search-row' justify='center'>
-            <Col span={8}>
+          <Row className='search-row' justify='center' align='middle'>
+            {/* Search bar */}
+            <Col>
               <Search
+                className='search-bar'
                 ref={iptSearch}
+                value={searchTxt}
+                onChange={handleSearchChange}
                 placeholder='Enter your service...'
                 enterButton='Find'
                 size='large'
+                // style={{
+                //   height: '100%',
+                // }}
                 onSearch={handleSearch}
               />
+            </Col>
+            {/* Radius select */}
+            <Col>
+              <Select
+                className='radius-select'
+                value={radius}
+                defaultValue={1}
+                // style={{ width: 300 }}
+                options={selectRadius}
+                onChange={handleSelectChange}
+              />
+            </Col>
+            <Col>
+              <Button className='reset-btn' onClick={handleReset}>
+                Reset
+              </Button>
             </Col>
           </Row>
           {/* Card list  */}
