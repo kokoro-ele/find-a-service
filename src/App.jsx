@@ -9,9 +9,9 @@
 // TODO: discard this file
 
 import React from 'react'
-import MainRouter from './routers/MainRouter'
+import Router from './routers/Router'
 // import './css/App.css'
 const App = () => {
-  return <MainRouter />
+  return <Router />
 }
 export default App

@@ -107,7 +107,10 @@ export default function ServiceDetail() {
       // )
 
       const getData = async () => {
-        const srvData = await getServicesById(srv_id)
+        console.log('in getData', srv_id)
+        let srvData = await getServicesById(srv_id)
+        //加了.data()
+        srvData = srvData.data()
         const rvwData = await getReviews(srv_id)
         const imgs = srvData.imgs.map((item, index) => {
           return <Image src={item} key={`img-${index}`} />
@@ -190,6 +193,7 @@ export default function ServiceDetail() {
       <Row>
         {serviceData ? (
           <RequestSubmitter
+            prv_id={serviceData.prv_id}
             srv_id={srv_id}
             srv_name={serviceData.srv_name}
             prv_name={serviceData.prv_name}

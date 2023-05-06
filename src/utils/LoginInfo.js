@@ -7,7 +7,7 @@ export const getLoginUserId = () => {
   //   }
   // }
   // return null
-  return localStorage.getItem('loginId')
+  return localStorage.getItem('loginID')
 }
 
 export const getLoginUserName = async () => {

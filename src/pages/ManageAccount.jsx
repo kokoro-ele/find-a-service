@@ -43,7 +43,7 @@ const ManageAccount = () => {
         Email: doc.email,
       })
       console.log(doc.avatar[0])
-      setAvatarSrc(doc.avatar[0])
+      setAvatarSrc(doc.avatar)
     })
   }, [])
 
@@ -66,7 +66,7 @@ const ManageAccount = () => {
         onFinishFailed={onFinishFailed}
         autoComplete='off'>
         <Row className='center-row'>
-          <Avatar src={avatarSrc} size={64} />
+          <Avatar src={avatarSrc} size={128} />
         </Row>
 
         <Row>

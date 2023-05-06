@@ -1,4 +1,3 @@
-import 'moment'
 import { db, storage } from './FirebaseSetup'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { doc, limit, orderBy } from 'firebase/firestore'
@@ -272,7 +271,6 @@ export async function updateRequestById(id, data) {
 //   // console.log(data)
 // }
 
-
 export async function addRequest(data) {
   const docRef = await addDoc(collection(db, 'Request'), data)
   // console.log(docRef)
@@ -312,6 +310,27 @@ export async function addFakeRequest(n) {
   console.log('add fake request done')
 }
 
+export async function addFakeReview(n) {
+  let fakeReviewList = []
+  for (let i = 0; i < n; i++) {
+    fakeReviewList.push({
+      rvw_id: `#rvw-test-${i}`,
+      srv_id: `#srv-test-${i}`, // 对应的 service
+      author: {
+        user_id: `#user-test-${i}`, // str
+        user_name: 'Tester', // str
+        user_avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`,
+      },
+      title: `Service Review Title - ${i}`,
+      content: 'We supply a series of cleaning resources, to help people clean their home beautifully and efficiently.',
+      rate: 5, // int, 0-5, 🌟级评分
+      likes: 777, // int, 点赞数👍
+      date: Date.now(),
+    })
+    await addDoc(collection(db, 'Review'), fakeReviewList[i])
+  }
+  console.log('add ', n, ' fake review done')
+}
 // FAKE data start
 // Generate and add fake data of: Service, ServiceProvider
 export async function addFakeData(n) {
@@ -474,8 +493,37 @@ export async function addCustomer(data) {
   console.log('User successfully added')
 }
 
+export async function getAllReviews() {
+  const q = query(collection(db, 'Review'))
+  const querySnapshot = await getDocs(q)
+  const ret = []
+  querySnapshot.forEach(doc => {
+    ret.push(doc.data())
+  })
+  return ret
+}
+
+export async function deleteReviewById(id) {
+  const q = query(collection(db, 'Review'), where('rvw_id', '==', id))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach(doc => {
+    deleteDoc(doc.ref)
+  })
+}
 export async function getReviews(srv_id) {
   const q = query(collection(db, 'Review'), where('srv_id', '==', srv_id))
+  const querySnapshot = await getDocs(q)
+  const ret = []
+  querySnapshot.forEach(doc => {
+    ret.push(doc.data())
+  })
+
+  // console.log('Review data: ', ret)
+  return ret
+}
+
+export async function getReviewById(id) {
+  const q = query(collection(db, 'Review'), where('rvw_id', '==', id))
   const querySnapshot = await getDocs(q)
   const ret = []
   querySnapshot.forEach(doc => {
@@ -551,4 +599,36 @@ export async function getNotifications(user_id) {
 
   // console.log('Review data: ', ret)
   return ret
+}
+
+//展示相关
+export async function getServiceCountByProviderId(id) {
+  const q = query(collection(db, 'Service'), where('prv_id', '==', id))
+  const querySnapshot = await getDocs(q)
+  return querySnapshot.size
+}
+
+export async function getRequestCountByProviderId(id) {
+  const q = query(collection(db, 'Request'), where('prv_id', '==', id))
+  const querySnapshot = await getDocs(q)
+  return querySnapshot.size
+}
+
+export async function getStatusRequestCountByProviderId(id) {
+  const pendingQ = query(collection(db, 'Request'), where('prv_id', '==', id), where('status', '==', 'pending'))
+  const pending_querySnapshot = await getDocs(pendingQ)
+  const pendingCnt = pending_querySnapshot.size
+  const acceptedQ = query(collection(db, 'Request'), where('prv_id', '==', id), where('status', '==', 'accepted'))
+  const accepted_querySnapshot = await getDocs(acceptedQ)
+  const acceptedCnt = accepted_querySnapshot.size
+  const rejectedQ = query(collection(db, 'Request'), where('prv_id', '==', id), where('status', '==', 'rejected'))
+  const rejected_querySnapshot = await getDocs(rejectedQ)
+  const rejectedCnt = rejected_querySnapshot.size
+  const completedQ = query(collection(db, 'Request'), where('prv_id', '==', id), where('status', '==', 'completed'))
+  const completed_querySnapshot = await getDocs(completedQ)
+  const completedCnt = completed_querySnapshot.size
+  const detailQ = query(collection(db, 'Request'), where('prv_id', '==', id), where('status', '==', 'needDetail'))
+  const detail_querySnapshot = await getDocs(detailQ)
+  const detailCnt = detail_querySnapshot.size
+  return [pendingCnt + detailCnt, acceptedCnt, rejectedCnt + completedCnt]
 }

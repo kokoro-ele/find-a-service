@@ -5,7 +5,7 @@ import VanillaTilt from 'vanilla-tilt'
 import { Col, Rate } from 'antd'
 import { Link } from 'react-router-dom'
 import { EditOutlined, EllipsisOutlined, PlayCircleOutlined, SettingOutlined } from '@ant-design/icons'
-
+import { timestamp2DateStr } from '../utils/TimeParser'
 export default function RequestCard({ data }) {
   const showStatus = (status = 'pending') => {
     if (status === 'pending')
@@ -72,8 +72,8 @@ export default function RequestCard({ data }) {
 
           <div className='details'>
             <h1>{data ? data.srv_name : 'Service Name'}</h1>
-            <h3>{'From User :' + (data ? data.user_id : 'User')}</h3>
-            <h3>{data ? data.req_time : 'Provider name'}</h3>
+            {/* <h3>{'From User :' + (data ? data.user_id : 'User')}</h3> */}
+            <h3>{data ? timestamp2DateStr(data.req_time) : 'Time'}</h3>
             <p>{data ? data.description : 'Brief description of the service'}</p>
           </div>
         </div>

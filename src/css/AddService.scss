@@ -1,6 +1,5 @@
 .add-service-area {
   position: relative;
-  background-color: cyan;
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -13,6 +12,7 @@
 }
 
 .add-service-head {
+  background-color: #1fffff;
   font-size: 2em;
   display: flex;
   flex-direction: column;
@@ -20,6 +20,7 @@
   align-items: center;
 }
 .add-service-basic {
+  background-color: #1fffff;
   border: 5px;
   border-radius: 5px;
   border-style: solid;
@@ -30,6 +31,7 @@
 }
 
 .add-service-location {
+  background-color: #1fffff;
   border: 5px;
   border-radius: 5px;
   border-style: solid;
@@ -40,6 +42,7 @@
 }
 
 .add-service-multimedia {
+  background-color: #1fffff;
   border: 5px;
   border-radius: 5px;
   border-style: solid;

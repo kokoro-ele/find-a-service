@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom'
 import '../css/RequestDetail.scss'
 import { getRecommendServices, getRequestById } from '../utils/FirebaseAPI'
 import { updateRequestById } from '../utils/FirebaseAPI'
-import { format } from 'crypto-js'
+import ParticlesBg from '../components/ParticlesBg'
 const Statusline = ({ params, step }) => {
   const changeStatus = async selection => {
     console.log('change status', params, params.id)
@@ -68,6 +68,7 @@ const RequestDetail = () => {
   }, [])
   return (
     <div className='requestdetail-container'>
+      {/* <ParticlesBg /> */}
       <Row className='requestdetail-card-container'>
         <Col span={8}>
           <RequestInfo className='requestdetail-card' data={request} />
