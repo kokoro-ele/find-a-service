@@ -12,7 +12,6 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { encrypt } from '../utils/RGEncrypt'
 import { checkEmailFormat } from '../utils/FormatChecker'
-import { StyledFirebaseAuth } from 'react-firebaseui'
 import { addCustomer } from '../utils/FirebaseAPI'
 
 const redirectAfterLogin = navigate => {

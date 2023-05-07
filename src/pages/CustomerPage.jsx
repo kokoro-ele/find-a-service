@@ -292,18 +292,26 @@ function Requests({ user_id }) {
   const isNotified = useRef(false)
   const [api, contextHolder] = notification.useNotification()
 
-  const notifyReview = item => {
+  const notifyPopup = item => {
     if (item.status == 'completed' && !item.isReviewed && !isNotified.current) {
-      console.log('Your request has been completed, now make a review!')
-      openNotification()
-      isNotified.current = true
+      // const msg = 'Your request has been completed, open Notification box to make a review!'
+      const msg = 'Your have new messages, open Notification box to check!'
+      openNotification(msg)
+      // isNotified.current = true
     }
+    if (item.status == 'needDetail' && !item.isReviewed && !isNotified.current) {
+      // const msg = 'Your request requires more details, open Notification box to add details!'
+      const msg = 'Your have new messages, open Notification box to check!'
+      openNotification(msg)
+      // isNotified.current = true
+    }
+    isNotified.current = true
   }
 
-  const openNotification = () => {
+  const openNotification = msg => {
     api.open({
-      message: 'Request update',
-      description: 'Your request has been completed, open Notification box to make a review!',
+      message: 'Notification Update',
+      description: msg,
       duration: 3,
       className: 'custom-class',
       icon: <SmileOutlined style={{ color: '#1c0927' }} />,
@@ -322,7 +330,7 @@ function Requests({ user_id }) {
       getRequestHistory(user_id).then(res => {
         // console.log('req history', res)
         data.current = res.map((item, index) => {
-          notifyReview(item)
+          notifyPopup(item)
 
           return {
             key: index,
@@ -352,13 +360,13 @@ function Requests({ user_id }) {
     const k = 10 * 1000 // 10s refresh
     const refresher = setInterval(() => {
       // console.log(Date.now())
-      // console.log('refreshing...')
+      console.log('Request history refreshing...')
       // window.location.reload()
       // forceUpdate()
 
       getRequestHistory(user_id).then(res => {
         data.current = res.map((item, index) => {
-          notifyReview(item)
+          notifyPopup(item)
 
           return {
             key: index,
@@ -389,7 +397,7 @@ function Requests({ user_id }) {
       dataIndex: 'req_id',
     },
     {
-      title: 'Time',
+      title: 'Request Time',
       dataIndex: 'req_time',
     },
     {

@@ -242,7 +242,7 @@ export async function addFakeData(n) {
     fakeNotificationList.push({
       msg_id: `#msg-test-${i}`,
       msg_type: i % 2 == 0 ? 'review' : 'update', // str, 取值应为 ['review', 'update' ]
-      user_id: 'xRv9DqSlQRcK7Mpd2Z98wCLYmPs1',
+      user_id: 'YyOVUmCZFcYqB6xU4KA8g0JIXlk1',
       user_name: 'Monica',
       srv_id: `#srv-test-${i}`,
       srv_name: 'Test Data',
@@ -373,7 +373,12 @@ export async function getRequestHistory(user_id) {
 }
 
 export async function getNotifications(user_id) {
-  const q = query(collection(db, 'Notification'), where('user_id', '==', user_id), orderBy('time', 'desc'))
+  const q = query(
+    collection(db, 'Notification'),
+    where('user_id', '==', user_id),
+    orderBy('isRead'),
+    orderBy('time', 'desc')
+  )
   const querySnapshot = await getDocs(q)
   const ret = []
   querySnapshot.forEach(doc => {
@@ -382,4 +387,41 @@ export async function getNotifications(user_id) {
 
   // console.log('Review data: ', ret)
   return ret
+}
+
+export async function setNotificationStatus(msg_id) {
+  const q = query(collection(db, 'Notification'), where('msg_id', '==', msg_id))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach(docSnapshot => {
+    console.log('Message read, set isRead=true')
+    updateDoc(doc(db, 'Notification', docSnapshot.id), {
+      isRead: true,
+    })
+  })
+}
+
+export async function addRequestDetails(req_id, details) {
+  const q = query(collection(db, 'Request'), where('req_id', '==', req_id))
+  const querySnapshot = await getDocs(q)
+
+  querySnapshot.forEach(docSnapshot => {
+    console.log('Adding request details..., docsnapshot: ', docSnapshot.data())
+    updateDoc(doc(db, 'Request', docSnapshot.id), {
+      desc: docSnapshot.data().desc + ' ' + details,
+      status: 'pending', // NOTE: needDetail -> pending
+    })
+  })
+}
+
+export async function withDrawRequest(req_id) {
+  const q = query(collection(db, 'Request'), where('req_id', '==', req_id))
+  const querySnapshot = await getDocs(q)
+
+  querySnapshot.forEach(docSnapshot => {
+    console.log('WithDraw request')
+    updateDoc(doc(db, 'Request', docSnapshot.id), {
+      status: 'completed', // completed request when withdrawn
+      isReviewed: true, // withdrawn request donnot need review， set true to ignore review
+    })
+  })
 }

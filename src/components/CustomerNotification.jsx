@@ -1,20 +1,38 @@
-import { Col, List, Row, Avatar, Space, Rate, Modal, Input } from 'antd'
+import { Col, List, Row, Avatar, Space, Rate, Modal, Input, Button } from 'antd'
 import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons'
 const { TextArea } = Input
 // import '../css/ServiceReview.scss'
 import React, { useEffect, useRef, useState } from 'react'
 import { timestamp2DateStr } from '../utils/TimeParser'
 import '../css/ServiceReview.scss'
-import { addReview, getNotifications, getReviews } from '../utils/FirebaseAPI'
+import {
+  addRequestDetails,
+  addReview,
+  getNotifications,
+  getReviews,
+  setNotificationStatus,
+  withDrawRequest,
+} from '../utils/FirebaseAPI'
 import { useNavigate } from 'react-router-dom'
 
 function MyList({ data }) {
   const navigate = useNavigate()
-  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  // review modal
   const reviewBoxRef = useRef(null)
+  const [isRvwModalOpen, setIsRvwModalOpen] = useState(false)
   const [reviewTxt, setReviewTxt] = useState(null)
   const [rateValue, setRateValue] = useState(null)
   const [reviewHead, setReviewHead] = useState(null)
+
+  // add detail modal
+  const detailBoxRef = useRef(null)
+  const withdrawRef = useRef(null)
+  const [isAddModallOpen, setIsAddModalOpen] = useState(false)
+  const [detailTxt, setDetailTxt] = useState(null)
+
+  const [currMsgId, setCurrMsgId] = useState(null)
+  const [currDataItem, setCurrDataItem] = useState(null)
 
   const { user_name, user_id, srv_id } = data[0]
 
@@ -24,19 +42,27 @@ function MyList({ data }) {
 
     // type=review, then write review in popup
     if (itemData.msg_type == 'review') {
-      showModal()
+      setCurrMsgId(itemData.msg_id)
+      showReviewModal()
+    } else if (itemData.msg_type == 'needDetail') {
+      //TODO:
+      setCurrMsgId(itemData.msg_id)
+      setCurrDataItem(itemData)
+      showAddDetailModal()
     } else {
       // type=update, then redirect to updated service page
       navigate(itemData.jumpLink)
+      // HINT: change isRead into true
+      setNotificationStatus(itemData.msg_id)
     }
   }
 
-  // START: Modal ctrls
-  const showModal = () => {
-    setIsModalOpen(true)
+  // START: Modal ctrls - writing review
+  const showReviewModal = () => {
+    setIsRvwModalOpen(true)
   }
-  const handleModalOk = () => {
-    // setIsModalOpen(false)
+  const handleRvwModalOk = () => {
+    // setIsRvwModalOpen(false)
     // TODO: publish review( add review into db)
     const rvwData = {
       rvw_id: null, // auto gen by firebase
@@ -60,36 +86,100 @@ function MyList({ data }) {
       setRateValue(0)
       setReviewTxt(null)
       setReviewHead(null)
+      setIsRvwModalOpen(false)
+
+      setNotificationStatus(currMsgId).then(_ => {
+        setCurrMsgId(null)
+        window.location.reload()
+      })
     })
   }
-  const handleModalCancel = () => {
+  const handleRvwModalCancel = () => {
     setRateValue(0)
     setReviewTxt(null)
     setReviewHead(null)
-    setIsModalOpen(false)
+    setIsRvwModalOpen(false)
   }
 
-  const handleHeadChange = e => {
+  const handleRvwHeadChange = e => {
     const value = e.target.value
     setReviewHead(value)
   }
 
-  const onTextChange = e => {
+  const onRvwTextChange = e => {
     const value = e.target.value
     setReviewTxt(value)
   }
 
-  const handleRateChange = value => {
+  const handleRvwRateChange = value => {
     console.log('Rate value: ', value)
     setRateValue(value)
   }
-  //END: Modal ctrls
+  //END: Modal ctrls - writing review
+
+  // START: Modal ctrls - add details
+  const showAddDetailModal = () => {
+    setIsAddModalOpen(true)
+  }
+
+  const handleAddModalOk = () => {
+    console.log('Add detail successfully: ', detailTxt)
+    console.log('currDataItem: ', currDataItem)
+
+    const { req_id } = currDataItem.needDetail
+    // console.log('req_id: ', req_id)
+    addRequestDetails(req_id, detailTxt).then(_ => {
+      console.log('Successfully added details!')
+      setDetailTxt(null)
+      setIsAddModalOpen(false)
+
+      setNotificationStatus(currMsgId).then(_ => {
+        setCurrMsgId(null)
+        setCurrDataItem(null)
+        window.location.reload()
+      })
+    })
+  }
+
+  const handleAddModalCancel = () => {
+    setDetailTxt(null)
+    setCurrMsgId(null)
+    setCurrDataItem(null)
+    setIsAddModalOpen(false)
+  }
+
+  const handleWithdraw = () => {
+    console.log(currDataItem)
+    const { req_id } = currDataItem.needDetail
+    withDrawRequest(req_id).then(_ => {
+      console.log('Successfully withdrawn!')
+      setDetailTxt(null)
+      setIsAddModalOpen(false)
+
+      setNotificationStatus(currMsgId).then(_ => {
+        setCurrMsgId(null)
+        setCurrDataItem(null)
+        window.location.reload()
+      })
+    })
+  }
+
+  const onDetailTxtChange = e => {
+    setDetailTxt(e.target.value)
+  }
+
+  // END: Modal ctrls - add details
 
   return (
     <>
-      <Modal title='✍️ Write your review here' open={isModalOpen} onOk={handleModalOk} onCancel={handleModalCancel}>
+      {/* Write review Modal */}
+      <Modal
+        title='✍️ Write your review here'
+        open={isRvwModalOpen}
+        onOk={handleRvwModalOk}
+        onCancel={handleRvwModalCancel}>
         <h3 style={{ marginTop: 10, marginBottom: 10 }}>Review Title:</h3>
-        <Input placeholder='Your Review Title' value={reviewHead} onChange={handleHeadChange} />
+        <Input placeholder='Your Review Title' value={reviewHead} onChange={handleRvwHeadChange} />
         <h3 style={{ marginTop: 10, marginBottom: 10 }}>Review Content:</h3>
         <TextArea
           // showCount
@@ -100,11 +190,37 @@ function MyList({ data }) {
             height: 100,
             resize: 'none',
           }}
-          onChange={onTextChange}
+          onChange={onRvwTextChange}
           placeholder='Had great service? Give your valuable comments!'
         />
         <h3 style={{ marginTop: 10, marginBottom: 10 }}>Rate:</h3>
-        <Rate allowHalf value={rateValue} onChange={handleRateChange} />
+        <Rate allowHalf value={rateValue} onChange={handleRvwRateChange} />
+      </Modal>
+
+      {/* Add detail Modal */}
+      <Modal
+        title='✍️ Please provide more details for your request'
+        open={isAddModallOpen}
+        onOk={handleAddModalOk}
+        onCancel={handleAddModalCancel}>
+        <h3 style={{ marginTop: 10, marginBottom: 10 }}>Add details:</h3>
+        <TextArea
+          // showCount
+          // maxLength={100}
+          value={detailTxt}
+          ref={detailBoxRef}
+          style={{
+            height: 100,
+            resize: 'none',
+          }}
+          onChange={onDetailTxtChange}
+          placeholder='Your service provider need more details from you...'
+        />
+        <h3 style={{ marginTop: 10, marginBottom: 10 }}>Or wanna withdraw this request?</h3>
+        <Button ref={withdrawRef} onClick={handleWithdraw}>
+          {' '}
+          Withdraw{' '}
+        </Button>
       </Modal>
       <List
         itemLayout='vertical'
@@ -113,7 +229,7 @@ function MyList({ data }) {
           onChange: page => {
             console.log(page)
           },
-          pageSize: 3,
+          pageSize: 5,
           align: 'center',
           style: {
             color: 'white',
@@ -161,16 +277,25 @@ function MyList({ data }) {
 export default function CustomerNotification() {
   const [data, setData] = useState(null)
 
-  const user_id = 'xRv9DqSlQRcK7Mpd2Z98wCLYmPs1' // TODO: use localstorage
+  // const user_id = 'xRv9DqSlQRcK7Mpd2Z98wCLYmPs1' // TODO: use localstorage [done]
+  const user_id = localStorage.getItem('loginID')
+
   // fetch notification data
   let ignore = false
   useEffect(() => {
     if (!ignore) {
       const getData = async () => {
-        // TODO: change data source
         const notiData = await getNotifications(user_id)
+        // NOTE: only notify those unread messages
+        const unreadNotiData = []
+        notiData.forEach(item => {
+          if (!item.isRead) {
+            unreadNotiData.push(item)
+          }
+        })
         console.log('Notification data: ', notiData)
-        setData(notiData)
+        console.log('Unread data: ', unreadNotiData)
+        setData(unreadNotiData)
       }
 
       getData()
@@ -181,9 +306,40 @@ export default function CustomerNotification() {
     }
   }, [])
 
+  // refresh
+  useEffect(() => {
+    const k = 10 * 1000 // 10s refresh
+    const refresher = setInterval(() => {
+      // console.log(Date.now())
+      console.log('Notification refreshing...')
+      // window.location.reload()
+      // forceUpdate()
+
+      const getData = async () => {
+        const notiData = await getNotifications(user_id)
+        // NOTE: only notify those unread messages
+        const unreadNotiData = []
+        notiData.forEach(item => {
+          if (!item.isRead) {
+            unreadNotiData.push(item)
+          }
+        })
+        console.log('Notification data: ', notiData)
+        console.log('Unread data: ', unreadNotiData)
+        setData(unreadNotiData)
+      }
+
+      getData()
+    }, k)
+
+    return () => {
+      clearInterval(refresher)
+    }
+  }, [])
+
   return (
     <Row className='notification-list' justify='start'>
-      <Col span={24}>{data ? <MyList data={data} /> : ''}</Col>
+      <Col span={24}>{data && data.length != 0 ? <MyList data={data} /> : 'You have no messages!'}</Col>
     </Row>
   )
 }
