@@ -19,6 +19,7 @@
       text-align: center;
       a {
         color: aliceblue;
+        font-weight: bold;
       }
     }
 
@@ -71,5 +72,132 @@
     background-color: #410080;
 
     border-radius: 50;
+  }
+}
+
+@media only screen and (max-width: 1620px) {
+  .status-bar {
+    .nav-bar {
+      .logo {
+        font-size: 20px;
+      }
+      .home {
+        font-size: 20px;
+      }
+      .slogan {
+        padding-left: 10vw;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1110px) {
+  .status-bar {
+    .nav-bar {
+      .logo {
+        font-size: 16px;
+      }
+      .home {
+        font-size: 16px;
+      }
+      .slogan {
+        padding-left: 20px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .status-bar {
+    .nav-bar {
+      .logo {
+        font-size: 12px;
+      }
+      .home {
+        font-size: 12px;
+      }
+      .slogan {
+        padding-left: 15px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .status-bar {
+    .nav-bar {
+      .logo {
+        font-size: 12px;
+      }
+      .home {
+        font-size: 12px;
+      }
+      .slogan {
+        padding-left: 15px;
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .status-bar {
+    .nav-bar {
+      .logo {
+        font-size: 12px;
+      }
+      .home {
+        font-size: 12px;
+        display: none;
+      }
+      .slogan {
+        padding-left: 20px;
+        font-size: 30px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .status-bar {
+    .nav-bar {
+      .logo {
+        font-size: 12px;
+      }
+      .home {
+        display: none;
+      }
+      .slogan {
+        padding-left: 10vw;
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 645px) {
+  .status-bar {
+    .nav-bar {
+      .logo {
+        font-size: 15px;
+        a {
+          display: block;
+          width: 200px;
+        }
+        // margin-right: 300px;
+      }
+      .home {
+        display: none;
+      }
+      .slogan {
+        display: none;
+        // padding-left: 10vw;
+        // font-size: 20px;
+      }
+
+      .user-avatar {
+        margin-left: 70vw;
+      }
+    }
   }
 }

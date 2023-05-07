@@ -41,7 +41,7 @@ export default function StatusBar() {
         <Col span={16} className='slogan'>
           Find the best service only for you!
         </Col>
-        <Col span={2}>
+        <Col span={2} className='user-avatar'>
           {loginID ? (
             <Avatar
               icon={<UserOutlined />}

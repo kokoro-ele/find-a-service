@@ -503,7 +503,7 @@ export default function CustomerPage() {
     <div className='customer-page'>
       <StatusBar />
       <Row justify='center'>
-        <Col span={20} className='tabs'>
+        <Col span={12} className='tabs'>
           <Tabs activeKey={activeKey} onChange={handleTabChange} items={tabItems} />
         </Col>
       </Row>
