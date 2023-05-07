@@ -16,6 +16,9 @@ function Profile({ user_id }) {
   const [form] = useForm()
   const [userInfo, setUserInfo] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isChangePwdErr, setIsChangePwdErr] = useState(false)
+
+  // const [isInfoDisabled, setIsInfoDisabled] = useState(true)
 
   const auth = getAuth()
 
@@ -61,16 +64,20 @@ function Profile({ user_id }) {
     const loginID = localStorage.getItem('loginID')
     localStorage.removeItem(loginID)
     localStorage.removeItem('loginID')
-    navigate('/')
+    navigate('/login')
   }
   const handleModalCancel = () => {
     setIsModalOpen(false)
     const loginID = localStorage.getItem('loginID')
     localStorage.removeItem(loginID)
     localStorage.removeItem('loginID')
-    navigate('/')
+    navigate('/login')
   }
   // END
+
+  // const handleInfoEnable = () => {
+  //   setIsInfoDisabled(!isInfoDisabled)
+  // }
 
   const onUpdateFinish = values => {
     const userAuth = auth.currentUser
@@ -85,6 +92,8 @@ function Profile({ user_id }) {
         showModal()
       })
     }
+
+    showModal()
   }
   const onUpdateFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo)
@@ -93,10 +102,17 @@ function Profile({ user_id }) {
   const onChangePwdFinish = values => {
     console.log('Success <changing pwd>:', values)
     const userAuth = auth.currentUser
-    updatePassword(userAuth, values.password).then(res => {
-      console.log('Successfully change password: ', values.email)
-      showModal()
-    })
+    updatePassword(userAuth, values.password).then(
+      res => {
+        console.log('Successfully change password: ', values.email)
+        showModal()
+      },
+      err => {
+        console.log('This operation requires a recent login, please log in again to continue: ', err)
+        setIsChangePwdErr(true)
+        showModal()
+      }
+    )
   }
   const onChangePwdFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo)
@@ -108,12 +124,15 @@ function Profile({ user_id }) {
     <div className='profile-box'>
       {/* Popup Modal */}
       <Modal title='Note' style={{ top: 200 }} open={isModalOpen} onOk={handleModalOk} onCancel={handleModalCancel}>
-        Account information changed, please log in again!
+        {isChangePwdErr
+          ? 'This operation requires a recent login, please log in again to continue!'
+          : 'Account information changed, please log in again!'}
       </Modal>
       <div className='basic-info'>
         {userInfo ? (
           <Form
             // form={form}
+            // disabled={isInfoDisabled}
             name='basicInfo'
             labelCol={{
               span: offsets[0],
@@ -204,6 +223,16 @@ function Profile({ user_id }) {
         ) : (
           ''
         )}
+
+        {/* <Form.Item
+          wrapperCol={{
+            offset: offsets[0],
+            span: offsets[1],
+          }}>
+          <Button className='info-enable' onClick={handleInfoEnable}>
+            {isInfoDisabled ? 'Edit' : 'Cancel'}
+          </Button>
+        </Form.Item> */}
       </div>
 
       <div className='change-pwd'>
