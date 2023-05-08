@@ -344,16 +344,18 @@ function Requests({ user_id }) {
 
   const notifyPopup = item => {
     if (item.status == 'completed' && !item.isReviewed && !isNotified.current) {
-      // const msg = 'Your request has been completed, open Notification box to make a review!'
-      const msg = 'Your have new messages, open Notification box to check!'
+      const msg = 'Your request has been completed, open Notification box to make a review!'
+      // const msg = 'Your have new messages, open Notification box to check!'
       openNotification(msg)
       // isNotified.current = true
     }
     if (item.status == 'needDetail' && !item.isReviewed && !isNotified.current) {
-      // const msg = 'Your request requires more details, open Notification box to add details!'
-      const msg = 'Your have new messages, open Notification box to check!'
+      const msg = 'Your request requires more details, open Notification box to add details!'
+      // const msg = 'Your have new messages, open Notification box to check!'
       openNotification(msg)
       // isNotified.current = true
+    } else {
+      return
     }
     isNotified.current = true
   }
