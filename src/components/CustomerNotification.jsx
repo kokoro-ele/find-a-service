@@ -238,7 +238,7 @@ function MyList({ data }) {
         footer={
           <div style={{ color: 'black' }}>
             {/* TODO: add list footer */}
-            <b>Find-A-Service</b> footer part
+            <b>@ Find-A-Service</b> Team G15
           </div>
         }
         renderItem={item => (

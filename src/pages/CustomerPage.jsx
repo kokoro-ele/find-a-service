@@ -236,7 +236,7 @@ function Profile({ user_id }) {
                 offset: offsets[0],
                 span: offsets[1],
               }}>
-              <Button className='update-btn' type='primary' htmlType='submit'>
+              <Button id='update-btn' className='update-btn' type='primary' htmlType='submit'>
                 Update
               </Button>
             </Form.Item>
@@ -321,7 +321,7 @@ function Profile({ user_id }) {
                 offset: offsets[0],
                 span: offsets[1],
               }}>
-              <Button className='update-btn' type='primary' htmlType='submit'>
+              <Button id='change-btn' className='update-btn' type='primary' htmlType='submit'>
                 Change
               </Button>
             </Form.Item>
@@ -536,7 +536,12 @@ export default function CustomerPage() {
       <StatusBar />
       <Row justify='center'>
         <Col className='tabs'>
-          <Tabs activeKey={activeKey} onChange={handleTabChange} items={tabItems} />
+          <Tabs
+            activeKey={activeKey}
+            onChange={handleTabChange}
+            items={tabItems}
+            style={{ color: '#3a0071', fontWeight: 'bold' }}
+          />
         </Col>
       </Row>
     </div>
