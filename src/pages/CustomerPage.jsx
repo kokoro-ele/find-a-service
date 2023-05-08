@@ -120,6 +120,27 @@ function Profile({ user_id }) {
 
   const offsets = [8, 8]
 
+  // NOTE: too much update
+  // const [offsets, setOffsets] = useState([8, 8])
+  // const RWDController = () => {
+  //   const viewportW = window.innerWidth
+  //   console.log('vw: ', viewportW)
+  //   console.log('offsets: ', offsets[0], offsets[1])
+  //   if (viewportW < 580) {
+  //     if (offsets[0] != 0) {
+  //       setOffsets([0, 8])
+  //     }
+  //   } else {
+  //     if (offsets[0] != 8) {
+  //       setOffsets([8, 8])
+  //     }
+  //   }
+  // }
+
+  // window.addEventListener('resize', () => {
+  //   RWDController()
+  // })
+
   return (
     <div className='profile-box'>
       {/* Popup Modal */}
@@ -463,7 +484,18 @@ function Requests({ user_id }) {
   return (
     <div className='req-history'>
       {contextHolder}
-      {reqHistory ? <Table rowSelection={rowSelection} columns={columns} dataSource={data.current} /> : ''}
+      {reqHistory ? (
+        <Table
+          scroll={{
+            x: 1200,
+          }}
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={data.current}
+        />
+      ) : (
+        ''
+      )}
     </div>
   )
 }
@@ -503,7 +535,7 @@ export default function CustomerPage() {
     <div className='customer-page'>
       <StatusBar />
       <Row justify='center'>
-        <Col span={12} className='tabs'>
+        <Col className='tabs'>
           <Tabs activeKey={activeKey} onChange={handleTabChange} items={tabItems} />
         </Col>
       </Row>

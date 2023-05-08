@@ -9,7 +9,6 @@ import {
   addRequestDetails,
   addReview,
   getNotifications,
-  getReviews,
   setNotificationStatus,
   withDrawRequest,
 } from '../utils/FirebaseAPI'
@@ -248,7 +247,13 @@ function MyList({ data }) {
             onClick={event => {
               handleItemClick(event, item)
             }}
-            style={{ borderColor: 'black', backgroundColor: 'aliceblue', borderRadius: 20 }}
+            style={{
+              borderColor: '#3a0071',
+              borderWidth: 2,
+              backgroundColor: 'white',
+              borderRadius: 20,
+              marginBottom: 5,
+            }}
             className='review-list-item'
             key={item.title}
             actions={[
