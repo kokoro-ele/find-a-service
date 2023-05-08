@@ -86,6 +86,9 @@ export default function ServiceDetail() {
   const [imgAlbum, setImgAlbum] = useState(null)
   const [visible, setVisible] = useState(false) // album ctrl
 
+  const [imgAlbumSize, setImgAlbumSize] = useState(14)
+  const [detailBoxSize, setDetailBoxSize] = useState(10)
+
   // fetch service+review data
   let ignore = false
   useEffect(() => {
@@ -126,6 +129,26 @@ export default function ServiceDetail() {
     }
   }, [])
 
+  // RWD
+  const RWDController = () => {
+    const viewportW = window.innerWidth
+    if (viewportW < 1500) {
+      setImgAlbumSize(24)
+      setDetailBoxSize(24)
+    } else {
+      setImgAlbumSize(14)
+      setDetailBoxSize(10)
+    }
+  }
+
+  window.addEventListener('load', () => {
+    RWDController()
+  })
+
+  window.addEventListener('resize', () => {
+    RWDController()
+  })
+
   return (
     <div className='service-detail'>
       {/* Status bar */}
@@ -133,8 +156,8 @@ export default function ServiceDetail() {
 
       {/* Video box */}
       <Row>
-        <Col span={4} style={{ backgroundColor: 'black' }}></Col>
-        <Col className='video-box' span={16}>
+        {/* <Col span={4} style={{ backgroundColor: 'black' }}></Col> */}
+        <Col className='video-box' span={24}>
           <ReactPlayer
             url={serviceData ? serviceData.videos[0] : ''}
             // url='https://www.youtube.com/watch?v=kr0RisHSDwI'
@@ -146,7 +169,7 @@ export default function ServiceDetail() {
             controls
           />
         </Col>
-        <Col span={4} style={{ backgroundColor: 'black' }}></Col>
+        {/* <Col span={4} style={{ backgroundColor: 'black' }}></Col> */}
       </Row>
 
       {/* Service name head */}
@@ -156,7 +179,7 @@ export default function ServiceDetail() {
       {/* Detail box */}
       <Row className='detail-box' justify='space-around'>
         {/* Imgs */}
-        <Col className='img-container' span={16}>
+        <Col className='img-container' span={imgAlbumSize}>
           <Row className='previewer'>
             <Image
               preview={{ visible: false }}
@@ -181,7 +204,7 @@ export default function ServiceDetail() {
           </Row>
         </Col>
         {/* Service description */}
-        <Col className='description-container' span={8}>
+        <Col className='description-container' span={detailBoxSize}>
           {serviceData ? <DescriptionBox data={serviceData} /> : ''}
         </Col>
       </Row>

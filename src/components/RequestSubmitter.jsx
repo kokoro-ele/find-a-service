@@ -175,7 +175,7 @@ export function RequestSubmitter({ srv_id, srv_name, prv_name, price, duration, 
         </div>
       </Row>
       <Row justify='center'>
-        <Col span={8}>
+        <Col>
           <Form
             disabled={remain == 0 ? true : false}
             form={form}
@@ -209,6 +209,7 @@ export function RequestSubmitter({ srv_id, srv_name, prv_name, price, duration, 
                 },
               ]}>
               <TextArea
+                className='desc-txt-area'
                 showCount
                 maxLength={300}
                 style={{
@@ -231,6 +232,7 @@ export function RequestSubmitter({ srv_id, srv_name, prv_name, price, duration, 
                 },
               ]}>
               <DatePicker
+                className='datepicker'
                 format='YYYY-MM-DD HH:mm'
                 showTime={{ format: 'HH:mm', minuteStep: duration, secondStep: null }}
                 // defaultValue={getNow()} // HINT: use initialValue on Form instead
@@ -268,9 +270,12 @@ export function RequestSubmitter({ srv_id, srv_name, prv_name, price, duration, 
                 // offset: 8,
                 span: 24,
               }}>
-              <Button type='primary' htmlType='submit'>
-                Request!
-              </Button>
+              <Row justify='center'>
+                {' '}
+                <Button id='req-btn' type='primary' htmlType='submit'>
+                  Request!
+                </Button>
+              </Row>
             </Form.Item>
           </Form>
         </Col>
