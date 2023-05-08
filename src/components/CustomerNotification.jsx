@@ -69,7 +69,7 @@ function MyList({ data }) {
       author: {
         user_id: user_id,
         user_name: user_name,
-        user_avatar: null,
+        user_avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=1`, // TODO: make it random
       },
       title: reviewHead,
       content: reviewTxt,

@@ -4,6 +4,8 @@
   font-size: 30px;
   font-weight: bold;
   color: aliceblue;
+  color: antiquewhite;
+
   // background-color: gainsboro;
   background-color: #410080;
   // background-color: #1d072e;
@@ -26,17 +28,21 @@
     .home {
       font-size: 25px;
       text-align: center;
+      font-family: 'Pacifico', cursive;
+
       a {
-        color: aliceblue;
+        color: antiquewhite;
+        border-radius: 20px;
+        border-style: dotted;
+        border-width: 2px;
+        padding: 0px 10px;
       }
 
       a:hover {
         transform: translateZ(50px);
+        background-color: antiquewhite;
+        color: #00318a;
       }
-    }
-
-    .home:hover {
-      background-color: #00318a;
     }
 
     .slogan {
@@ -44,6 +50,23 @@
       padding-left: 15vw;
       font-size: 30px;
       font-family: 'Pacifico', cursive;
+    }
+
+    .login-btn {
+      font-size: 25px;
+      padding: 0px 10px;
+
+      border-radius: 20px;
+      color: antiquewhite;
+      border-style: dotted;
+      border-color: antiquewhite;
+      border-width: 2px;
+      font-family: 'Pacifico', cursive;
+    }
+    .login-btn:hover {
+      transform: translateZ(50px);
+      background-color: antiquewhite;
+      color: #00318a;
     }
   }
 }

@@ -55,7 +55,9 @@ export default function StatusBar() {
               }}
             />
           ) : (
-            <a href='/login'>Login</a>
+            <a className='login-btn' href='/login'>
+              Login
+            </a>
           )}
         </Col>
       </Row>
