@@ -46,11 +46,11 @@ function DescriptionBox({ data }) {
           <div className='row-box'>
             <span className='key desc-key'>Service description:</span>
             <br />
-            <span className='val desc-val'>{data.description}</span>
+            <span className='val desc-val'>{data.desc}</span>
           </div>
           <div className='row-box'>
             <span className='key location-key'>Location: </span>
-            <span className='val location-val'>{data.description}</span>
+            <span className='val location-val'>{data.location.area}</span>
           </div>
         </div>
       </Row>
@@ -214,6 +214,7 @@ export default function ServiceDetail() {
         {serviceData ? (
           <RequestSubmitter
             srv_id={srv_id}
+            prv_id={serviceData.prv_id}
             srv_name={serviceData.srv_name}
             prv_name={serviceData.prv_name}
             price={serviceData.price}

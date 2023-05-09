@@ -13,6 +13,7 @@ const ManageRequest = () => {
     // addFakeRequest(5)
     //test
     getRequestsByServiceProviderId(loginUserId).then(data => {
+      console.log('user id: ', loginUserId)
       console.log('getallrequesets', data)
       setRequests(data)
     })

@@ -9,7 +9,7 @@ import { useForm } from 'antd/es/form/Form'
 import { addRequest } from '../utils/FirebaseAPI'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-export function RequestSubmitter({ srv_id, srv_name, prv_name, price, duration, total, remain }) {
+export function RequestSubmitter({ srv_id, srv_name, prv_id, prv_name, price, duration, total, remain }) {
   const navigate = useNavigate()
   const [form] = useForm()
   const [date, setDate] = useState(dayjs())
@@ -102,6 +102,7 @@ export function RequestSubmitter({ srv_id, srv_name, prv_name, price, duration, 
       const reqData = {
         req_id: null, // generate later
         user_id: loginID,
+        prv_id: prv_id,
         srv_id: srv_id,
         srv_name: srv_name,
         prv_name: prv_name,

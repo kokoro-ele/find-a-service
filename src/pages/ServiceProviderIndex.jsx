@@ -42,6 +42,8 @@ const ServiceProviderIndex = () => {
     setSelectedMenuItem(e.key)
   }
 
+  console.log('check loading: ', loading)
+
   if (loading) return <div>loading</div>
 
   if (!canLogin) {
