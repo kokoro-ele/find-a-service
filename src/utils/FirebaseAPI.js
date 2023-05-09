@@ -262,15 +262,6 @@ export async function updateRequestById(id, data) {
 // }
 
 // add request
-// export async function addRequest({ user_id, srv_id, desc, req_time = null }) {
-//   const req_id = '#req001' // TODO: 设计成自增
-//   // let flag = checkSrvAvailability(srv_id, req_time)
-
-//   req_time = new Date().getTime()
-//   let data = { req_id, user_id, srv_id, desc, req_time, status: 'pending' }
-//   // console.log(data)
-// }
-
 export async function addRequest(data) {
   const docRef = await addDoc(collection(db, 'Request'), data)
   // console.log(docRef)
@@ -414,6 +405,35 @@ export async function addFakeData(n) {
       msg_id: `#msg-test-${i}`,
       msg_type: i % 2 == 0 ? 'review' : 'update', // str, 取值应为 ['review', 'update' ]
       user_id: 'xRv9DqSlQRcK7Mpd2Z98wCLYmPs1',
+      user_name: 'Monica',
+      srv_id: `#srv-test-${i}`,
+      srv_name: 'Test Data',
+      prv_name: 'Test Data',
+      msg_title: '[Test] Please review/see new feature', // str
+      msg_body:
+        '[Test] Please review/see new feature[Test] Please review/see new featurev[Test] Please review/see new feature', // str
+      time: Date.now(), // timestamp
+      isRead: false,
+      jumpLink: '/', // use to navigate to review or new service
+    })
+    fakeReviewList.push({
+      rvw_id: `#rvw-test-${i}`,
+      srv_id: `#srv-test-${i}`, // 对应的 service
+      author: {
+        user_id: `#user-test-${i}`, // str
+        user_name: 'Tester', // str
+        user_avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`,
+      },
+      title: `Service Review Title - ${i}`,
+      content: 'We supply a series of cleaning resources, to help people clean their home beautifully and efficiently.',
+      rate: 5, // int, 0-5, 🌟级评分
+      likes: 777, // int, 点赞数👍
+      date: Date.now(),
+    })
+    fakeNotificationList.push({
+      msg_id: `#msg-test-${i}`,
+      msg_type: i % 2 == 0 ? 'review' : 'update', // str, 取值应为 ['review', 'update' ]
+      user_id: 'YyOVUmCZFcYqB6xU4KA8g0JIXlk1',
       user_name: 'Monica',
       srv_id: `#srv-test-${i}`,
       srv_name: 'Test Data',
@@ -597,7 +617,12 @@ export async function getRequestHistory(user_id) {
 }
 
 export async function getNotifications(user_id) {
-  const q = query(collection(db, 'Notification'), where('user_id', '==', user_id), orderBy('time', 'desc'))
+  const q = query(
+    collection(db, 'Notification'),
+    where('user_id', '==', user_id),
+    orderBy('isRead'),
+    orderBy('time', 'desc')
+  )
   const querySnapshot = await getDocs(q)
   const ret = []
   querySnapshot.forEach(doc => {
@@ -638,4 +663,39 @@ export async function getStatusRequestCountByProviderId(id) {
   const detail_querySnapshot = await getDocs(detailQ)
   const detailCnt = detail_querySnapshot.size
   return [pendingCnt + detailCnt, acceptedCnt, rejectedCnt + completedCnt]
+export async function setNotificationStatus(msg_id) {
+  const q = query(collection(db, 'Notification'), where('msg_id', '==', msg_id))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach(docSnapshot => {
+    console.log('Message read, set isRead=true')
+    updateDoc(doc(db, 'Notification', docSnapshot.id), {
+      isRead: true,
+    })
+  })
+}
+
+export async function addRequestDetails(req_id, details) {
+  const q = query(collection(db, 'Request'), where('req_id', '==', req_id))
+  const querySnapshot = await getDocs(q)
+
+  querySnapshot.forEach(docSnapshot => {
+    console.log('Adding request details..., docsnapshot: ', docSnapshot.data())
+    updateDoc(doc(db, 'Request', docSnapshot.id), {
+      desc: docSnapshot.data().desc + ' ' + details,
+      status: 'pending', // NOTE: needDetail -> pending
+    })
+  })
+}
+
+export async function withDrawRequest(req_id) {
+  const q = query(collection(db, 'Request'), where('req_id', '==', req_id))
+  const querySnapshot = await getDocs(q)
+
+  querySnapshot.forEach(docSnapshot => {
+    console.log('WithDraw request')
+    updateDoc(doc(db, 'Request', docSnapshot.id), {
+      status: 'completed', // completed request when withdrawn
+      isReviewed: true, // withdrawn request donnot need review， set true to ignore review
+    })
+  })
 }

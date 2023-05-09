@@ -64,7 +64,8 @@ function SignupForm() {
         txt: 'Unselected yet',
         gps: [null, null],
       },
-      avatar: null, // handle later
+      // avatar: null, // handle later
+      avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=1`,
     }
 
     createUserWithEmailAndPassword(auth, values.email, values.password)

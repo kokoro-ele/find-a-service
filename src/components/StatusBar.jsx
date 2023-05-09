@@ -13,7 +13,6 @@ export default function StatusBar() {
   // console.log(loginID)
 
   const user_id = useRef(null)
-  const user_name = useRef(null)
 
   if (loginID) {
     user_id.current = loginID
@@ -32,17 +31,17 @@ export default function StatusBar() {
 
   return (
     <div className='status-bar'>
-      <Row>
-        <Col span={2}>
+      <Row className='nav-bar'>
+        <Col span={4} className='logo'>
           <a href='/'>Find A Service</a>
         </Col>
-        <Col span={2}>
+        <Col span={2} className='home'>
           <a href='/'>Home</a>
         </Col>
-        <Col span={18} className='slogan'>
+        <Col span={16} className='slogan'>
           Find the best service only for you!
         </Col>
-        <Col span={2}>
+        <Col span={2} className='user-avatar'>
           {loginID ? (
             <Avatar
               icon={<UserOutlined />}
@@ -56,19 +55,34 @@ export default function StatusBar() {
               }}
             />
           ) : (
-            <a href='/login'>Login</a>
+            <a className='login-btn' href='/login'>
+              Login
+            </a>
           )}
         </Col>
       </Row>
-      <Drawer title={userInfo ? userInfo.email : ''} placement='right' onClose={onClose} open={open}>
+      <Drawer
+        title={userInfo ? userInfo.email : ''}
+        placement='right'
+        onClose={onClose}
+        open={open}
+        width={350}
+        style={{
+          opacity: 0.7,
+        }}>
         <div className='link-box'>
           <a href={`/mypage/${loginID}/profile`} className='profile'>
-            My Profile
+            🦊 My Profile
           </a>
         </div>
         <div className='link-box'>
           <a href={`/mypage/${loginID}/requests`} className='request-log'>
-            My Requests
+            🛒 My Requests
+          </a>
+        </div>
+        <div className='link-box'>
+          <a href={`/mypage/${loginID}/notifications`} className='request-log'>
+            📧 My Notifications
           </a>
         </div>
         <div className='link-box logout'>
@@ -85,7 +99,7 @@ export default function StatusBar() {
               }
               // forceUpdate()
             }}>
-            Log out
+            💫 Log out
           </a>
         </div>
       </Drawer>

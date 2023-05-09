@@ -83,9 +83,14 @@ function CardsArea({ isSearched, searchTxt = null, defaultData = null }) {
     cardRWDController()
   }, [])
 
-  window.onresize = () => {
+  // window.onresize = () => {
+  //   cardRWDController()
+  // }
+
+  // HINT: 上面的写法多次定义会被覆盖，用下面的写法可以添加多个事件监听
+  window.addEventListener('resize', () => {
     cardRWDController()
-  }
+  })
 
   return (
     <div className='cards-area'>

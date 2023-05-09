@@ -9,7 +9,7 @@ import { useForm } from 'antd/es/form/Form'
 import { addRequest } from '../utils/FirebaseAPI'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-export function RequestSubmitter({ srv_id, srv_name, prv_id, prv_name, price, duration, total, remain }) {
+export function RequestSubmitter({ srv_id, srv_name, prv_name, price, duration, total, remain }) {
   const navigate = useNavigate()
   const [form] = useForm()
   const [date, setDate] = useState(dayjs())
@@ -104,7 +104,6 @@ export function RequestSubmitter({ srv_id, srv_name, prv_id, prv_name, price, du
         user_id: loginID,
         srv_id: srv_id,
         srv_name: srv_name,
-        prv_id: prv_id,
         prv_name: prv_name,
         price: price,
         desc: values.description,
@@ -176,7 +175,7 @@ export function RequestSubmitter({ srv_id, srv_name, prv_id, prv_name, price, du
         </div>
       </Row>
       <Row justify='center'>
-        <Col span={8}>
+        <Col>
           <Form
             disabled={remain == 0 ? true : false}
             form={form}
@@ -210,6 +209,7 @@ export function RequestSubmitter({ srv_id, srv_name, prv_id, prv_name, price, du
                 },
               ]}>
               <TextArea
+                className='desc-txt-area'
                 showCount
                 maxLength={300}
                 style={{
@@ -232,6 +232,7 @@ export function RequestSubmitter({ srv_id, srv_name, prv_id, prv_name, price, du
                 },
               ]}>
               <DatePicker
+                className='datepicker'
                 format='YYYY-MM-DD HH:mm'
                 showTime={{ format: 'HH:mm', minuteStep: duration, secondStep: null }}
                 // defaultValue={getNow()} // HINT: use initialValue on Form instead
@@ -269,9 +270,12 @@ export function RequestSubmitter({ srv_id, srv_name, prv_id, prv_name, price, du
                 // offset: 8,
                 span: 24,
               }}>
-              <Button type='primary' htmlType='submit'>
-                Request!
-              </Button>
+              <Row justify='center'>
+                {' '}
+                <Button id='req-btn' type='primary' htmlType='submit'>
+                  Request!
+                </Button>
+              </Row>
             </Form.Item>
           </Form>
         </Col>

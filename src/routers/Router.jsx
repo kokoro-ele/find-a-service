@@ -9,10 +9,9 @@ import ServiceProviderSignUp from '../pages/ServiceProvideSignUp'
 import ServiceDetail from '../pages/ServiceDetail'
 import ParticlesBg from '../components/ParticlesBg'
 import Addservice from '../pages/Addservice'
-import LoginPage from '../pages/LoginPage'
+
 import ServiceProviderIndex from '../pages/ServiceProviderIndex'
-// import MapTest from '../pages/MapTest'
-import CustomerSignUp from '../pages/CustomerSignUp'
+
 import RequestDetail from '../pages/RequestDetail'
 import ManageAccount from '../pages/ManageAccount'
 import ManageRequest from '../pages/ManageRequest'
@@ -20,15 +19,18 @@ import ManageService from '../pages/ManageService'
 import EditService from '../pages/EditService'
 import Admin from '../pages/Admin'
 import ServiceProviderBusinessData from '../pages/ServiceProviderBusinessData'
+
+import LoginPage from '../pages/LoginPage'
+import MapTest from '../TEST/MapTest'
+import CustomerSignUp from '../pages/CustomerSignUp'
 import CustomerPage from '../pages/CustomerPage'
-// import GenTestData from '../TEST/GenTestData'
+import GenTestData from '../TEST/GenTestData'
 
 const router = createBrowserRouter([
   // 开发用
   {
     path: '/',
-
-    element: <LoginPage />,
+    element: <ServiceFinder />,
   },
 
   {
@@ -39,7 +41,6 @@ const router = createBrowserRouter([
     // HINT: userParams() to get srv_id
     path: '/service/:srv_id',
     element: <ServiceDetail />,
-    children: [{}],
   },
   {
     path: '/login',

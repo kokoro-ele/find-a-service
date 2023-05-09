@@ -16,6 +16,9 @@ function Profile({ user_id }) {
   const [form] = useForm()
   const [userInfo, setUserInfo] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isChangePwdErr, setIsChangePwdErr] = useState(false)
+
+  // const [isInfoDisabled, setIsInfoDisabled] = useState(true)
 
   const auth = getAuth()
 
@@ -61,16 +64,20 @@ function Profile({ user_id }) {
     const loginID = localStorage.getItem('loginID')
     localStorage.removeItem(loginID)
     localStorage.removeItem('loginID')
-    navigate('/')
+    navigate('/login')
   }
   const handleModalCancel = () => {
     setIsModalOpen(false)
     const loginID = localStorage.getItem('loginID')
     localStorage.removeItem(loginID)
     localStorage.removeItem('loginID')
-    navigate('/')
+    navigate('/login')
   }
   // END
+
+  // const handleInfoEnable = () => {
+  //   setIsInfoDisabled(!isInfoDisabled)
+  // }
 
   const onUpdateFinish = values => {
     const userAuth = auth.currentUser
@@ -85,6 +92,8 @@ function Profile({ user_id }) {
         showModal()
       })
     }
+
+    showModal()
   }
   const onUpdateFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo)
@@ -93,10 +102,17 @@ function Profile({ user_id }) {
   const onChangePwdFinish = values => {
     console.log('Success <changing pwd>:', values)
     const userAuth = auth.currentUser
-    updatePassword(userAuth, values.password).then(res => {
-      console.log('Successfully change password: ', values.email)
-      showModal()
-    })
+    updatePassword(userAuth, values.password).then(
+      res => {
+        console.log('Successfully change password: ', values.email)
+        showModal()
+      },
+      err => {
+        console.log('This operation requires a recent login, please log in again to continue: ', err)
+        setIsChangePwdErr(true)
+        showModal()
+      }
+    )
   }
   const onChangePwdFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo)
@@ -104,16 +120,40 @@ function Profile({ user_id }) {
 
   const offsets = [8, 8]
 
+  // NOTE: too much update
+  // const [offsets, setOffsets] = useState([8, 8])
+  // const RWDController = () => {
+  //   const viewportW = window.innerWidth
+  //   console.log('vw: ', viewportW)
+  //   console.log('offsets: ', offsets[0], offsets[1])
+  //   if (viewportW < 580) {
+  //     if (offsets[0] != 0) {
+  //       setOffsets([0, 8])
+  //     }
+  //   } else {
+  //     if (offsets[0] != 8) {
+  //       setOffsets([8, 8])
+  //     }
+  //   }
+  // }
+
+  // window.addEventListener('resize', () => {
+  //   RWDController()
+  // })
+
   return (
     <div className='profile-box'>
       {/* Popup Modal */}
       <Modal title='Note' style={{ top: 200 }} open={isModalOpen} onOk={handleModalOk} onCancel={handleModalCancel}>
-        Account information changed, please log in again!
+        {isChangePwdErr
+          ? 'This operation requires a recent login, please log in again to continue!'
+          : 'Account information changed, please log in again!'}
       </Modal>
       <div className='basic-info'>
         {userInfo ? (
           <Form
             // form={form}
+            // disabled={isInfoDisabled}
             name='basicInfo'
             labelCol={{
               span: offsets[0],
@@ -196,7 +236,7 @@ function Profile({ user_id }) {
                 offset: offsets[0],
                 span: offsets[1],
               }}>
-              <Button className='update-btn' type='primary' htmlType='submit'>
+              <Button id='update-btn' className='update-btn' type='primary' htmlType='submit'>
                 Update
               </Button>
             </Form.Item>
@@ -204,6 +244,16 @@ function Profile({ user_id }) {
         ) : (
           ''
         )}
+
+        {/* <Form.Item
+          wrapperCol={{
+            offset: offsets[0],
+            span: offsets[1],
+          }}>
+          <Button className='info-enable' onClick={handleInfoEnable}>
+            {isInfoDisabled ? 'Edit' : 'Cancel'}
+          </Button>
+        </Form.Item> */}
       </div>
 
       <div className='change-pwd'>
@@ -271,7 +321,7 @@ function Profile({ user_id }) {
                 offset: offsets[0],
                 span: offsets[1],
               }}>
-              <Button className='update-btn' type='primary' htmlType='submit'>
+              <Button id='change-btn' className='update-btn' type='primary' htmlType='submit'>
                 Change
               </Button>
             </Form.Item>
@@ -292,18 +342,28 @@ function Requests({ user_id }) {
   const isNotified = useRef(false)
   const [api, contextHolder] = notification.useNotification()
 
-  const notifyReview = item => {
+  const notifyPopup = item => {
     if (item.status == 'completed' && !item.isReviewed && !isNotified.current) {
-      console.log('Your request has been completed, now make a review!')
-      openNotification()
-      isNotified.current = true
+      const msg = 'Your request has been completed, open Notification box to make a review!'
+      // const msg = 'Your have new messages, open Notification box to check!'
+      openNotification(msg)
+      // isNotified.current = true
     }
+    if (item.status == 'needDetail' && !item.isReviewed && !isNotified.current) {
+      const msg = 'Your request requires more details, open Notification box to add details!'
+      // const msg = 'Your have new messages, open Notification box to check!'
+      openNotification(msg)
+      // isNotified.current = true
+    } else {
+      return
+    }
+    isNotified.current = true
   }
 
-  const openNotification = () => {
+  const openNotification = msg => {
     api.open({
-      message: 'Request update',
-      description: 'Your request has been completed, open Notification box to make a review!',
+      message: 'Notification Update',
+      description: msg,
       duration: 3,
       className: 'custom-class',
       icon: <SmileOutlined style={{ color: '#1c0927' }} />,
@@ -322,7 +382,7 @@ function Requests({ user_id }) {
       getRequestHistory(user_id).then(res => {
         // console.log('req history', res)
         data.current = res.map((item, index) => {
-          notifyReview(item)
+          notifyPopup(item)
 
           return {
             key: index,
@@ -352,13 +412,13 @@ function Requests({ user_id }) {
     const k = 10 * 1000 // 10s refresh
     const refresher = setInterval(() => {
       // console.log(Date.now())
-      // console.log('refreshing...')
+      console.log('Request history refreshing...')
       // window.location.reload()
       // forceUpdate()
 
       getRequestHistory(user_id).then(res => {
         data.current = res.map((item, index) => {
-          notifyReview(item)
+          notifyPopup(item)
 
           return {
             key: index,
@@ -389,7 +449,7 @@ function Requests({ user_id }) {
       dataIndex: 'req_id',
     },
     {
-      title: 'Time',
+      title: 'Request Time',
       dataIndex: 'req_time',
     },
     {
@@ -426,7 +486,18 @@ function Requests({ user_id }) {
   return (
     <div className='req-history'>
       {contextHolder}
-      {reqHistory ? <Table rowSelection={rowSelection} columns={columns} dataSource={data.current} /> : ''}
+      {reqHistory ? (
+        <Table
+          scroll={{
+            x: 1200,
+          }}
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={data.current}
+        />
+      ) : (
+        ''
+      )}
     </div>
   )
 }
@@ -466,8 +537,13 @@ export default function CustomerPage() {
     <div className='customer-page'>
       <StatusBar />
       <Row justify='center'>
-        <Col span={20} className='tabs'>
-          <Tabs activeKey={activeKey} onChange={handleTabChange} items={tabItems} />
+        <Col className='tabs'>
+          <Tabs
+            activeKey={activeKey}
+            onChange={handleTabChange}
+            items={tabItems}
+            style={{ color: '#3a0071', fontWeight: 'bold' }}
+          />
         </Col>
       </Row>
     </div>

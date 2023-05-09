@@ -66,3 +66,69 @@
     }
   }
 }
+
+@media only screen and (max-width: 800px) {
+  .service-finder {
+    .head {
+      font-size: 30px;
+    }
+    .search-bar {
+      // height: $bar_height;
+      width: 400px;
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .service-finder {
+    .head {
+      font-size: 30px;
+    }
+    .search-bar {
+      // height: $bar_height;
+      width: 200px;
+    }
+  }
+}
+
+@media only screen and (max-width: 405px) {
+  .service-finder {
+    .head {
+      font-size: 30px;
+    }
+    .search-bar {
+      // height: $bar_height;
+      width: 200px;
+    }
+
+    // .radius-select {
+    //   margin-top: 10px;
+    // }
+
+    .reset-btn {
+      margin-top: 10px;
+      margin-right: 200px;
+    }
+  }
+}
+
+@media only screen and (max-width: 303px) {
+  .service-finder {
+    .head {
+      font-size: 30px;
+    }
+    .search-bar {
+      // height: $bar_height;
+      width: 200px;
+    }
+
+    .radius-select {
+      margin-top: 10px;
+    }
+
+    .reset-btn {
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+  }
+}

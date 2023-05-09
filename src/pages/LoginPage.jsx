@@ -71,6 +71,7 @@ function LoginForm() {
           if (user) {
             console.log(user)
             console.log(encrypt(user))
+            // HINT: 加密后再存储
             localStorage.setItem(user.uid, encrypt(user))
             localStorage.setItem('loginID', user.uid)
           } else {

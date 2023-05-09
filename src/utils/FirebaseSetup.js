@@ -20,18 +20,17 @@ const firebaseConfig0 = {
   measurementId: 'G-R1D2V9VWR8',
 }
 
-// NOTE: Honghui
+// NOTE: Temp
 const firebaseConfig1 = {
-  apiKey: 'AIzaSyBeQJ5rTDJABQUsJAD1YdUE1OBjFrc3zJc',
-  authDomain: 'find-a-service-test.firebaseapp.com',
-  projectId: 'find-a-service-test',
-  storageBucket: 'find-a-service-test.appspot.com',
-  messagingSenderId: '8536938445',
-  appId: '1:8536938445:web:2eefc0de5f355ca8cc5684',
-  measurementId: 'G-CYEQVL5SY8',
+  apiKey: 'AIzaSyC2LHe5DmEPinamn3ea8AhzDvGl78qCYX4',
+  authDomain: 'temp-fbef4.firebaseapp.com',
+  projectId: 'temp-fbef4',
+  storageBucket: 'temp-fbef4.appspot.com',
+  messagingSenderId: '513327102579',
+  appId: '1:513327102579:web:00f4ca289766248031c806',
 }
 
-// Test
+// Test [db rules closed]
 const firebaseConfig2 = {
   apiKey: 'AIzaSyDW_my4UYQabntxpIuPIJaMfmdf64XVuIU',
   authDomain: 'test-36dcf.firebaseapp.com',
@@ -42,7 +41,7 @@ const firebaseConfig2 = {
 }
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig0)
+export const app = initializeApp(firebaseConfig1)
 export const db = getFirestore(app)
 export const storage = getStorage(app)
 
