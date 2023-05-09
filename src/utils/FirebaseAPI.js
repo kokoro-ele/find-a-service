@@ -695,7 +695,7 @@ export async function withDrawRequest(req_id) {
   querySnapshot.forEach(docSnapshot => {
     console.log('WithDraw request')
     updateDoc(doc(db, 'Request', docSnapshot.id), {
-      status: 'completed', // completed request when withdrawn
+      status: 'withdrawn', // request when withdrawn
       isReviewed: true, // withdrawn request donnot need review， set true to ignore review
     })
   })
