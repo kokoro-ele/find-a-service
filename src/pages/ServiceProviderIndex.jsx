@@ -63,7 +63,6 @@ const ServiceProviderIndex = () => {
               justifyContent: 'center',
               alignItems: 'center',
               textAlign: 'center',
-              textAlign: 'center',
               width: '100%',
               height: '100vh',
               backgroundColor: '#050816',
