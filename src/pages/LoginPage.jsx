@@ -207,7 +207,7 @@ function LoginForm() {
           <Form.Item>
             No Account?
             {/* TODO: 根据身份跳转不同登陆页面, href 通过 handleRadioChange 传值 */}
-            <a className='create-one' href='/customer-signup'>
+            <a className='create-one' href={radioValue == 1 ? '/customer-signup' : '/provider-signup'}>
               {' '}
               Create one!
             </a>
