@@ -663,6 +663,7 @@ export async function getStatusRequestCountByProviderId(id) {
   const detail_querySnapshot = await getDocs(detailQ)
   const detailCnt = detail_querySnapshot.size
   return [pendingCnt + detailCnt, acceptedCnt, rejectedCnt + completedCnt]
+}
 export async function setNotificationStatus(msg_id) {
   const q = query(collection(db, 'Notification'), where('msg_id', '==', msg_id))
   const querySnapshot = await getDocs(q)
