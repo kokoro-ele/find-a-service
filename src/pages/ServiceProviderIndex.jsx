@@ -25,6 +25,7 @@ const ServiceProviderIndex = () => {
       setAvatarSrc(res.avatar)
       setCanLogin(res.approved)
       setUpdate(res.needupdate)
+      setLoading(false)
     })
     if (location === 'manage-service' || location === 'add-service') {
       setSelectedMenuItem('service')
@@ -35,7 +36,6 @@ const ServiceProviderIndex = () => {
     } else {
       setSelectedMenuItem('overview')
     }
-    setLoading(false)
   }, [])
   // console.log(location)
   const handleMenuItemClick = e => {

@@ -57,13 +57,13 @@ const ServiceProviderBusinessData = () => {
         <Col span={8}>
           <div className='service-data'>
             <h3 className='line-h3'>My services</h3>
-            <Divider style={{ 'background-color': 'white' }} />
+            <Divider style={{ backgroundColor: 'white' }} />
             <h3 className='line-h3'>Total:</h3>
             <h3 className='line-h3' style={{ color: '#9ba3c0' }}>
               {serviceCount}
             </h3>
             <h3 className='line-h3'>Average rating:</h3>
-            <Rate allowHalf value={4.3} />
+            <Rate disable allowHalf value={5} />
           </div>
         </Col>
       </Row>

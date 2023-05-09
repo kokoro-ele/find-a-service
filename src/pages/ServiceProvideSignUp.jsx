@@ -52,6 +52,7 @@ function SignupForm() {
   const [imageList, setImageList] = useState([])
   const [fileList, setFileList] = useState([])
   const formRef = useRef(null)
+
   const findGeo = async () => {
     const { results } = await geoCoder.geocode({ address: formRef.current.getFieldValue('location') })
     //setGPS({ lat: result[0].geometry.location.lat(), lng: result[0].geometry.location.lng() })
