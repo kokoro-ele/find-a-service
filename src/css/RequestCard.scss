@@ -17,16 +17,16 @@
     align-items: center;
   }
 
-  .card {
+  .request-card {
     width: 300px;
+    font-size: 1em;
     color: white;
     // h-shadow v-shadow blur spread color insert
     // box-shadow: 2px 2px 10px 0 rgb(131, 125, 114);
     // background-color: wheat;
     // background-color: rgb(147, 138, 222);
     // background-color: black;
-    background-color: #260d33;
-    background-color: #4223536d;
+    background-color: #10052d;
     border-radius: 20px;
     transform-style: preserve-3d;
   }

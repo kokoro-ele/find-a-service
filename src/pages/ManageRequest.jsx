@@ -4,6 +4,7 @@ import RequestCard from '../components/RequestCard'
 import { getRequestsByServiceProviderId } from '../utils/FirebaseAPI'
 import { addFakeRequest, getAllRequests } from '../utils/FirebaseAPI'
 import { getLoginUserId } from '../utils/LoginInfo'
+import { Link } from 'react-router-dom'
 import '../css/ManageRequest.scss'
 const ManageRequest = () => {
   const [requests, setRequests] = useState([])
@@ -22,7 +23,11 @@ const ManageRequest = () => {
       <Row gutter={[16, 16]}>
         {requests.map((request, index) => (
           <Col key={index} xs={24} sm={12} md={8} lg={6}>
-            <RequestCard data={request} />
+            {/* onClick={() => handleCardClick(data)} */}
+            {/* window.location.href = '/service-provider/request-detail/' + data.req_id */}
+            <Link to={'/service-provider/request-detail/' + request.req_id}>
+              <RequestCard data={request} />
+            </Link>
           </Col>
         ))}
       </Row>

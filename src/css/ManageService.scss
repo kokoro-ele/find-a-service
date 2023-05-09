@@ -1,7 +1,11 @@
-.service-area {
-  background-color: #001716;
+.provider-cards-area {
   margin: 0;
   padding: 0;
-  height: 100%;
   width: 100%;
+  height: 100%;
+  clear: both;
+}
+
+.provider-card-list-container {
+  max-height: 300px;
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component'
 import { motion } from 'framer-motion'
-import { CheckCircleOutlined } from '@ant-design/icons'
+import { CheckCircleTwoTone } from '@ant-design/icons'
 import 'react-vertical-timeline-component/style.min.css'
 import { Button, Row, Col } from 'antd'
 import RequestInfo from '../components/RequestInfo'
@@ -10,48 +10,86 @@ import { textVariant } from '../utils/motion'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import '../css/RequestDetail.scss'
-import { getRecommendServices, getRequestById } from '../utils/FirebaseAPI'
+import { addNotification, getRecommendServices, getRequestById } from '../utils/FirebaseAPI'
 import { updateRequestById } from '../utils/FirebaseAPI'
 import ParticlesBg from '../components/ParticlesBg'
-const Statusline = ({ params, step }) => {
-  const changeStatus = async selection => {
-    console.log('change status', params, params.id)
-    if (selection === 'accept') {
-      await updateRequestById(params.id, { status: 'accepted' })
-    } else if (selection === 'reject') {
-      await updateRequestById(params.id, { status: 'rejected' })
-    } else if (selection === 'detail') {
-      await updateRequestById(params.id, { status: 'needDetail' })
-    }
-    window.location.reload()
-  }
-
-  return (
-    <VerticalTimelineElement
-      contentStyle={{
-        background: '#1d1836',
-        color: '#fff',
-      }}
-      contentArrowStyle={{ borderRight: '7px solid  #232631' }}
-      // date={status.date}
-      // iconStyle={{ background: status.iconBg }}
-      icon={<CheckCircleOutlined style={{ width: '100%', height: '100%' }} />}>
-      <div>
-        <h3 className='text-xl font-bold'>{step.title}</h3>
-        <h4> {step.description}</h4>
-      </div>
-      {step.title === 'Pending' && step.cur && (
-        <div>
-          <Button onClick={() => changeStatus('accept')}>Accept</Button>
-          <Button onClick={() => changeStatus('reject')}>Reject</Button>
-          <Button onClick={() => changeStatus('detail')}>Need more detail</Button>
-        </div>
-      )}
-    </VerticalTimelineElement>
-  )
-}
+import { useNavigate } from 'react-router-dom'
 
 const RequestDetail = () => {
+  const Statusline = ({ params, step }) => {
+    const navigate = useNavigate()
+    const changeStatus = async selection => {
+      console.log('change status', params, params.id)
+      if (selection === 'accept') {
+        await updateRequestById(params.id, { status: 'accepted' })
+      } else if (selection === 'reject') {
+        await updateRequestById(params.id, { status: 'rejected' })
+      } else if (selection === 'detail') {
+        const notifyData = {
+          msg_id: 'tobe generated',
+          msg_type: 'needDetail',
+          user_id: '',
+          user_name: '',
+          srv_id: request.srv_id,
+          srv_name: request.srv_name,
+          prv_name: request.prv_name,
+          msg_title: 'Need more detail',
+          msg_body: 'Please provide more detail',
+          time: new Date(),
+          isRead: false,
+          needDetail: {
+            req_id: request.req_id,
+            req_time: request.req_time,
+          },
+          jumpLink: '/',
+        }
+        addNotification(notifyData).then(res => {
+          console.log(res)
+        })
+
+        await updateRequestById(params.id, { status: 'needDetail' })
+      } else if (selection === 'completed') {
+        await updateRequestById(params.id, { status: 'completed' })
+      }
+      getRequestById(params.id).then(res => {
+        const data = res.data()
+        console.log('in reqeust detail getrequestbyid', data)
+        console.log(data)
+        setRequest(data)
+        setSteps(constructStepData(data.status))
+        // console.log(constructStepData('pending')[0].description)
+      })
+    }
+
+    return (
+      <VerticalTimelineElement
+        contentStyle={{
+          background: '#1d1836',
+          color: '#fff',
+        }}
+        contentArrowStyle={{ borderRight: '7px solid  #232631' }}
+        // date={status.date}
+        iconStyle={{ backgroundColor: '#1d1836', color: '#fff' }}
+        icon={<CheckCircleTwoTone twoToneColor='#52c41a' style={{ width: '100%', height: '100%' }} />}>
+        <div>
+          <h3 className='text-xl font-bold'>{step.title}</h3>
+          <h4> {step.description}</h4>
+        </div>
+        {step.title === 'Pending' && step.cur && (
+          <div>
+            <Button onClick={() => changeStatus('accept')}>Accept</Button>
+            <Button onClick={() => changeStatus('reject')}>Reject</Button>
+            <Button onClick={() => changeStatus('detail')}>Need more detail</Button>
+          </div>
+        )}
+        {step.title === 'Working' && (
+          <div>
+            <Button onClick={() => changeStatus('completed')}>Work Done!</Button>
+          </div>
+        )}
+      </VerticalTimelineElement>
+    )
+  }
   const [request, setRequest] = useState(null)
   const [steps, setSteps] = useState(constructStepData('pending'))
   const params = useParams()
@@ -76,7 +114,7 @@ const RequestDetail = () => {
       </Row>
       <Row>
         <Col span={24}>
-          <div className='mt-20 flex flex-col'>
+          <div>
             <VerticalTimeline>
               {steps.map((s, index) => (
                 <Statusline key={`status-${index}`} params={params} step={s} />

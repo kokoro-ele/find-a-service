@@ -64,9 +64,10 @@ export default function RequestCard({ data }) {
   }
 
   return (
-    <div className='card' onClick={() => handleCardClick(data)}>
+    // onClick={() => handleCardClick(data)}
+    <div className='card'>
       <Col className='wrap'>
-        <div className='card' ref={cardDOM}>
+        <div className='request-card' ref={cardDOM}>
           {/* <div className='image'>TODO: img 404</div> */}
           {showStatus(data ? data.status : 0)}
 

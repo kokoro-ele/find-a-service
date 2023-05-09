@@ -12,17 +12,19 @@
 }
 
 .add-service-head {
-  background-color: #1fffff;
+  background-color: #00bcbc;
   font-size: 2em;
   display: flex;
   flex-direction: column;
+  border-radius: 20px;
+
   justify-content: flex-start;
   align-items: center;
 }
 .add-service-basic {
-  background-color: #1fffff;
+  background-color: #00bcbc;
   border: 5px;
-  border-radius: 5px;
+  border-radius: 20px;
   border-style: solid;
   border-color: black;
   width: 90%;
@@ -31,9 +33,9 @@
 }
 
 .add-service-location {
-  background-color: #1fffff;
+  background-color: #00bcbc;
   border: 5px;
-  border-radius: 5px;
+  border-radius: 20px;
   border-style: solid;
   border-color: black;
   width: 90%;
@@ -42,9 +44,9 @@
 }
 
 .add-service-multimedia {
-  background-color: #1fffff;
+  background-color: #00bcbc;
   border: 5px;
-  border-radius: 5px;
+  border-radius: 20px;
   border-style: solid;
   border-color: black;
   width: 90%;

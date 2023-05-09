@@ -14,6 +14,17 @@ import { getServiceProviderById, updateServiceProviderById } from '../utils/Fire
 import { getLoginUserId } from '../utils/LoginInfo'
 import '../css/ManageAccount.scss'
 
+const Label = ({ text }) => (
+  <span
+    style={{
+      color: 'white',
+      fontWeight: 'bold',
+      fontSize: '20px',
+    }}>
+    {text}
+  </span>
+)
+
 const ManageAccount = () => {
   const loginUserId = getLoginUserId()
   const [avatarSrc, setAvatarSrc] = useState('')
@@ -51,40 +62,41 @@ const ManageAccount = () => {
   return (
     <div className='account-container'>
       <Form
+        className='account-form'
         ref={formRef}
         name='basic'
         labelCol={{
-          span: 8,
+          span: 6,
         }}
         wrapperCol={{
-          span: 16,
+          span: 14,
         }}
         style={{
           maxWidth: 600,
+          color: 'white',
+          textWeight: 'bold',
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete='off'>
         <Row className='center-row'>
-          <Avatar src={avatarSrc} size={128} />
-        </Row>
-
-        <Row>
-          <Form.Item
-            label='Username'
-            name='prv_name'
-            rules={[
-              {
-                required: true,
-                message: 'Please input your username!',
-              },
-            ]}>
-            <Input />
-          </Form.Item>
+          <Avatar src={avatarSrc} size={148} />
         </Row>
 
         <Form.Item
-          label='Password'
+          label={Label({ text: 'Name' })}
+          name='prv_name'
+          rules={[
+            {
+              required: true,
+              message: 'Please input your username!',
+            },
+          ]}>
+          <Input className='account-input' />
+        </Form.Item>
+
+        <Form.Item
+          label={Label({ text: 'Password' })}
           name='password'
           rules={[
             {
@@ -95,12 +107,12 @@ const ManageAccount = () => {
           <Input.Password />
         </Form.Item>
 
-        <Form.Item label='Description' name='description'>
-          <Input />
+        <Form.Item label={Label({ text: 'Description' })} name='description'>
+          <Input className='account-input' />
         </Form.Item>
 
         <Form.Item
-          label='Address'
+          label={Label({ text: 'Address' })}
           name='Address'
           rules={[
             {
@@ -108,10 +120,10 @@ const ManageAccount = () => {
               message: 'Please input your address!',
             },
           ]}>
-          <Input />
+          <Input className='account-input' />
         </Form.Item>
         <Form.Item
-          label='Email'
+          label={Label({ text: 'Email' })}
           name='Email'
           rules={[
             {
@@ -119,7 +131,7 @@ const ManageAccount = () => {
               message: 'Please input your username!',
             },
           ]}>
-          <Input />
+          <Input className='account-input' />
         </Form.Item>
 
         <Form.Item
@@ -127,7 +139,7 @@ const ManageAccount = () => {
             offset: 8,
             span: 16,
           }}>
-          <Button type='primary' htmlType='submit'>
+          <Button type='primary' htmlType='submit' style={{ marginLeft: '4em' }}>
             Save
           </Button>
         </Form.Item>

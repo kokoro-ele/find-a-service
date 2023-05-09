@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Layout, Menu, Avatar } from 'antd'
+import { Layout, Menu, Avatar, Button } from 'antd'
 import { Outlet, useLocation, Link } from 'react-router-dom'
 import '../css/ServiceProviderIndex.scss'
 import { useEffect } from 'react'
@@ -9,6 +9,7 @@ import { getLoginUserId } from '../utils/LoginInfo'
 import { getServiceProviderById } from '../utils/FirebaseAPI'
 import ManageAccount from './ManageAccount'
 const ServiceProviderIndex = () => {
+  const [loading, setLoading] = useState(true)
   const loginId = getLoginUserId()
   const [canLogin, setCanLogin] = useState(false)
   const [update, setUpdate] = useState(false)
@@ -34,11 +35,15 @@ const ServiceProviderIndex = () => {
     } else {
       setSelectedMenuItem('overview')
     }
+    setLoading(false)
   }, [])
   // console.log(location)
   const handleMenuItemClick = e => {
     setSelectedMenuItem(e.key)
   }
+
+  if (loading) return <div>loading</div>
+
   if (!canLogin) {
     if (update)
       return (
@@ -47,30 +52,53 @@ const ServiceProviderIndex = () => {
           <ManageAccount />
         </div>
       )
-    else return <h1>Your account is not approved or you are banned.</h1>
+    else
+      return (
+        <>
+          <ParticlesBg />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+              textAlign: 'center',
+              width: '100%',
+              height: '100vh',
+              backgroundColor: '#050816',
+            }}>
+            <h1 style={{ color: 'white' }}>Your account is not approved or you are banned.</h1>)
+            <Button onClick={() => window.history.back()}>Back</Button>
+          </div>
+        </>
+      )
   }
+
   return (
     <div className='service-provider-container'>
       <Layout className='navigation'>
         <Sider theme='dark'>
-          <div className='info'>
-            <Avatar
-              style={{ zIndex: 15 }}
-              size={64}
-              src={avatarSrc}
-              onClick={() => {
-                console.log('click', avatarSrc)
-              }}
-            />
-            <span> {name} </span>
-          </div>
-
           <Menu
             theme='dark'
             mode='inline'
             selectedKeys={[selectedMenuItem]}
             onClick={handleMenuItemClick}
             className='index-menu'>
+            <Menu.Item key='avatar'>
+              <div className='info'>
+                <Avatar
+                  style={{ zIndex: 15 }}
+                  size={64}
+                  src={avatarSrc}
+                  onClick={() => {
+                    console.log('click', avatarSrc)
+                  }}
+                />
+                <span> {name} </span>
+              </div>
+            </Menu.Item>
+
             <Menu.Item key='overview'>
               <Link to='/service-provider/business-data'>My Info</Link>
             </Menu.Item>

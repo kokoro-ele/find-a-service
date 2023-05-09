@@ -31,7 +31,7 @@ import '../css/AddService.scss'
 const { Option } = Select
 const formItemLayout = {
   labelCol: {
-    span: 6,
+    span: 8,
   },
   wrapperCol: {
     span: 20,
@@ -44,6 +44,16 @@ const normFile = e => {
   }
   return e?.fileList
 }
+const Label = text => (
+  <span
+    style={{
+      color: 'black',
+      fontWeight: 'bold',
+      fontSize: '20px',
+    }}>
+    {text}
+  </span>
+)
 
 const Marker = ({ text }) => (
   <div style={{ fontSize: '20px' }}>
@@ -69,6 +79,7 @@ const AddService = () => {
   const [loginUserId, setLoginUserId] = useState(getLoginUserId())
   const [loginUserName, setLoginUserName] = useState('')
   const [geoCoder, setGeoCoder] = useState()
+  const [area, setArea] = useState('')
   const [items, setItems] = useState([
     'Cleaning',
     ' Babysitting',
@@ -134,7 +145,7 @@ const AddService = () => {
       srv_id: 'tobegenerated',
       prv_id: loginUserId,
       prv_name: loginUserName,
-      location: { txt: values.location, gps: [gps.lng, gps.lat] },
+      location: { txt: values.location, area: area, gps: [gps.lng, gps.lat] },
       imgs: imagesList,
       videos: videosList,
       rate: 0,
@@ -178,8 +189,15 @@ const AddService = () => {
     setGPS({ lat: value.lat, lng: value.lng })
     const { results } = await geoCoder.geocode({ location: { lat: value.lat, lng: value.lng } })
     //setGPS({ lat: result[0].geometry.location.lat(), lng: result[0].geometry.location.lng() })
-    //console.log(results)
+    console.log(results)
     formRef.current.setFieldsValue({ location: results[0].formatted_address })
+    for (const c of results[0].address_components) {
+      if (c.types.includes('postal_town')) {
+        // console.log(c.long_name)
+        setArea(c.long_name)
+        break
+      }
+    }
     setMarker(true)
   }
 
@@ -206,12 +224,12 @@ const AddService = () => {
           </Row>
           <Row>
             <Col span={12}>
-              <Form.Item name='srv_name' label='Title'>
+              <Form.Item name='srv_name' label={Label('Name')}>
                 <Input placeholder='Please enter the name of the service' />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item name='price' label='Price'>
+              <Form.Item name='price' label={Label('Price')}>
                 <InputNumber addonAfter='£' />
               </Form.Item>
             </Col>
@@ -219,12 +237,12 @@ const AddService = () => {
 
           <Row>
             <Col span={12}>
-              <Form.Item name='total' label='Capicity'>
+              <Form.Item name='total' label={Label('Total')}>
                 <InputNumber control='true' min={1} />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item name='duration' label='Duration'>
+              <Form.Item name='duration' label={Label('Duration')}>
                 <InputNumber control='true' min={1} addonAfter='min' />
               </Form.Item>
             </Col>
@@ -232,7 +250,7 @@ const AddService = () => {
 
           <Row>
             <Col span={12}>
-              <Form.Item name='category' label='Category'>
+              <Form.Item name='category' label={Label('Category')}>
                 <Select
                   style={{
                     width: 300,
@@ -267,7 +285,7 @@ const AddService = () => {
           </Row>
           <Row>
             <Col span={12}>
-              <Form.Item name='available_time' label='Time'>
+              <Form.Item name='available_time' label={Label('Time')}>
                 <Checkbox.Group options={plainOptions} defaultValue={defaultCheckedList} layout='vertical' />
               </Form.Item>
             </Col>
@@ -298,7 +316,7 @@ const AddService = () => {
           <Row>
             <Col span={12}>
               {/* Show the selected location */}
-              <Form.Item name='location' label='Location'>
+              <Form.Item name='location' label={Label('Location')}>
                 <Input placeholder='Please enter the address/postcode the service covers' />
               </Form.Item>
             </Col>
@@ -306,12 +324,22 @@ const AddService = () => {
               <Button onClick={findGeo}>Find!</Button>
             </Col>
             {/* show the current gps */}
-            <Row>
-              <div>
-                Selected GPS: lag:<span>{gps.lat}</span>
-                <span>lng:{gps.lng}</span>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <div style={{ textAlign: 'center' }}>
+                <h3>
+                  lat: <span style={{ fontSize: '2.3em' }}>{gps.lat.toFixed(4)}</span>
+                </h3>
               </div>
-            </Row>
+            </Col>
+            <Col span={12}>
+              <div style={{ textAlign: 'center' }}>
+                <h3>
+                  lng:<span style={{ fontSize: '2.3em' }}>{gps.lng.toFixed(4)}</span>
+                </h3>
+              </div>
+            </Col>
           </Row>
         </div>
         <div className='add-service-multimedia'>
@@ -322,7 +350,7 @@ const AddService = () => {
           </Row>
           <Row>
             <Col span={12}>
-              <Form.Item label='Image'>
+              <Form.Item label={Label('Images')}>
                 <Form.Item
                   valuePropName='imageList'
                   getValueFromEvent={e => (Array.isArray(e) ? e : e && e.imageList)}
@@ -347,7 +375,7 @@ const AddService = () => {
 
           <Row>
             <Col span={12}>
-              <Form.Item label='Video'>
+              <Form.Item label={Label('Video')}>
                 <Form.Item
                   valuePropName='videoList'
                   getValueFromEvent={e => (Array.isArray(e) ? e : e && e.videoList)}
@@ -362,7 +390,7 @@ const AddService = () => {
           </Row>
           <Row>
             <Col span={18}>
-              <Form.Item name='desc' label='Desciption:'>
+              <Form.Item name='desc' label={Label('Description')}>
                 <TextArea placeholder='Enter your description.' autoSize />
               </Form.Item>
             </Col>

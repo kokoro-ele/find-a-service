@@ -110,7 +110,7 @@ export async function getServicesById(id) {
   // END
   const serviceRef = doc(db, 'Service', id)
   const service = await getDoc(serviceRef)
-  return service
+  return service.data()
 }
 
 export async function updateServiceById(id, data) {
@@ -298,7 +298,7 @@ export async function addFakeRequest(n) {
       req_id: 'test' + i,
       user_id: 'testuser' + i,
       srv_id: 'testsrv' + i,
-      prv_id: '6n1NRNlTHZY2zQoHA1NePq0E8Fy2',
+      prv_id: 'GP91I5ic6tR69lTVmIIbA8RAJmd2',
       desc: 'des' + i,
       req_time: new Date().getTime(),
       status: 'pending',
@@ -348,7 +348,8 @@ export async function addFakeData(n) {
       category: 'Cleaning',
       srv_name: 'Kitchen Cleaning', // str, service name
       description: 'This is the description of Kitchen Cleaning',
-      prv_id: `#prv-test-${i}`, // str, provider id
+      // prv_id: `#prv-test-${i}`, // str, provider id
+      prv_id: 'GP91I5ic6tR69lTVmIIbA8RAJmd2', // str, provider id
       prv_name: `Provider Company-${i}`, // str, provider name
       videos: ['https://www.youtube.com/watch?v=kr0RisHSDwI'], // array, to dispaly service, optional
       imgs: [
@@ -432,6 +433,12 @@ export async function addFakeData(n) {
   console.log('Generating fake data of: Service, ServiceProvider, Review, Notification')
 }
 
+export async function addNotification(data) {
+  const docRef = await addDoc(collection(db, 'Notification'), data)
+  const msg_id = docRef.id
+  await updateDoc(docRef, { msg_id })
+  return docRef
+}
 export async function addFakeRequestData(n) {
   let fakeRequestList = []
   for (let i = 0; i < n; i++) {

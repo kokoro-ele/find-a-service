@@ -25,12 +25,12 @@ function constructStepData(status = 'needDetail') {
     cur: false,
   }
   const complete = {
-    title: ' Completed',
+    title: 'Completed',
     description: 'The service is done. ',
     cur: true,
   }
   const working = {
-    title: ' Working',
+    title: 'Working',
     description: 'You have accepted this request. Please complete the service in time.',
     cur: true,
   }
