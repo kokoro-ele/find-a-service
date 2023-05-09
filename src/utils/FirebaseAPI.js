@@ -619,7 +619,7 @@ export async function getRequestHistory(user_id) {
 export async function getNotifications(user_id) {
   const q = query(
     collection(db, 'Notification'),
-    where('user_id', '==', user_id),
+    where('user_id', '==', 'All'),
     orderBy('isRead'),
     orderBy('time', 'desc')
   )

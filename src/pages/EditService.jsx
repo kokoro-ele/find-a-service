@@ -144,7 +144,7 @@ function EditService() {
     const data = {
       msg_id: 'tobe generated',
       msg_type: 'update',
-      user_id: '',
+      user_id: 'All',
       user_name: '',
       srv_id: service.srv_id,
       srv_name: service.srv_name,
@@ -152,9 +152,9 @@ function EditService() {
       msg_title: msgTitle,
       msg_body: msgBody,
       needDetail: null,
-      time: new Date(),
+      time: Date.now(),
       isRead: false,
-      jumpLink: '/',
+      jumpLink: `/service/${service.srv_id}`,
     }
     addNotification(data).then(res => {
       console.log(res)

@@ -25,6 +25,7 @@ const ServiceProviderIndex = () => {
       setAvatarSrc(res.avatar)
       setCanLogin(res.approved)
       setUpdate(res.needupdate)
+      // setLoading(false)
     })
     if (location === 'manage-service' || location === 'add-service') {
       setSelectedMenuItem('service')
@@ -41,6 +42,8 @@ const ServiceProviderIndex = () => {
   const handleMenuItemClick = e => {
     setSelectedMenuItem(e.key)
   }
+
+  console.log('check loading: ', loading)
 
   if (loading) return <div>loading</div>
 

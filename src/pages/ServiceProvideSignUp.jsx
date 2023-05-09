@@ -1,5 +1,5 @@
 import { Col, Modal, Row, message, Upload, Button, Form, Input, Radio } from 'antd'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons'
 import '../css/ServiceProviderSignUp.scss'
 // import { db } from '../utils/FirebaseSetup'
@@ -39,7 +39,7 @@ const beforeUpload = file => {
 
 function SignupForm() {
   const [geoCoder, setGeoCoder] = useState()
-  const [gps, setGPS] = useState({ lat: 50.911, lng: -1.4 })
+  const [gps, setGPS] = useState({ lat: 50.9364116, lng: -1.3979611 })
   const [marker, setMarker] = useState(false)
   const navigate = useNavigate()
   const [previewOpen, setPreviewOpen] = useState(false)
@@ -183,10 +183,9 @@ function SignupForm() {
         txt: values.address,
         gps: gps,
       },
-      avatar: [
+      avatar:
         values.avatar.file.response ||
-          'https://firebasestorage.googleapis.com/v0/b/localservice-381523.appspot.com/o/avatars%2Fdefault.png?alt=media&token=aa794ad1-1304-4a88-bbed-2a2a52f22fb9',
-      ], // handle later
+        'https://firebasestorage.googleapis.com/v0/b/localservice-381523.appspot.com/o/avatars%2Fdefault.png?alt=media&token=aa794ad1-1304-4a88-bbed-2a2a52f22fb9', // handle later
       imgs: [...imgList],
     }
 
@@ -366,7 +365,7 @@ function SignupForm() {
             {/* <Col span={12} style={{ height: '300px' }}> */}
             <GoogleMapReact
               bootstrapURLKeys={{ key: 'AIzaSyArC2oFHyAeSCPIK6AAMbghWW5fL2jExqY' }}
-              defaultCenter={{ lat: 50.911, lng: -1.4 }}
+              defaultCenter={{ lat: 50.9364116, lng: -1.3979611 }}
               defaultZoom={15}
               center={gps}
               onClick={onMapClicked}

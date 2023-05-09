@@ -28,14 +28,14 @@ const RequestDetail = () => {
         const notifyData = {
           msg_id: 'tobe generated',
           msg_type: 'needDetail',
-          user_id: '',
+          user_id: 'All',
           user_name: '',
           srv_id: request.srv_id,
           srv_name: request.srv_name,
           prv_name: request.prv_name,
           msg_title: 'Need more detail',
           msg_body: 'Please provide more detail',
-          time: new Date(),
+          time: Date.now(),
           isRead: false,
           needDetail: {
             req_id: request.req_id,

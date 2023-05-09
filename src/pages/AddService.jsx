@@ -91,7 +91,7 @@ const AddService = () => {
   const [name, setName] = useState('')
   const [imagesList, setImagesList] = useState([])
   const [videosList, setVideosList] = useState([])
-  const [gps, setGPS] = useState({ lat: 50.911, lng: -1.4 })
+  const [gps, setGPS] = useState({ lat: 50.9364116, lng: -1.3979611 })
   const [marker, setMarker] = useState(false)
   const inputRef = useRef(null)
 
@@ -303,7 +303,7 @@ const AddService = () => {
             {/* <Col span={12} style={{ height: '300px' }}> */}
             <GoogleMapReact
               bootstrapURLKeys={{ key: 'AIzaSyArC2oFHyAeSCPIK6AAMbghWW5fL2jExqY' }}
-              defaultCenter={{ lat: 50.911, lng: -1.4 }}
+              defaultCenter={{ lat: 50.9364116, lng: -1.3979611 }}
               defaultZoom={15}
               center={gps}
               onClick={onMapClicked}
