@@ -149,6 +149,10 @@ const AddService = () => {
       imgs: imagesList,
       videos: videosList,
       rate: 0,
+      available_time: {
+        days: values.days,
+        time: values.time,
+      },
       remain: values.total,
     })
     console.log({
@@ -285,8 +289,16 @@ const AddService = () => {
           </Row>
           <Row>
             <Col span={12}>
-              <Form.Item name='available_time' label={Label('Time')}>
+              <Form.Item name='days' label={Label('Days')}>
                 <Checkbox.Group options={plainOptions} defaultValue={defaultCheckedList} layout='vertical' />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row justify='start'>
+            {/* 靠左 */}
+            <Col span={12}>
+              <Form.Item name='time' label={Label('Time')}>
+                <Input placeholder='Please enter the time ' />
               </Form.Item>
             </Col>
           </Row>
@@ -329,14 +341,14 @@ const AddService = () => {
             <Col span={12}>
               <div style={{ textAlign: 'center' }}>
                 <h3>
-                  lat: <span style={{ fontSize: '2.3em' }}>{gps.lat.toFixed(4)}</span>
+                  <span style={{ fontSize: '2.3em' }}>lat: {gps.lat.toFixed(4)}</span>
                 </h3>
               </div>
             </Col>
             <Col span={12}>
               <div style={{ textAlign: 'center' }}>
                 <h3>
-                  lng:<span style={{ fontSize: '2.3em' }}>{gps.lng.toFixed(4)}</span>
+                  <span style={{ fontSize: '2.3em' }}>lng:{gps.lng.toFixed(4)}</span>
                 </h3>
               </div>
             </Col>

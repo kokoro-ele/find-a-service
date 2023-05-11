@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import '../css/RequestDetail.scss'
 import { addNotification, getRecommendServices, getRequestById } from '../utils/FirebaseAPI'
-import { updateRequestById } from '../utils/FirebaseAPI'
+import { updateRequestById, updateServiceRemainById } from '../utils/FirebaseAPI'
 import ParticlesBg from '../components/ParticlesBg'
 import { useNavigate } from 'react-router-dom'
 
@@ -23,6 +23,7 @@ const RequestDetail = () => {
       if (selection === 'accept') {
         await updateRequestById(params.id, { status: 'accepted' })
       } else if (selection === 'reject') {
+        await updateServiceRemainById(request.srv_id)
         await updateRequestById(params.id, { status: 'rejected' })
       } else if (selection === 'detail') {
         const notifyData = {
@@ -41,7 +42,7 @@ const RequestDetail = () => {
             req_id: request.req_id,
             req_time: request.req_time,
           },
-          jumpLink: '/',
+          jumpLink: '/' + request.srv_id,
         }
         addNotification(notifyData).then(res => {
           console.log(res)
@@ -49,6 +50,28 @@ const RequestDetail = () => {
 
         await updateRequestById(params.id, { status: 'needDetail' })
       } else if (selection === 'completed') {
+        const notifyData = {
+          msg_id: 'tobe generated',
+          msg_type: 'review',
+          user_id: 'All',
+          user_name: '',
+          srv_id: request.srv_id,
+          srv_name: request.srv_name,
+          prv_name: request.prv_name,
+          msg_title: 'Need more detail',
+          msg_body: 'Please provide more detail',
+          time: Date.now(),
+          isRead: false,
+          needDetail: {
+            req_id: request.req_id,
+            req_time: request.req_time,
+          },
+          jumpLink: '/' + request.srv_id,
+        }
+        addNotification(notifyData).then(res => {
+          console.log(res)
+        })
+        await updateServiceRemainById(request.srv_id)
         await updateRequestById(params.id, { status: 'completed' })
       }
       getRequestById(params.id).then(res => {

@@ -1,6 +1,6 @@
-import { db, storage } from './FirebaseSetup'
+import { db, storage, auth } from './FirebaseSetup'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { doc, limit, orderBy } from 'firebase/firestore'
+import { doc, increment, limit, orderBy } from 'firebase/firestore'
 import { collection, addDoc, getDocs, setDoc, where, query, updateDoc, getDoc, deleteDoc } from 'firebase/firestore'
 
 export async function addData(path, data) {
@@ -116,6 +116,14 @@ export async function getServicesById(id) {
 export async function updateServiceById(id, data) {
   const serviceRef = doc(db, 'Service', id)
   const service = await updateDoc(serviceRef, data)
+  return service
+}
+
+export async function updateServiceRemainById(id, data) {
+  const serviceRef = doc(db, 'Service', id)
+  const service = await updateDoc(serviceRef, {
+    remain: increment(1),
+  })
   return service
 }
 

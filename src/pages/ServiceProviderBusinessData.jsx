@@ -41,7 +41,7 @@ const ServiceProviderBusinessData = () => {
         <Col span={8}>
           <div className='service-data'>
             <Carousel autoplay>
-              {user.imgs?.map((item, index) => {
+              {user?.imgs?.map((item, index) => {
                 return (
                   <img
                     style={{ width: '100%', height: '100px', objectFit: 'cover' }}
@@ -62,8 +62,8 @@ const ServiceProviderBusinessData = () => {
             <h3 className='line-h3' style={{ color: '#9ba3c0' }}>
               {serviceCount}
             </h3>
-            <h3 className='line-h3'>Average rating:</h3>
-            <Rate disable allowHalf value={5} />
+            {/* <h3 className='line-h3'>Average rating:</h3>
+            <Rate disable allowHalf value={5} /> */}
           </div>
         </Col>
       </Row>

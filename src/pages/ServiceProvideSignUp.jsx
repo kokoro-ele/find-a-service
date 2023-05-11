@@ -297,7 +297,7 @@ function SignupForm() {
 
             {/* Confirm password */}
             <Form.Item
-              label='Confirm Password'
+              label='Confirm'
               name='confirmPwd'
               dependencies={['password']}
               rules={[
@@ -387,20 +387,30 @@ function SignupForm() {
               <Button onClick={findGeo}>Find!</Button>
             </Col>
             {/* show the current gps */}
-            <Row>
-              <div>
-                Selected GPS: lag:<span>{gps.lat}</span>
-                <span>lng:{gps.lng}</span>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <div style={{ textAlign: 'center' }}>
+                <h3>
+                  <span style={{ fontSize: '2.3em' }}>lat: {gps.lat.toFixed(4)}</span>
+                </h3>
               </div>
-            </Row>
+            </Col>
+            <Col span={12}>
+              <div style={{ textAlign: 'center' }}>
+                <h3>
+                  <span style={{ fontSize: '2.3em' }}>lng:{gps.lng.toFixed(4)}</span>
+                </h3>
+              </div>
+            </Col>
           </Row>
         </div>
-        <Row className='center-row'>
-          <Form.Item
-            wrapperCol={{
-              offset: 8,
-              span: 24,
-            }}>
+        <Row
+          className='center-row'
+          style={{
+            marginTop: '20px',
+          }}>
+          <Form.Item>
             <Button className='create-btn' type='primary' htmlType='submit'>
               Create!
             </Button>
