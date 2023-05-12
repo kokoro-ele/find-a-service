@@ -40,8 +40,18 @@ const firebaseConfig2 = {
   appId: '1:442848617497:web:19c2b70ea34f104eb3f688',
 }
 
+// Final release version
+const firebaseConfig = {
+  apiKey: 'AIzaSyCs29LNm5gEcS4cRuwgCsXN06ybwnKT83Y',
+  authDomain: 'find-a-service-818a4.firebaseapp.com',
+  projectId: 'find-a-service-818a4',
+  storageBucket: 'find-a-service-818a4.appspot.com',
+  messagingSenderId: '1058704951877',
+  appId: '1:1058704951877:web:41b27b37e8fc873be9f12c',
+}
+
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig1)
+export const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
 export const storage = getStorage(app)
 
