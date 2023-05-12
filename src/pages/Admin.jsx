@@ -1,5 +1,7 @@
 import React from 'react'
+import { auth } from '../utils/FirebaseSetup'
 import { useEffect, useState } from 'react'
+import { getAuth } from 'firebase/auth'
 import {
   addFakeData,
   getServiceProviderByApproved,
@@ -87,7 +89,7 @@ const Admin = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('loginID')
-    window.location.href = '/'
+    window.location.href = '/login'
   }
   const deleteReview = id => {
     deleteReviewById(id)
@@ -118,6 +120,11 @@ const Admin = () => {
 
   useEffect(() => {
     // addFakeReview(3)
+    // getAuth()
+    //   .deleteUser('4yOGtiPW5XgOreN0K8cEWw17T3I2')
+    //   .then(res => {
+    //     console.log('success deleted', res)
+    //   })
     setLoading(true)
     getServiceProviderByApproved(true).then(res => {
       setActiveProviders(res)
@@ -255,22 +262,32 @@ const Admin = () => {
             <Avatar src={viewData && viewData.avatar} size={64} />
           </Row>
 
-          <Row>
-            Name : <Input value={viewData && viewData.prv_name} />
+          <Row className='info-row'>
+            <Col span={12}>Name :</Col>
+            <Col span={12}>
+              <Input style={{ width: '10em' }} value={viewData && viewData.prv_name} />
+            </Col>
           </Row>
 
-          <Row>
-            pwd: <Input value={viewData && viewData.password} />
+          <Row className='info-row'>
+            <Col span={12}>Password:</Col>
+            <Col span={12}>
+              <Input style={{ width: '10em' }} value={viewData && viewData.password} />
+            </Col>
           </Row>
 
-          <Row>
-            Description:
-            <Input value={viewData && viewData.description} />
+          <Row className='info-row'>
+            <Col span={12}>Description:</Col>
+            <Col span={12}>
+              <Input style={{ width: '10em' }} value={viewData && viewData.description} />
+            </Col>
           </Row>
 
-          <Row>
-            Address:
-            <Input value={viewData && viewData.location && viewData.location.txt} />
+          <Row className='info-row'>
+            <Col span={12}>Address:</Col>
+            <Col span={12}>
+              <Input style={{ width: '10em' }} value={viewData && viewData.location && viewData.location.txt} />
+            </Col>
           </Row>
           {viewData &&
             viewData.imgs &&

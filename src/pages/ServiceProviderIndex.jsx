@@ -11,7 +11,7 @@ import ManageAccount from './ManageAccount'
 const ServiceProviderIndex = () => {
   const [loading, setLoading] = useState(true)
   const loginId = getLoginUserId()
-  const [canLogin, setCanLogin] = useState(false)
+  const [canLogin, setCanLogin] = useState(true)
   const [update, setUpdate] = useState(false)
   const [name, setName] = useState('')
   const [avatarSrc, setAvatarSrc] = useState('')
@@ -19,13 +19,17 @@ const ServiceProviderIndex = () => {
   const location = useLocation().pathname.split('/')[2]
   useEffect(() => {
     console.log('im', loginId)
+    console.log('wtf', loginId)
     getServiceProviderById(loginId).then(res => {
       console.log(res)
-      setName(res.prv_name)
-      setAvatarSrc(res.avatar)
-      setCanLogin(res.approved)
-      setUpdate(res.needupdate)
-      // setLoading(false)
+      if (res === undefined) {
+        setCanLogin(false)
+      } else {
+        setName(res.prv_name)
+        setAvatarSrc(res.avatar)
+        setCanLogin(res.approved)
+        setUpdate(res.needupdate)
+      }
     })
     if (location === 'manage-service' || location === 'add-service') {
       setSelectedMenuItem('service')
@@ -50,10 +54,39 @@ const ServiceProviderIndex = () => {
   if (!canLogin) {
     if (update)
       return (
-        <div>
-          <h1> Please update your info </h1>
-          <ManageAccount />
-        </div>
+        <>
+          <ParticlesBg />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              // alignItems: 'center',
+              width: '100%',
+              height: '100vh',
+              border: 0,
+              backgroundColor: '#050816',
+            }}>
+            <h1
+              style={{
+                fontSize: '2.5rem',
+                marginTop: '20px',
+                margin: 'auto',
+                // textAlign: 'center',
+                color: 'white',
+              }}>
+              {' '}
+              Please update your info{' '}
+            </h1>
+            <Button
+              style={{ margin: 'auto', marginTop: '20px', marginBottom: '-20px' }}
+              type='primary'
+              onClick={() => window.history.back()}>
+              Done!
+            </Button>
+            <ManageAccount />
+          </div>
+        </>
       )
     else
       return (

@@ -21,10 +21,10 @@ import Admin from '../pages/Admin'
 import ServiceProviderBusinessData from '../pages/ServiceProviderBusinessData'
 
 import LoginPage from '../pages/LoginPage'
-import MapTest from '../TEST/MapTest'
+// import MapTest from '../TEST/MapTest'
 import CustomerSignUp from '../pages/CustomerSignUp'
 import CustomerPage from '../pages/CustomerPage'
-import GenTestData from '../TEST/GenTestData'
+// import GenTestData from '../TEST/GenTestData'
 
 const router = createBrowserRouter([
   // 开发用

@@ -94,6 +94,7 @@ function EditService() {
   const [videosList, setVideosList] = useState([])
   const [gps, setGPS] = useState({ lat: 50.911, lng: -1.4 })
   const [marker, setMarker] = useState(false)
+  const [area, setArea] = useState('')
   const inputRef = useRef(null)
 
   const plainOptions = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -116,7 +117,8 @@ function EditService() {
         // images: data.images,
         // videos: data.videos,
         // available: data.available,
-        available_time: data.available_time,
+        days: data.available_time.days,
+        time: data.available_time.time,
         desc: data.desc,
         // available_day: data.available_day,
       })
@@ -216,6 +218,13 @@ function EditService() {
     const { results } = await geoCoder.geocode({ location: { lat: value.lat, lng: value.lng } })
     //setGPS({ lat: result[0].geometry.location.lat(), lng: result[0].geometry.location.lng() })
     //console.log(results)
+    for (const c of results[0].address_components) {
+      if (c.types.includes('postal_town')) {
+        // console.log(c.long_name)
+        setArea(c.long_name)
+        break
+      }
+    }
     formRef.current.setFieldsValue({ location: results[0].formatted_address })
     setMarker(true)
   }
@@ -237,9 +246,13 @@ function EditService() {
   function onFinish(values) {
     updateServiceById(params.id, {
       ...values,
+      available_time: {
+        days: values.days,
+        time: values.time,
+      },
       location: {
-        txt: values.location.txt,
-        area: values.location.area,
+        txt: values.location,
+        area: area,
         gps: gps,
       },
     })
@@ -326,8 +339,16 @@ function EditService() {
           </Row>
           <Row>
             <Col span={12}>
-              <Form.Item name='available_time' label={Label('Time')}>
+              <Form.Item name='days' label={Label('Days')}>
                 <Checkbox.Group options={plainOptions} defaultValue={defaultCheckedList} layout='vertical' />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row justify='start'>
+            {/* 靠左 */}
+            <Col span={12}>
+              <Form.Item name='time' label={Label('Time')}>
+                <Input placeholder='Please enter the time ' />
               </Form.Item>
             </Col>
           </Row>
