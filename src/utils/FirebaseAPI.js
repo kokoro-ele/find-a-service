@@ -486,7 +486,7 @@ export async function addFakeRequestData(n) {
 }
 // FAKE data end
 
-export async function getRecommendServices(amount = 5) {
+export async function getRecommendServices(amount = 12) {
   const q = query(
     collection(db, 'Service'),
     // TODO: order by reputation(rate)

@@ -184,7 +184,7 @@ export default function ServiceFinder() {
     if (!ignore) {
       console.log('fetching recommend data...')
       // TODO: change the recommend amount
-      getRecommendServices(3).then(res => {
+      getRecommendServices().then(res => {
         console.log(res)
         setRecommendData(res)
       })
