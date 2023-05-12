@@ -395,20 +395,20 @@ export async function addFakeData(n) {
         'https://firebasestorage.googleapis.com/v0/b/test-36dcf.appspot.com/o/images%2FClean7.png?alt=media&token=2cd41515-7003-4c6a-8eff-2f5ca461a549',
       ], // array, 用于呈现商家主页的推销图片（顾客可以点击商家头像，查看商家主页）
     })
-    fakeReviewList.push({
-      rvw_id: `#rvw-test-${i}`,
-      srv_id: `#srv-test-${i}`, // 对应的 service
-      author: {
-        user_id: `#user-test-${i}`, // str
-        user_name: 'Tester', // str
-        user_avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`,
-      },
-      title: `Service Review Title - ${i}`,
-      content: 'We supply a series of cleaning resources, to help people clean their home beautifully and efficiently.',
-      rate: 5, // int, 0-5, 🌟级评分
-      likes: 777, // int, 点赞数👍
-      date: Date.now(),
-    })
+    // fakeReviewList.push({
+    //   rvw_id: `#rvw-test-${i}`,
+    //   srv_id: `#srv-test-${i}`, // 对应的 service
+    //   author: {
+    //     user_id: `#user-test-${i}`, // str
+    //     user_name: 'Tester', // str
+    //     user_avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`,
+    //   },
+    //   title: `Service Review Title - ${i}`,
+    //   content: 'We supply a series of cleaning resources, to help people clean their home beautifully and efficiently.',
+    //   rate: 5, // int, 0-5, 🌟级评分
+    //   likes: 777, // int, 点赞数👍
+    //   date: Date.now(),
+    // })
     fakeNotificationList.push({
       msg_id: `#msg-test-${i}`,
       msg_type: i % 2 == 0 ? 'review' : 'update', // str, 取值应为 ['review', 'update' ]
@@ -425,15 +425,15 @@ export async function addFakeData(n) {
       jumpLink: '/', // use to navigate to review or new service
     })
     fakeReviewList.push({
-      rvw_id: `#rvw-test-${i}`,
+      rvw_id: `#rvw-sample-${i}`,
       srv_id: `#srv-test-${i}`, // 对应的 service
       author: {
         user_id: `#user-test-${i}`, // str
-        user_name: 'Tester', // str
+        user_name: 'SampleReview', // str
         user_avatar: `https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`,
       },
-      title: `Service Review Title - ${i}`,
-      content: 'We supply a series of cleaning resources, to help people clean their home beautifully and efficiently.',
+      title: `Sample Review Title`,
+      content: 'This is a great service and deserves 5 stars!',
       rate: 5, // int, 0-5, 🌟级评分
       likes: 777, // int, 点赞数👍
       date: Date.now(),
@@ -453,12 +453,13 @@ export async function addFakeData(n) {
       isRead: false,
       jumpLink: '/', // use to navigate to review or new service
     })
-    await addDoc(collection(db, 'Service'), fakeServiceList[i])
-    await addDoc(collection(db, 'ServiceProvider'), fakeProviderList[i])
+    // await addDoc(collection(db, 'Service'), fakeServiceList[i])
+    // await addDoc(collection(db, 'ServiceProvider'), fakeProviderList[i])
     await addDoc(collection(db, 'Review'), fakeReviewList[i])
-    await addDoc(collection(db, 'Notification'), fakeNotificationList[i])
+    // await addDoc(collection(db, 'Notification'), fakeNotificationList[i])
   }
-  console.log('Generating fake data of: Service, ServiceProvider, Review, Notification')
+  // console.log('Generating fake data of: Service, ServiceProvider, Review, Notification')
+  console.log('Generating sample data of: Review')
 }
 
 export async function addNotification(data) {
@@ -719,5 +720,17 @@ export async function getSampleServiceData() {
   })
 
   console.log('Sample service data: ', ret)
+  // return ret
+}
+
+export async function getSampleReviewData() {
+  const q = query(collection(db, 'Review'), where('title', '==', 'Sample Review Title'))
+  const querySnapshot = await getDocs(q)
+  const ret = []
+  querySnapshot.forEach(doc => {
+    ret.push(doc.data())
+  })
+
+  console.log('Sample review data: ', ret)
   // return ret
 }

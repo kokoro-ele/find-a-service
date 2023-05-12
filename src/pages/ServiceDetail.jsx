@@ -114,6 +114,7 @@ export default function ServiceDetail() {
       const getData = async () => {
         const srvData = await getServicesById(srv_id)
         const rvwData = await getReviews(srv_id)
+        console.log('geting rvw data: srv_id=', srv_id, 'rvwData:', rvwData)
         const imgs = srvData.imgs.map((item, index) => {
           return <Image src={item} key={`img-${index}`} />
         })
