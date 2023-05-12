@@ -1,9 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 // NOTE: Place all routers here
 
-// START
-import App from '../App' // mode 2 router
-//END
 import ServiceFinder from '../pages/ServiceFinder'
 import ServiceProviderSignUp from '../pages/ServiceProvideSignUp'
 import ServiceDetail from '../pages/ServiceDetail'
