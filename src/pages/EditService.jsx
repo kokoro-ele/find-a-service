@@ -1,10 +1,3 @@
-/*
- * @Author: kokoro
- * @Date: 2023-04-09 21:42:50
- * @LastEditors: kokoro
- * @LastEditTime: 2023-04-21 17:14:46
- * @Description: 请填写简介
- */
 import { InboxOutlined, UploadOutlined, PlusOutlined } from '@ant-design/icons'
 import React, { useState, useEffect, useRef } from 'react'
 import { updateServiceById, getServicesById, addNotification } from '../utils/FirebaseAPI'

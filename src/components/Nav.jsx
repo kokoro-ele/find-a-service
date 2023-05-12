@@ -1,10 +1,3 @@
-/*
- * @Author: kokoro
- * @Date: 2023-04-07 00:18:26
- * @LastEditors: kokoro
- * @LastEditTime: 2023-04-07 19:12:44
- * @Description: 请填写简介
- */
 import { MailOutlined, SettingOutlined } from '@ant-design/icons'
 import { Menu } from 'antd'
 import { Link } from 'react-router-dom'

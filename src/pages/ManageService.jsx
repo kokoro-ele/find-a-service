@@ -1,10 +1,3 @@
-/*
- * @Author: kokoro
- * @Date: 2023-04-07 00:16:39
- * @LastEditors: kokoro
- * @LastEditTime: 2023-04-21 00:12:00
- * @Description: 请填写简介
- */
 import { Avatar, Button, List, Skeleton, Image, Row, Col } from 'antd'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'

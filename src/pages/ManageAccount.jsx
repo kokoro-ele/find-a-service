@@ -1,10 +1,3 @@
-/*
- * @Author: kokoro
- * @Date: 2023-04-07 00:16:26
- * @LastEditors: kokoro
- * @LastEditTime: 2023-04-19 23:55:05
- * @Description: 请填写简介
- */
 import React from 'react'
 import { Button, Avatar, Form, Input, Row, Col } from 'antd'
 import openNotification from '../components/Notification'

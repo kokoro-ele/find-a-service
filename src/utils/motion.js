@@ -1,10 +1,3 @@
-/*
- * @Author: kokoro
- * @Date: 2023-03-10 22:35:12
- * @LastEditors: kokoro
- * @LastEditTime: 2023-03-10 22:35:20
- * @Description: 请填写简介
- */
 export const textVariant = delay => {
   return {
     hidden: {
