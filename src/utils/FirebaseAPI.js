@@ -708,3 +708,16 @@ export async function withDrawRequest(req_id) {
     })
   })
 }
+
+// sample data
+export async function getSampleServiceData() {
+  const q = query(collection(db, 'Service'), where('prv_id', '==', 'MT6yz4QPzCbNSk4BaEiGeCkpyzr1'))
+  const querySnapshot = await getDocs(q)
+  const ret = []
+  querySnapshot.forEach(doc => {
+    ret.push(doc.data())
+  })
+
+  console.log('Sample service data: ', ret)
+  // return ret
+}

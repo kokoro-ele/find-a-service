@@ -21,7 +21,7 @@ import LoginPage from '../pages/LoginPage'
 // import MapTest from '../TEST/MapTest'
 import CustomerSignUp from '../pages/CustomerSignUp'
 import CustomerPage from '../pages/CustomerPage'
-// import GenTestData from '../TEST/GenTestData'
+import GenTestData from '../TEST/GenTestData'
 
 const router = createBrowserRouter([
   // 开发用
@@ -97,10 +97,10 @@ const router = createBrowserRouter([
   //   path: '/map',
   //   element: <MapTest />,
   // },
-  // {
-  //   path: '/gentest',
-  //   element: <GenTestData />,
-  // },
+  {
+    path: '/gentest',
+    element: <GenTestData />,
+  },
 ])
 
 export default function Router() {

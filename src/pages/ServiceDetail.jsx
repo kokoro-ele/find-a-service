@@ -41,7 +41,9 @@ function DescriptionBox({ data }) {
           </div>
           <div className='row-box'>
             <span className='key available-key'>Available time slots: </span>
-            <span className='val available-val'>{data.available_time.toString()}</span>
+            <span className='val available-val'>
+              {data.available_time.time} on {data.available_time.days.toString()}
+            </span>
           </div>
           <div className='row-box'>
             <span className='key desc-key'>Service description:</span>
