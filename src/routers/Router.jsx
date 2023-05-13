@@ -5,7 +5,7 @@ import ServiceFinder from '../pages/ServiceFinder'
 import ServiceProviderSignUp from '../pages/ServiceProvideSignUp'
 import ServiceDetail from '../pages/ServiceDetail'
 import ParticlesBg from '../components/ParticlesBg'
-import Addservice from '../pages/Addservice'
+import AddService from '../pages/AddService'
 
 import ServiceProviderIndex from '../pages/ServiceProviderIndex'
 
@@ -67,7 +67,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'add-service',
-        element: <Addservice />,
+        element: <AddService />,
       },
       {
         path: 'request-detail/:id',
