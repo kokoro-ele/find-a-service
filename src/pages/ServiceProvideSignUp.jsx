@@ -1,7 +1,7 @@
 import { Col, Modal, Row, message, Upload, Button, Form, Input, Radio } from 'antd'
 import { useState, useRef, useEffect } from 'react'
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons'
-import '../css/ServiceProviderSignUp.scss'
+import '../css/ServiceProviderSignup.scss'
 // import { db } from '../utils/FirebaseSetup'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { redirect, useNavigate } from 'react-router-dom'
