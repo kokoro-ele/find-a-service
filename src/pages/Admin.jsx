@@ -1,7 +1,5 @@
 import React from 'react'
-import { auth } from '../utils/FirebaseSetup'
 import { useEffect, useState } from 'react'
-import { getAuth } from 'firebase/auth'
 import {
   addFakeData,
   getServiceProviderByApproved,
