@@ -1,4 +1,4 @@
-import { createHashRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, createHashRouter, RouterProvider } from 'react-router-dom'
 // NOTE: Place all routers here
 
 import ServiceFinder from '../pages/ServiceFinder'
@@ -23,7 +23,7 @@ import CustomerSignUp from '../pages/CustomerSignUp'
 import CustomerPage from '../pages/CustomerPage'
 // import GenTestData from '../TEST/GenTestData'
 
-const router = createHashRouter([
+const router = createBrowserRouter([
   // 开发用
   {
     path: '/',

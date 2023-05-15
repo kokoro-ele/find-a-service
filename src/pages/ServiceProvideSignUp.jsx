@@ -354,7 +354,7 @@ function SignupForm() {
                 span: 24,
               }}>
               Already have one?
-              <a className='create-one' href='/login'>
+              <a className='create-one' onClick={() => window.location.navigate('/login')}>
                 {' '}
                 Just login!
               </a>
