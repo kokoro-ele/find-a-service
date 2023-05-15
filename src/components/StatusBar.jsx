@@ -55,7 +55,7 @@ export default function StatusBar() {
               }}
             />
           ) : (
-            <a className='login-btn' href='/login'>
+            <a className='login-btn' onClick={() => navigate('/login')}>
               Login
             </a>
           )}
